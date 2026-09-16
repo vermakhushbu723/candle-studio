@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import { FacebookFilled, InstagramOutlined, MailOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled } from '@ant-design/icons'
+import {
+  ClockCircleOutlined, FacebookFilled, InstagramOutlined, MailOutlined,
+  PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled,
+} from '@ant-design/icons'
 import Logo from './Logo'
-import Newsletter from '@/components/home/Newsletter'
 import { site } from '@/data/site'
 
 const socialIcons = { Instagram: InstagramOutlined, Facebook: FacebookFilled, YouTube: YoutubeFilled, Pinterest: PinterestOutlined }
@@ -12,18 +14,21 @@ const columns = [
     links: [
       { label: 'Pearled Candles', to: '/shop?line=pearled' },
       { label: 'Handcrafted Candles', to: '/shop?line=handcrafted' },
-      { label: 'Food Inspired', to: '/shop?category=food-inspired' },
-      { label: 'Love in the Air', to: '/shop?category=love-in-the-air' },
+      { label: 'Diwali Special', to: '/shop?category=diwali-special' },
+      { label: 'Valentine Special', to: '/shop?category=valentine-special' },
+      { label: 'Cartoons & Kids', to: '/shop?category=cartoons-kids' },
       { label: 'Refills', to: '/shop?category=refills' },
     ],
   },
   {
     heading: 'Help',
     links: [
-      { label: 'Track Order', to: '/track-order' },
-      { label: 'FAQs', to: '/faq' },
+      { label: 'About Us', to: '/about' },
       { label: 'Contact Us', to: '/contact' },
-      { label: 'Our Story', to: '/about' },
+      { label: 'Track Order', to: '/track-order' },
+      { label: 'Login / Sign up', to: '/login' },
+      { label: 'FAQs', to: '/faq' },
+      { label: 'Wishlist', to: '/wishlist' },
     ],
   },
   {
@@ -33,37 +38,67 @@ const columns = [
       { label: 'Returns & Refunds', to: '/policies/returns' },
       { label: 'Privacy Policy', to: '/policies/privacy' },
       { label: 'Terms of Service', to: '/policies/terms' },
+      { label: 'Disclaimer', to: '/disclaimer' },
     ],
   },
 ]
 
 export default function Footer() {
+  const waHref = `https://wa.me/${site.whatsapp.replace(/\D/g, '')}`
+  const telHref = `tel:${site.phone.replace(/\s/g, '')}`
+
   return (
     <footer className="relative mt-24 overflow-hidden bg-charcoal text-cream">
       <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-terracotta/20 blur-3xl" />
       <div className="wrap relative">
-        <Newsletter />
-        <div className="grid gap-12 border-t border-white/10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="grid gap-12 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <Logo light />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/70">
               {site.tagline}. Plus hand-poured, Indian-inspired candles — because {site.subTagline.toLowerCase()}
             </p>
-            <div className="mt-6 space-y-2 text-sm text-cream/70">
-              <a href={`mailto:${site.supportEmail}`} className="flex items-center gap-2 hover:text-caramel"><MailOutlined /> {site.supportEmail}</a>
-              <a href={`https://wa.me/${site.whatsapp.replace(/\D/g, '')}`} className="flex items-center gap-2 hover:text-caramel"><WhatsAppOutlined /> {site.whatsapp}</a>
-            </div>
-            <div className="mt-6 flex gap-2">
+
+            <ul className="mt-6 space-y-2.5 text-sm text-cream/70">
+              <li>
+                <a href={`mailto:${site.supportEmail}`} className="flex items-center gap-2.5 hover:text-caramel">
+                  <MailOutlined className="text-caramel" /> {site.supportEmail}
+                </a>
+              </li>
+              <li>
+                <a href={telHref} className="flex items-center gap-2.5 hover:text-caramel">
+                  <PhoneOutlined className="text-caramel" /> {site.phone}
+                </a>
+              </li>
+              <li>
+                <a href={waHref} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 hover:text-caramel">
+                  <WhatsAppOutlined className="text-caramel" /> Chat on WhatsApp
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <ClockCircleOutlined className="mt-1 text-caramel" /> {site.hours}
+              </li>
+            </ul>
+
+            <p className="mt-7 text-xs font-bold uppercase tracking-[0.22em] text-caramel">Follow us</p>
+            <div className="mt-3 flex gap-2">
               {site.socials.map(({ label, href }) => {
                 const Icon = socialIcons[label]
                 return (
-                  <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:-translate-y-1 hover:border-caramel hover:text-caramel">
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`candledust on ${label}`}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:-translate-y-1 hover:border-caramel hover:text-caramel"
+                  >
                     <Icon />
                   </a>
                 )
               })}
             </div>
           </div>
+
           {columns.map((col) => (
             <div key={col.heading}>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">{col.heading}</p>
@@ -77,9 +112,10 @@ export default function Footer() {
             </div>
           ))}
         </div>
+
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-28 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
-          <p>© {new Date().getFullYear()} {site.name}. Hand-poured in India.</p>
-          <p>UPI · Cards · Net Banking · Cash on Delivery</p>
+          <p>© {new Date().getFullYear()} {site.name}. Handmade in India.</p>
+          <p>UPI · Visa · Mastercard · RuPay · Cash on Delivery</p>
         </div>
       </div>
     </footer>

@@ -25,14 +25,41 @@ export const lines = {
 }
 
 export const categories = [
-  { id: 'pearl-kits', line: 'pearled', label: 'Pearl Decor Kits', emoji: '🐚', tone: '#EADBC8', image: '/images/products/kit-ocean.webp' },
-  { id: 'refills', line: 'pearled', label: 'Refills & Scent Bar', emoji: '♻️', tone: '#E8D5C4', image: '/images/products/kit-refill.webp' },
-  { id: 'food-inspired', line: 'handcrafted', label: 'Food Inspired', emoji: '☕', tone: '#F3D9BF', image: '/images/products/chai-parle-g-candle-1.jpg' },
-  { id: 'love-in-the-air', line: 'handcrafted', label: 'Love in the Air', emoji: '💗', tone: '#FDE8EB', image: '/images/products/heart-bowl-candle-1.jpg' },
-  { id: 'floral', line: 'handcrafted', label: 'Floral', emoji: '🌸', tone: '#F6E1EA', image: '/images/products/bouquet-candle-1.jpg' },
-  { id: 'luxury', line: 'handcrafted', label: 'Luxury & Festive', emoji: '🪔', tone: '#F5E6C4', image: '/images/products/kamal-jyoti-urli-1.webp' },
-  { id: 'wax-fresheners', line: 'handcrafted', label: 'Wax Fresheners', emoji: '🌿', tone: '#E6EDE2', image: '/images/products/wardrobe-wax-sachets-1.jpg' },
+  { id: 'pearl-kits', line: 'pearled', label: 'Pearl Decor Kits', tone: '#EADBC8', image: '/images/products/kit-ocean.webp' },
+  { id: 'refills', line: 'pearled', label: 'Refills & Scent Bar', tone: '#E8D5C4', image: '/images/products/kit-refill.webp' },
+  { id: 'food-inspired', line: 'handcrafted', label: 'Food Inspired', tone: '#F3D9BF', image: '/images/products/chai-parle-g-candle-1.jpg' },
+  { id: 'love-in-the-air', line: 'handcrafted', label: 'Love in the Air', tone: '#FDE8EB', image: '/images/products/heart-bowl-candle-1.jpg' },
+  { id: 'floral', line: 'handcrafted', label: 'Floral', tone: '#F6E1EA', image: '/images/products/bouquet-candle-1.jpg' },
+  { id: 'luxury', line: 'handcrafted', label: 'Luxury & Festive', tone: '#F5E6C4', image: '/images/products/kamal-jyoti-urli-1.webp' },
+  { id: 'wax-fresheners', line: 'handcrafted', label: 'Wax Fresheners', tone: '#E6EDE2', image: '/images/products/wardrobe-wax-sachets-1.jpg' },
+  // Curated collections — products join these through `collectionMap` below
+  { id: 'cartoons-kids', line: 'all', label: 'Cartoons & Kids', tone: '#FCE9D8', image: '/images/products/heart-teddy-candle-2.jpg' },
+  { id: 'ocean', line: 'all', label: 'Ocean', tone: '#DDEBEE', image: '/images/products/extra-beach-1.jpg' },
+  { id: 'aesthetic', line: 'all', label: 'Aesthetic', tone: '#EFE6DD', image: '/images/products/elegant-lady-candle-1.jpg' },
+  { id: 'diwali-special', line: 'all', label: 'Diwali Special', tone: '#F5E1C0', image: '/images/products/festive-diya-set-1.webp' },
+  { id: 'christmas-special', line: 'all', label: 'Christmas Special', tone: '#E9E2D2', image: '/images/products/dry-fruit-delight-1.webp' },
+  { id: 'valentine-special', line: 'all', label: 'Valentine Special', tone: '#FBE3E8', image: '/images/products/together-forever-1.jpg' },
+  { id: 'new-year-special', line: 'all', label: 'New Year Special', tone: '#ECE4D6', image: '/images/products/kit-duo.webp' },
+  { id: 'spiritual', line: 'all', label: 'Spiritual', tone: '#F2E8D5', image: '/images/products/lotus-pond-candle-1.jpg' },
+  { id: 'winter', line: 'all', label: 'Winter', tone: '#E8E1DA', image: '/images/products/chai-parle-g-candle-2.jpg' },
 ]
+
+/** Which existing products appear in each curated collection. */
+export const collectionMap = {
+  'cartoons-kids': ['heart-teddy-candle', 'cactus-tray-candle', 'mini-pocket-magic', 'iced-coffee-candle'],
+  ocean: ['ocean-escape', 'endless-refill', 'shot-glass-combo'],
+  aesthetic: ['boho-botanical', 'elegant-lady-candle', 'cactus-tray-candle', 'lavender-latte-candle'],
+  'diwali-special': ['festive-diya-set', 'kamal-jyoti-urli', 'dry-fruit-delight', 'jalebi-rabdi-candle'],
+  'christmas-special': ['dry-fruit-delight', 'shot-glass-combo', 'boho-botanical', 'iced-coffee-candle'],
+  'valentine-special': ['heart-bowl-candle', 'together-forever', 'heart-teddy-candle', 'bouquet-candle'],
+  'new-year-special': ['shot-glass-combo', 'elegant-lady-candle', 'together-forever', 'ocean-escape'],
+  spiritual: ['lotus-pond-candle', 'kamal-jyoti-urli', 'festive-diya-set', 'endless-refill'],
+  winter: ['chai-parle-g-candle', 'lavender-latte-candle', 'rasmalai-candle', 'wardrobe-wax-sachets'],
+}
+
+/** True when a product belongs to a category, either directly or through a collection. */
+export const inCategory = (product, id) => product.category === id || Boolean(collectionMap[id]?.includes(product.id))
+
 
 export const fragrances = [
   { id: 'sandalwood', label: 'Mysore Sandalwood', note: 'Warm · Woody' },

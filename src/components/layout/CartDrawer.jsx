@@ -48,7 +48,7 @@ export default function CartDrawer() {
               {remainingForFree > 0 ? (
                 <>You are <b>{formatPrice(remainingForFree)}</b> away from free shipping</>
               ) : (
-                <>🎉 You’ve unlocked <b>free shipping</b></>
+                <>You’ve unlocked <b>free shipping</b></>
               )}
             </p>
             <Progress percent={progress} showInfo={false} strokeColor="#B76E4A" railColor="#EADBC8" />

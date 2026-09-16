@@ -70,7 +70,7 @@ export default function Checkout() {
                 <Form.Item name="state" label="State" rules={[{ required: true, message: 'Required' }]}><Input size="large" /></Form.Item>
                 <Form.Item name="pincode" label="Pincode" rules={[{ required: true, pattern: /^\d{6}$/, message: '6 digits' }]}><Input size="large" maxLength={6} /></Form.Item>
               </div>
-              <Form.Item name="giftNote" label="Gift note (optional)"><Input.TextArea rows={2} placeholder="We’ll handwrite it on a card 💌" /></Form.Item>
+              <Form.Item name="giftNote" label="Gift note (optional)"><Input.TextArea rows={2} placeholder="We’ll handwrite it on a card" /></Form.Item>
             </div>
 
             <div hidden={step !== 1}>

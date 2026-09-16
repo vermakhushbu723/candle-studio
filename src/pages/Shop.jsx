@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { siteImages } from '@/data/site'
 import ProductCard from '@/components/common/ProductCard'
-import { categories, lines, products } from '@/data/products'
+import { categories, inCategory, lines, products } from '@/data/products'
 import { formatPrice } from '@/utils/format'
 
 const MAX_PRICE = 3000
@@ -37,13 +37,13 @@ export default function Shop() {
   }
 
   const effectiveLine = category ? categories.find((c) => c.id === category)?.line : line
-  const visibleCategories = categories.filter((c) => effectiveLine === 'all' || !effectiveLine || c.line === effectiveLine)
+  const visibleCategories = categories.filter((c) => effectiveLine === 'all' || !effectiveLine || c.line === 'all' || c.line === effectiveLine)
 
   const list = useMemo(
     () =>
       products
         .filter((p) => (line === 'all' ? true : p.line === line))
-        .filter((p) => (category ? p.category === category : true))
+        .filter((p) => (category ? inCategory(p, category) : true))
         .filter((p) => p.price >= price[0] && p.price <= price[1])
         .filter((p) => `${p.name} ${p.tagline}`.toLowerCase().includes(query.toLowerCase()))
         .sort(sorters[sort]),
@@ -63,7 +63,7 @@ export default function Shop() {
         <div className="flex flex-col gap-2.5">
           {visibleCategories.map((c) => (
             <Checkbox key={c.id} checked={category === c.id} onChange={(e) => update('category', e.target.checked ? c.id : null)}>
-              {c.emoji} {c.label}
+              {c.label}
             </Checkbox>
           ))}
         </div>

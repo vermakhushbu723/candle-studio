@@ -27,6 +27,7 @@ export default function Policy() {
             {Object.entries(policies).filter(([key]) => key !== id).map(([key, p]) => (
               <Link key={key} to={`/policies/${key}`}><Button shape="round">{p.title}</Button></Link>
             ))}
+            <Link to="/disclaimer"><Button shape="round">Disclaimer</Button></Link>
           </div>
         </div>
       </section>

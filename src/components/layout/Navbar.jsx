@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AutoComplete, Badge, Drawer, Input } from 'antd'
-import { HeartOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined } from '@ant-design/icons'
+import { HeartOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import Logo from './Logo'
 import CandleVisual from '@/components/common/CandleVisual'
@@ -65,6 +65,11 @@ export default function Navbar() {
           <IconButton label="Search" onClick={() => setSearchOpen(true)}>
             <SearchOutlined />
           </IconButton>
+          <Link to="/login" className="hidden sm:block">
+            <IconButton label="Login or account">
+              <UserOutlined className="text-lg" />
+            </IconButton>
+          </Link>
           <Link to="/wishlist" className="hidden sm:block">
             <IconButton label="Wishlist">
               <Badge count={ids.length} size="small" color="#B76E4A">
@@ -105,14 +110,14 @@ function MegaMenu({ onClose }) {
       transition={{ duration: 0.25 }}
       className="absolute inset-x-0 top-full border-b border-linen bg-cream/95 shadow-xl backdrop-blur-xl"
     >
-      <div className="wrap grid grid-cols-[1fr_1fr_1.1fr] gap-10 py-10">
+      <div className="wrap grid grid-cols-[repeat(4,1fr)_1.15fr] gap-8 py-10">
         {shop.mega.map((col) => (
           <div key={col.heading}>
             <p className="eyebrow">{col.heading}</p>
             <ul className="mt-4 space-y-3">
               {col.items.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} onClick={onClose} className="font-serif text-xl text-charcoal transition hover:pl-2 hover:text-terracotta">
+                  <Link to={item.to} onClick={onClose} className="font-serif text-lg text-charcoal transition hover:pl-2 hover:text-terracotta">
                     {item.label}
                   </Link>
                 </li>
@@ -159,8 +164,11 @@ function MobileMenu({ open, onClose }) {
             ))}
           </div>
         ))}
-        <Link to="/wishlist" onClick={onClose} className="px-6 py-4 font-serif text-xl">
+        <Link to="/wishlist" onClick={onClose} className="border-b border-linen px-6 py-4 font-serif text-xl">
           Wishlist
+        </Link>
+        <Link to="/login" onClick={onClose} className="px-6 py-4 font-serif text-xl">
+          Login / Sign up
         </Link>
       </nav>
     </Drawer>

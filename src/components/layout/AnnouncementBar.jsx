@@ -8,7 +8,7 @@ export default function AnnouncementBar() {
         {loop.map((text, i) => (
           <span key={i} className="flex items-center gap-12">
             {text}
-            <span className="text-caramel">✦</span>
+            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-caramel" />
           </span>
         ))}
       </div>

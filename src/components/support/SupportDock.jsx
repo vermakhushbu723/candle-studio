@@ -54,7 +54,7 @@ export default function SupportDock() {
                 exit={{ opacity: 0, x: 20 }}
                 className="absolute right-[4.25rem] top-1/2 w-max max-w-[14rem] -translate-y-1/2 rounded-2xl rounded-br-sm bg-white px-4 py-2.5 text-left text-sm shadow-xl ring-1 ring-linen"
               >
-                👋 Need help choosing a candle? <b className="text-terracotta">Chat with us</b>
+                Need help choosing a candle? <b className="text-terracotta">Chat with us</b>
               </motion.button>
             )}
           </AnimatePresence>

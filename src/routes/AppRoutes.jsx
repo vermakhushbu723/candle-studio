@@ -14,6 +14,8 @@ const Cart = lazy(() => import('@/pages/Cart'))
 const Checkout = lazy(() => import('@/pages/Checkout'))
 const Wishlist = lazy(() => import('@/pages/Wishlist'))
 const Policy = lazy(() => import('@/pages/Policy'))
+const Disclaimer = lazy(() => import('@/pages/Disclaimer'))
+const Login = lazy(() => import('@/pages/Login'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 export default function AppRoutes() {
@@ -31,7 +33,11 @@ export default function AppRoutes() {
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="wishlist" element={<Wishlist />} />
+          <Route path="policies/disclaimer" element={<Disclaimer />} />
           <Route path="policies/:id" element={<Policy />} />
+          <Route path="disclaimer" element={<Disclaimer />} />
+          <Route path="login" element={<Login />} />
+          <Route path="about-us" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

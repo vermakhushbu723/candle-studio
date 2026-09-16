@@ -66,9 +66,8 @@ export default function ScentFinder() {
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
                         onClick={() => choose(scentQuiz[step].id, o.value)}
-                        className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 p-5 text-left transition hover:border-caramel hover:bg-white/10"
+                        className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-left transition hover:border-caramel hover:bg-white/10"
                       >
-                        <span className="text-3xl">{o.emoji}</span>
                         <span className="font-medium">{o.label}</span>
                       </motion.button>
                     ))}
@@ -76,7 +75,7 @@ export default function ScentFinder() {
                 </motion.div>
               ) : (
                 <motion.div key="results" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-charcoal">
-                  <h3 className="font-serif text-2xl text-cream">Your perfect matches ✨</h3>
+                  <h3 className="font-serif text-2xl text-cream">Your perfect matches</h3>
                   <div className="mt-6 grid gap-4 sm:grid-cols-3">
                     {results.map((p, i) => (
                       <ProductCard key={p.id} product={p} index={i} />

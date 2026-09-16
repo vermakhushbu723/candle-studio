@@ -2,16 +2,19 @@ export const site = {
   name: 'candledust',
   tagline: "The World's Safest & Endless Pearled Candle",
   subTagline: 'Life is too short to light boring candles.',
-  supportEmail: 'hello@candledust.in',
-  whatsapp: '+91 90000 00000',
-  phone: '+91 90000 00000',
+  mission:
+    'We set out to remove the one thing standing between people and a lit candle: the fear of knocking it over. Pearled soy wax burns clean, spills nothing and refills forever — so ambience never has to be a risk.',
+  supportEmail: 'care@candledust.in',
+  whatsapp: '+91 93105 08371',
+  phone: '+91 93105 08371',
+  hours: 'Monday to Saturday, 10:00 AM – 7:00 PM IST',
   freeShippingAbove: 899,
-  address: 'Studio 4, Artisan Lane, Jaipur, Rajasthan 302001',
+  address: 'Handmade in India · Shipping Pan-India',
   socials: [
-    { label: 'Instagram', href: 'https://instagram.com' },
-    { label: 'Facebook', href: 'https://facebook.com' },
-    { label: 'YouTube', href: 'https://youtube.com' },
-    { label: 'Pinterest', href: 'https://pinterest.com' },
+    { label: 'Instagram', handle: '@candledust.official', href: 'https://www.instagram.com/candledust.official/' },
+    { label: 'Facebook', handle: 'candledust', href: 'https://www.facebook.com/profile.php?id=61593924424350' },
+    { label: 'YouTube', handle: '@Candledust-official', href: 'https://www.youtube.com/@Candledust-official' },
+    { label: 'Pinterest', handle: 'candledustofficial', href: 'https://in.pinterest.com/candledustofficial/' },
   ],
 }
 
@@ -72,9 +75,28 @@ export const navLinks = [
           { label: 'Wax Fresheners', to: '/shop?category=wax-fresheners' },
         ],
       },
+      {
+        heading: 'Collections',
+        items: [
+          { label: 'Cartoons & Kids', to: '/shop?category=cartoons-kids' },
+          { label: 'Ocean', to: '/shop?category=ocean' },
+          { label: 'Aesthetic', to: '/shop?category=aesthetic' },
+          { label: 'Spiritual', to: '/shop?category=spiritual' },
+          { label: 'Winter', to: '/shop?category=winter' },
+        ],
+      },
+      {
+        heading: 'Festive Specials',
+        items: [
+          { label: 'Diwali Special', to: '/shop?category=diwali-special' },
+          { label: 'Christmas Special', to: '/shop?category=christmas-special' },
+          { label: 'Valentine Special', to: '/shop?category=valentine-special' },
+          { label: 'New Year Special', to: '/shop?category=new-year-special' },
+        ],
+      },
     ],
   },
-  { label: 'Our Story', to: '/about' },
+  { label: 'About Us', to: '/about' },
   { label: 'FAQs', to: '/faq' },
   { label: 'Track Order', to: '/track-order' },
   { label: 'Contact', to: '/contact' },
@@ -82,7 +104,7 @@ export const navLinks = [
 
 export const stats = [
   { value: 2143, suffix: '+', label: 'Verified reviews' },
-  { value: 4.9, suffix: '★', label: 'Average rating', decimals: 1 },
+  { value: 4.9, suffix: '/5', label: 'Average rating', decimals: 1 },
   { value: 22000, suffix: '+', label: 'Pin codes served' },
   { value: 0.5, suffix: 's', label: 'Auto-extinguish', decimals: 1 },
 ]

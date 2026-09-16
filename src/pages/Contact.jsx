@@ -1,16 +1,19 @@
 import { useSearchParams } from 'react-router-dom'
 import { App, Button, Form, Input, Select } from 'antd'
-import { ClockCircleOutlined, EnvironmentOutlined, MailOutlined, WhatsAppOutlined } from '@ant-design/icons'
+import { ClockCircleOutlined, EnvironmentOutlined, FacebookFilled, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { site, siteImages } from '@/data/site'
 
 const channels = [
   { icon: WhatsAppOutlined, title: 'WhatsApp', value: site.whatsapp, href: `https://wa.me/${site.whatsapp.replace(/\D/g, '')}` },
+  { icon: PhoneOutlined, title: 'Call us', value: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
   { icon: MailOutlined, title: 'Email', value: site.supportEmail, href: `mailto:${site.supportEmail}` },
-  { icon: EnvironmentOutlined, title: 'Studio', value: site.address },
-  { icon: ClockCircleOutlined, title: 'Hours', value: 'Mon – Sat, 10 AM – 7 PM IST' },
+  { icon: ClockCircleOutlined, title: 'Hours', value: site.hours },
+  { icon: EnvironmentOutlined, title: 'Where we ship', value: site.address },
 ]
+
+const socialIcons = { Instagram: InstagramOutlined, Facebook: FacebookFilled, YouTube: YoutubeFilled, Pinterest: PinterestOutlined }
 
 export default function Contact() {
   const { message } = App.useApp()
@@ -41,6 +44,24 @@ export default function Contact() {
               </motion.div>
             )
           })}
+
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: channels.length * 0.1 }} className="rounded-3xl border border-linen bg-white p-6 sm:col-span-2 lg:col-span-1">
+            <p className="text-xs font-semibold uppercase tracking-widest text-ash">Follow candledust</p>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {site.socials.map(({ label, handle, href }) => {
+                const Icon = socialIcons[label]
+                return (
+                  <a key={label} href={href} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl bg-shell px-4 py-3 text-sm transition hover:bg-sand hover:text-terracotta">
+                    <Icon className="text-lg text-terracotta" />
+                    <span className="min-w-0">
+                      <span className="block font-semibold">{label}</span>
+                      <span className="block truncate text-xs text-ash">{handle}</span>
+                    </span>
+                  </a>
+                )
+              })}
+            </div>
+          </motion.div>
         </div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-4xl border border-linen bg-white p-6 md:p-10">

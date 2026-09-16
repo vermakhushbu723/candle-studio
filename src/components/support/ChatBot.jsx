@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Form, Input, Select } from 'antd'
-import { CloseOutlined, PhoneOutlined, SendOutlined, WhatsAppOutlined } from '@ant-design/icons'
+import { CloseOutlined, FireOutlined, MailOutlined, PhoneOutlined, SendOutlined, WhatsAppOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import { fallback, greeting, inquiryTopics, intents } from '@/data/chatbot'
 import { getProduct } from '@/data/products'
@@ -48,7 +48,7 @@ export default function ChatBot({ open, onClose }) {
     setInquiryTopic(null)
     setMessages((m) => [
       ...m,
-      userMessage(`📨 ${values.topic}: ${values.message}`),
+      userMessage(`${values.topic}: ${values.message}`),
       botMessage({
         text: `Thank you, ${values.name.split(' ')[0]}! Your ticket is ${ticket}. Our team will reach you on ${values.phone} within 24 hours.`,
         actions: [{ type: 'whatsapp', label: 'Get faster reply on WhatsApp', prefill: `Hi! My ticket is ${ticket}. ${values.message}` }],
@@ -74,7 +74,7 @@ export default function ChatBot({ open, onClose }) {
             <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-terracotta/50 blur-2xl" />
             <div className="relative flex items-center gap-3">
               <span className="relative grid h-11 w-11 place-items-center rounded-full bg-linear-to-br from-terracotta to-rose text-xl">
-                🕯️
+                <FireOutlined />
                 <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-charcoal bg-emerald-400" />
               </span>
               <div className="flex-1">
@@ -172,7 +172,7 @@ function Message({ message, onQuickReply, onInquiry, onNavigate }) {
             if (a.type === 'link') return <Link key={a.label} to={a.to} onClick={onNavigate} className={`${cls} border-terracotta/40 bg-white text-terracotta hover:bg-terracotta hover:text-white`}>{a.label} →</Link>
             if (a.type === 'whatsapp') return <a key={a.label} href={whatsappLink(a.prefill)} target="_blank" rel="noreferrer" className={`${cls} border-transparent bg-[#25D366] text-white hover:brightness-110`}><WhatsAppOutlined /> {a.label}</a>
             if (a.type === 'call') return <a key={a.label} href={callLink} className={`${cls} border-transparent bg-charcoal text-cream hover:bg-cocoa`}><PhoneOutlined /> {a.label}</a>
-            return <button key={a.label} type="button" onClick={() => onInquiry(a.topic)} className={`${cls} border-caramel bg-sand text-cocoa hover:bg-caramel hover:text-white`}>✉️ {a.label}</button>
+            return <button key={a.label} type="button" onClick={() => onInquiry(a.topic)} className={`${cls} border-caramel bg-sand text-cocoa hover:bg-caramel hover:text-white`}><MailOutlined /> {a.label}</button>
           })}
         </div>
       )}

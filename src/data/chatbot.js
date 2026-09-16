@@ -5,7 +5,7 @@
  */
 
 export const greeting = {
-  text: 'Hi! 👋 I’m Diya, your candle assistant. How can I help you today?',
+  text: 'Hi! I’m Diya, your candle assistant. How can I help you today?',
   quickReplies: ['Track my order', 'Help me choose a candle', 'Bulk / corporate gifting', 'Shipping & COD', 'Returns & damage', 'Talk to a human'],
 }
 
@@ -52,7 +52,7 @@ export const intents = [
   {
     id: 'offers',
     match: /coupon|discount|offer|code|sale|cheap|price/i,
-    text: 'Use code GLOW10 for 10% off your first order 🎉 Prices start at just ₹159.',
+    text: 'Use code GLOW10 for 10% off your first order. Prices start at just ₹159.',
     actions: [{ type: 'link', label: 'Browse all candles', to: '/shop' }],
   },
   {
@@ -68,7 +68,7 @@ export const intents = [
 ]
 
 export const fallback = {
-  text: 'I’m not sure I got that 🙈 — but a real person can definitely help. Would you like to connect with our team?',
+  text: 'I’m not sure I got that — but a real person can definitely help. Would you like to connect with our team?',
   actions: [
     { type: 'whatsapp', label: 'Chat on WhatsApp' },
     { type: 'inquiry', label: 'Leave a message', topic: 'Support' },
