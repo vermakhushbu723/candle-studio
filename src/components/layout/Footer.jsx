@@ -77,7 +77,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-cream/50 md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-28 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
           <p>© {new Date().getFullYear()} {site.name}. Hand-poured in India.</p>
           <p>UPI · Cards · Net Banking · Cash on Delivery</p>
         </div>

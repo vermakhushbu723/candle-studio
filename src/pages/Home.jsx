@@ -1,5 +1,4 @@
 import Hero from '@/components/home/Hero'
-import VelocityMarquee from '@/components/home/VelocityMarquee'
 import StatsStrip from '@/components/home/StatsStrip'
 import TwoWorlds from '@/components/home/TwoWorlds'
 import ProductShowcase from '@/components/home/ProductShowcase'
@@ -19,7 +18,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <VelocityMarquee words={['Hand-poured', 'Spill-proof', 'Built from India', 'Endlessly reusable']} />
       <StatsStrip />
       <TwoWorlds />
       <ProductShowcase />
@@ -27,7 +25,6 @@ export default function Home() {
       <SafetyTest />
       <HowItWorks />
       <CollectionsGrid />
-      <VelocityMarquee baseVelocity={2} words={['Chai breaks', 'Diwali nights', 'Seaside dinners', 'Slow mornings']} />
       <GiftingBanner />
       <WhyUs />
       <ScentFinder />

@@ -86,7 +86,7 @@ export default function Shop() {
 
       <div className="wrap py-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-full overflow-x-auto">
+          <div className="no-scrollbar max-w-full overflow-x-auto">
             <Segmented
               shape="round"
               size="large"

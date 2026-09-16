@@ -9,12 +9,14 @@ const perks = [
 
 export default function TrustBar() {
   return (
-    <section className="wrap grid grid-cols-2 gap-4 py-12 lg:grid-cols-4">
+    <section className="wrap grid grid-cols-2 gap-3 py-12 sm:gap-4 lg:grid-cols-4">
       {perks.map(({ icon: Icon, title, text }) => (
-        <div key={title} className="flex items-center gap-4 rounded-2xl border border-linen bg-white p-5">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-sand text-xl text-terracotta"><Icon /></span>
-          <div>
-            <p className="font-semibold">{title}</p>
+        <div key={title} className="flex flex-col items-center gap-2 rounded-2xl border border-linen bg-white p-4 text-center sm:flex-row sm:gap-4 sm:p-5 sm:text-left">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sand text-lg text-terracotta sm:h-12 sm:w-12 sm:text-xl">
+            <Icon />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold sm:text-base">{title}</p>
             <p className="text-xs text-ash">{text}</p>
           </div>
         </div>

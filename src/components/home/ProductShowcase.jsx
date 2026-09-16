@@ -22,7 +22,7 @@ export default function ProductShowcase() {
       <div className="wrap">
         <div className="flex flex-col items-center gap-8">
           <SectionHeading eyebrow="Shop the glow" title="Choose your lighting experience" subtitle="From a pouch you pour into a glass you already own, to a hand-sculpted bouquet that’s almost too pretty to light." />
-          <div className="max-w-full overflow-x-auto">
+          <div className="no-scrollbar max-w-full overflow-x-auto">
             <Segmented
               size="large"
               shape="round"
