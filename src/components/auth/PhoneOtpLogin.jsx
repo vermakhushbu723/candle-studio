@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Alert, App, Button, Checkbox, Divider, Form, Input } from 'antd'
+import { App, Button, Checkbox, Divider, Form, Input } from 'antd'
 import { EditOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import { api } from '@/api/client'
@@ -22,6 +22,7 @@ export default function PhoneOtpLogin({ onSignedIn }) {
   const [loading, setLoading] = useState(false)
   const [wait, setWait] = useState(0)
   const confirmation = useRef(null) // Firebase SMS session
+  const [otpForm] = Form.useForm()
   const idToken = useRef(null) // kept so a retry (e.g. email already used) doesn't need a new SMS
 
   useEffect(() => {
@@ -100,11 +101,18 @@ export default function PhoneOtpLogin({ onSignedIn }) {
         ) : (
           <motion.div key="otp" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
             <p className="text-sm text-ash">
-              Enter the 6-digit code sent to <b className="text-charcoal">+91 {phone}</b>{' '}
+              {devOtp ? 'Your login OTP for' : 'Enter the 6-digit code sent to'}{' '}<b className="text-charcoal">+91 {phone}</b>{' '}
               <button type="button" onClick={() => setStep('phone')} className="cursor-pointer font-semibold text-terracotta"><EditOutlined /> Change</button>
             </p>
-            {devOtp && <Alert className="mt-3" type="info" showIcon title={`Test mode — your OTP is ${devOtp}`} description="SMS is not connected yet; the code is shown here for testing." />}
-            <Form layout="vertical" requiredMark={false} className="mt-5" onFinish={verify}>
+            {devOtp && (
+              <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-caramel/50 bg-sand/60 px-4 py-3">
+                <p className="text-sm text-charcoal">
+                  Your OTP is <b className="ml-1 font-mono text-lg tracking-[0.25em] text-terracotta">{devOtp}</b>
+                </p>
+                <Button size="small" onClick={() => otpForm.setFieldValue('otp', devOtp)}>Fill OTP</Button>
+              </div>
+            )}
+            <Form form={otpForm} layout="vertical" requiredMark={false} className="mt-5" onFinish={verify}>
               <Form.Item name="otp" label="OTP" rules={[{ required: true, pattern: /^\d{6}$/, message: 'Enter the 6-digit OTP' }]}>
                 <OtpInput />
               </Form.Item>
