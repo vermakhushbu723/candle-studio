@@ -6,7 +6,7 @@ import { reviews } from '@/data/content'
 export default function Reviews() {
   const loop = [...reviews, ...reviews]
   return (
-    <section className="overflow-hidden border-y border-linen bg-shell py-20 md:py-28">
+    <section className="overflow-hidden border-y border-linen bg-shell py-12 md:py-16">
       <div className="wrap flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeading align="left" eyebrow="Social proof" title="2,000+ homes, zero spill complaints" subtitle="Unedited reviews from verified buyers across India." />
         <div className="flex items-center gap-4 rounded-3xl bg-white px-6 py-4">
@@ -18,10 +18,10 @@ export default function Reviews() {
         </div>
       </div>
 
-      <div className="group mt-14 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+      <div className="group mt-8 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
         <div className="animate-marquee flex w-max gap-5 group-hover:[animation-play-state:paused]">
           {loop.map((r, i) => (
-            <figure key={`${r.id}-${i}`} className="w-[20rem] shrink-0 rounded-3xl border border-linen bg-white p-7 md:w-[24rem]">
+            <figure key={`${r.id}-${i}`} className="w-[20rem] shrink-0 rounded-3xl border border-linen bg-white p-5 md:w-[24rem]">
               <Rate disabled defaultValue={r.rating} className="text-sm!" />
               <blockquote className="mt-4 font-serif text-lg leading-relaxed">“{r.quote}”</blockquote>
               <figcaption className="mt-6 flex items-center gap-3">

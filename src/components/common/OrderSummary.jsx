@@ -6,9 +6,16 @@ import { formatPrice } from '@/utils/format'
 export default function OrderSummary({ children, showItems = false }) {
   const { lines, subtotal, discount, shipping, total, coupon, applyCoupon, setCoupon } = useCart()
   const [code, setCode] = useState('')
+  const [checking, setChecking] = useState(false)
+
+  const apply = async () => {
+    setChecking(true)
+    if (await applyCoupon(code)) setCode('')
+    setChecking(false)
+  }
 
   return (
-    <div className="rounded-4xl border border-linen bg-white p-6 md:p-8">
+    <div className="rounded-4xl border border-linen bg-white p-5 md:p-6">
       <h3 className="font-serif text-2xl">Order summary</h3>
 
       {showItems && (
@@ -24,11 +31,11 @@ export default function OrderSummary({ children, showItems = false }) {
 
       <div className="mt-5">
         {coupon ? (
-          <Tag closable color="#B76E4A" onClose={() => setCoupon(null)} className="px-3! py-1!">{coupon} applied</Tag>
+          <Tag closable color="#6C2408" onClose={() => setCoupon(null)} className="px-3! py-1!">{coupon} applied</Tag>
         ) : (
           <div className="flex gap-2">
-            <Input placeholder="Coupon code (try GLOW10)" value={code} onChange={(e) => setCode(e.target.value)} onPressEnter={() => applyCoupon(code)} />
-            <Button onClick={() => applyCoupon(code)}>Apply</Button>
+            <Input placeholder="Coupon code (try GLOW10)" value={code} onChange={(e) => setCode(e.target.value)} onPressEnter={apply} />
+            <Button onClick={apply} loading={checking}>Apply</Button>
           </div>
         )}
       </div>

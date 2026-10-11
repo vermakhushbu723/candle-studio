@@ -54,7 +54,7 @@ export default function ProductCard({ product, index = 0 }) {
       >
         <div aria-hidden className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(380px_circle_at_var(--mx,50%)_var(--my,50%),rgba(255,214,160,0.28),transparent_45%)]" />
 
-        <Link to={`/product/${product.id}`} className="relative block aspect-square overflow-hidden">
+        <Link to={`/product/${product.id}`} className="relative block aspect-[5/4] overflow-hidden">
           <div className="h-full w-full transition-transform duration-1000 ease-(--ease-luxe) group-hover:scale-110">
             <CandleVisual visual={product.visual} alt={product.name} />
           </div>
@@ -79,22 +79,22 @@ export default function ProductCard({ product, index = 0 }) {
             whileTap={{ scale: 0.8 }}
             onClick={() => toggle(product.id)}
             aria-label="Toggle wishlist"
-            className="absolute right-3 top-3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/90 text-terracotta shadow-sm backdrop-blur transition hover:scale-110"
+            className="absolute right-3 top-3 z-30 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-terracotta shadow-sm backdrop-blur transition hover:scale-110"
           >
             {wished ? <HeartFilled /> : <HeartOutlined />}
           </motion.button>
         </Tooltip>
 
-        <div className="relative z-10 flex flex-1 flex-col p-5 [transform:translateZ(30px)]">
+        <div className="relative z-10 flex flex-1 flex-col p-4 [transform:translateZ(30px)]">
           <div className="flex items-center gap-2 text-xs text-ash">
             <Rate disabled allowHalf defaultValue={product.rating} className="text-xs!" />
             <span>({product.reviews})</span>
           </div>
-          <Link to={`/product/${product.id}`} className="mt-2 font-serif text-lg leading-snug text-charcoal hover:text-terracotta">
+          <Link to={`/product/${product.id}`} className="mt-1.5 font-serif text-lg leading-snug text-charcoal hover:text-terracotta">
             {product.name}
           </Link>
-          <p className="mt-1 line-clamp-2 text-sm text-ash">{product.tagline}</p>
-          <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+          <p className="mt-1 line-clamp-1 text-sm text-ash">{product.tagline}</p>
+          <div className="mt-auto flex items-end justify-between gap-3 pt-3">
             <div>
               <span className="text-lg font-bold text-charcoal">{formatPrice(product.price)}</span>
               {product.compareAt && <span className="ml-2 text-sm text-ash line-through">{formatPrice(product.compareAt)}</span>}

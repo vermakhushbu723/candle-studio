@@ -1,6 +1,6 @@
 /**
  * Single catalogue for both candle lines:
- *  - line "pearled"     → reusable soy-wax pearl kits (candledust)
+ *  - line "pearled"     → reusable soy-wax pearl kits (Jyotessa)
  *  - line "handcrafted" → hand-poured decorative candles (Skiya Aroma)
  *
  * `images` → product photos (public/images/products). `visual.image` is the cover;
@@ -28,7 +28,7 @@ export const categories = [
   { id: 'pearl-kits', line: 'pearled', label: 'Pearl Decor Kits', tone: '#EADBC8', image: '/images/products/kit-ocean.webp' },
   { id: 'refills', line: 'pearled', label: 'Refills & Scent Bar', tone: '#E8D5C4', image: '/images/products/kit-refill.webp' },
   { id: 'food-inspired', line: 'handcrafted', label: 'Food Inspired', tone: '#F3D9BF', image: '/images/products/chai-parle-g-candle-1.jpg' },
-  { id: 'love-in-the-air', line: 'handcrafted', label: 'Love in the Air', tone: '#FDE8EB', image: '/images/products/heart-bowl-candle-1.jpg' },
+  { id: 'love-in-the-air', line: 'handcrafted', label: 'Love in the Air', tone: '#F7E4D8', image: '/images/products/heart-bowl-candle-1.jpg' },
   { id: 'floral', line: 'handcrafted', label: 'Floral', tone: '#F6E1EA', image: '/images/products/bouquet-candle-1.jpg' },
   { id: 'luxury', line: 'handcrafted', label: 'Luxury & Festive', tone: '#F5E6C4', image: '/images/products/kamal-jyoti-urli-1.webp' },
   { id: 'wax-fresheners', line: 'handcrafted', label: 'Wax Fresheners', tone: '#E6EDE2', image: '/images/products/wardrobe-wax-sachets-1.jpg' },
@@ -126,7 +126,7 @@ export const products = [
     bestFor: 'Work desks, bedside tables and small gifts',
     howToUse: pearlHowTo,
     fragrances: true,
-    visual: { image: '/images/products/kit-duo.webp', shape: 'duo', bg: '#FDE8EB', vessel: '#E8D5C4', wax: '#FFF4F0', pearls: true },
+    visual: { image: '/images/products/kit-duo.webp', shape: 'duo', bg: '#F7E4D8', vessel: '#E8D5C4', wax: '#FFF4F0', pearls: true },
   },
   {
     id: 'boho-botanical',
@@ -148,7 +148,7 @@ export const products = [
     bestFor: 'Self-care corners and floral lovers',
     howToUse: pearlHowTo,
     fragrances: true,
-    visual: { image: '/images/products/kit-botanical.webp', shape: 'jar', bg: '#F6E1EA', vessel: '#D98CA3', wax: '#FFF6F8', pearls: true, decor: 'petals' },
+    visual: { image: '/images/products/kit-botanical.webp', shape: 'jar', bg: '#F6E1EA', vessel: '#C47A5A', wax: '#FFF6F8', pearls: true, decor: 'petals' },
   },
   {
     id: 'ocean-escape',
@@ -192,7 +192,7 @@ export const products = [
     bestFor: 'Existing customers and eco-conscious homes',
     howToUse: pearlHowTo,
     fragrances: true,
-    visual: { image: '/images/products/kit-refill.webp', shape: 'pouch', bg: '#E8D5C4', vessel: '#8B5E3C', wax: '#FFF9F5', pearls: true, double: true },
+    visual: { image: '/images/products/kit-refill.webp', shape: 'pouch', bg: '#E8D5C4', vessel: '#8A3A16', wax: '#FFF9F5', pearls: true, double: true },
   },
 
   // ─── Handcrafted line ───────────────────────────────────────
@@ -296,7 +296,7 @@ export const products = [
     includes: ['1 Tray Candle (160g)', 'Praline Fragrance', '24 hours burn time'],
     bestFor: 'Diwali and corporate gifting',
     howToUse: pouredHowTo,
-    visual: { image: '/images/products/dry-fruit-delight-1.webp', shape: 'tray', bg: '#F5E6C4', vessel: '#C9A227', wax: '#E8C893', topper: 'nuts' },
+    visual: { image: '/images/products/dry-fruit-delight-1.webp', shape: 'tray', bg: '#F5E6C4', vessel: '#C98A4B', wax: '#E8C893', topper: 'nuts' },
   },
   {
     id: 'heart-bowl-candle',
@@ -317,7 +317,7 @@ export const products = [
     includes: ['1 Glass Bowl Candle (260g)', 'Velvet Rose Fragrance', '40 hours burn time', 'Gift-ready box'],
     bestFor: 'Anniversaries, Valentine’s and proposals',
     howToUse: pouredHowTo,
-    visual: { image: '/images/products/heart-bowl-candle-1.jpg', shape: 'bowl', bg: '#FDE8EB', vessel: '#F3C6D1', wax: '#F7B8C6', topper: 'hearts' },
+    visual: { image: '/images/products/heart-bowl-candle-1.jpg', shape: 'bowl', bg: '#F7E4D8', vessel: '#F3C6D1', wax: '#F7B8C6', topper: 'hearts' },
   },
   {
     id: 'together-forever',
@@ -337,7 +337,7 @@ export const products = [
     includes: ['1 Sculpted Candle (120g)', 'Vanilla Musk Fragrance', '15 hours burn time'],
     bestFor: 'Couples and wedding favours',
     howToUse: pouredHowTo,
-    visual: { image: '/images/products/together-forever-1.jpg', shape: 'heart', bg: '#F8E3E6', vessel: '#D98CA3', wax: '#F4C2CC' },
+    visual: { image: '/images/products/together-forever-1.jpg', shape: 'heart', bg: '#F8E3E6', vessel: '#C47A5A', wax: '#F4C2CC' },
   },
   {
     id: 'heart-teddy-candle',

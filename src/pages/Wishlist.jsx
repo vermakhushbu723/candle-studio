@@ -4,18 +4,19 @@ import PageHeader from '@/components/common/PageHeader'
 import { siteImages } from '@/data/site'
 import ProductCard from '@/components/common/ProductCard'
 import { useWishlist } from '@/context/WishlistContext'
-import { getProduct } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 export default function Wishlist() {
   const { ids } = useWishlist()
+  const { getProduct } = useCatalog()
   const items = ids.map(getProduct).filter(Boolean)
 
   return (
     <>
       <PageHeader image={siteImages.daisy} eyebrow="Saved" title="Your wishlist" subtitle="Candles you’ve fallen for — ready whenever you are." crumbs={[{ label: 'Wishlist' }]} />
-      <section className="wrap py-14">
+      <section className="wrap py-9">
         {items.length === 0 ? (
-          <Empty className="py-20" description="Tap the heart on any candle to save it here">
+          <Empty className="py-12" description="Tap the heart on any candle to save it here">
             <Link to="/shop"><Button type="primary" size="large">Browse candles</Button></Link>
           </Empty>
         ) : (

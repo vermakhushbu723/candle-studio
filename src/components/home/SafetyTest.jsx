@@ -7,7 +7,7 @@ import { siteImages } from '@/data/site'
 /** Side-by-side proof: what a knocked-over traditional candle does vs. a pearled one. */
 export default function SafetyTest() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-12 md:py-16">
       <div className="wrap">
         <SectionHeading
           eyebrow="The safety test"
@@ -15,7 +15,7 @@ export default function SafetyTest() {
           subtitle="Both candles were knocked off the table. Here is what each one did next."
         />
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="mt-7 grid gap-6 md:grid-cols-2">
           <DemoCard kind="traditional" />
           <DemoCard kind="pearled" index={1} />
         </div>
@@ -34,12 +34,12 @@ function DemoCard({ kind, index = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: index * 0.12 }}
-      className={`overflow-hidden rounded-4xl border p-6 md:p-8 ${isPearled ? 'border-terracotta/30 bg-white' : 'border-linen bg-shell'}`}
+      className={`overflow-hidden rounded-4xl border p-5 md:p-6 ${isPearled ? 'border-terracotta/30 bg-white' : 'border-linen bg-shell'}`}
     >
       <div className="flex items-center justify-between gap-3">
         <h3 className="font-serif text-2xl">{data.caption}</h3>
         <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${isPearled ? 'bg-terracotta text-white' : 'bg-linen text-cocoa'}`}>
-          {isPearled ? 'candledust' : 'Jar / pillar'}
+          {isPearled ? 'Jyotessa' : 'Jar / pillar'}
         </span>
       </div>
 

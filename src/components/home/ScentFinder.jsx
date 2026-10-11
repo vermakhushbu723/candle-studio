@@ -4,12 +4,13 @@ import { ReloadOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import ProductCard from '@/components/common/ProductCard'
 import { scentQuiz } from '@/data/content'
-import { products } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 const inBudget = (price, budget) => (budget === 'budget' ? price < 500 : budget === 'mid' ? price >= 500 && price <= 1000 : price > 700)
 
 /** Three-question quiz that recommends candles from both lines. */
 export default function ScentFinder() {
+  const { products } = useCatalog()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState({})
   const done = step >= scentQuiz.length
@@ -24,7 +25,7 @@ export default function ScentFinder() {
       .sort((a, b) => b.score - a.score || b.p.rating - a.p.rating)
       .slice(0, 3)
       .map((r) => r.p)
-  }, [done, answers])
+  }, [done, answers, products])
 
   const choose = (qid, value) => {
     setAnswers((a) => ({ ...a, [qid]: value }))
@@ -36,18 +37,18 @@ export default function ScentFinder() {
   }
 
   return (
-    <section id="scent-finder" className="scroll-mt-24 py-20 md:py-28">
+    <section id="scent-finder" className="scroll-mt-24 py-12 md:py-16">
       <div className="wrap">
-        <div className="relative overflow-hidden rounded-4xl bg-charcoal p-6 text-cream md:p-14">
+        <div className="relative overflow-hidden rounded-4xl bg-charcoal p-5 text-cream md:p-8">
           <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-terracotta/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 left-10 h-72 w-72 rounded-full bg-rose/25 blur-3xl" />
 
-          <div className="relative grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="relative grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Scent Finder</p>
               <h2 className="mt-3 font-serif text-3xl md:text-5xl">Not sure which candle? Let us match you.</h2>
               <p className="mt-4 text-cream/70">Three quick questions. We’ll pick from both pearled and handcrafted ranges.</p>
-              <Progress className="mt-8" percent={Math.round((Math.min(step, scentQuiz.length) / scentQuiz.length) * 100)} strokeColor="#D4A373" railColor="rgba(255,255,255,0.12)" format={(p) => <span className="text-cream/70">{p}%</span>} />
+              <Progress className="mt-5" percent={Math.round((Math.min(step, scentQuiz.length) / scentQuiz.length) * 100)} strokeColor="#E3A77C" railColor="rgba(255,255,255,0.12)" format={(p) => <span className="text-cream/70">{p}%</span>} />
               {step > 0 && (
                 <Button ghost shape="round" icon={<ReloadOutlined />} onClick={reset} className="mt-4">Start over</Button>
               )}

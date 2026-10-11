@@ -1,5 +1,5 @@
 export const site = {
-  name: 'candledust',
+  name: 'Jyotessa',
   tagline: "The World's Safest & Endless Pearled Candle",
   subTagline: 'Life is too short to light boring candles.',
   mission:
@@ -8,7 +8,6 @@ export const site = {
   whatsapp: '+91 93105 08371',
   phone: '+91 93105 08371',
   hours: 'Monday to Saturday, 10:00 AM – 7:00 PM IST',
-  freeShippingAbove: 899,
   address: 'Handmade in India · Shipping Pan-India',
   socials: [
     { label: 'Instagram', handle: '@candledust.official', href: 'https://www.instagram.com/candledust.official/' },
@@ -44,7 +43,7 @@ export const instagramFeed = [
 ]
 
 export const announcements = [
-  'Free Pan-India shipping above ₹899',
+  '{shippingShort} · Pan-India',
   'Use code GLOW10 for 10% off your first order',
   'Cash on Delivery across 22,000+ pin codes',
   'Same-day dispatch on orders before 2 PM',

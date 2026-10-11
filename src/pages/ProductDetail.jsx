@@ -5,7 +5,10 @@ import { CarOutlined, CheckOutlined, HeartFilled, HeartOutlined, SafetyCertifica
 import { AnimatePresence, motion } from 'framer-motion'
 import ProductCard from '@/components/common/ProductCard'
 import SectionHeading from '@/components/common/SectionHeading'
-import { fragrances, getCategory, getProduct, products } from '@/data/products'
+import { fragrances, getCategory } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
+import PageLoader from '@/components/common/PageLoader'
+import { shippingSentence, shippingShort } from '@/utils/shipping'
 import { reviews } from '@/data/content'
 import { siteImages } from '@/data/site'
 import { useCart } from '@/context/CartContext'
@@ -14,7 +17,10 @@ import { discountPercent, formatPrice } from '@/utils/format'
 
 export default function ProductDetail() {
   const { id } = useParams()
+  const { getProduct, status } = useCatalog()
   const product = getProduct(id)
+  // A product added in the admin isn't in the bundled catalogue — wait for the live one
+  if (!product && status === 'loading') return <PageLoader />
   if (!product) {
     return <Result status="404" title="Candle not found" extra={<Link to="/shop"><Button type="primary">Back to shop</Button></Link>} />
   }
@@ -22,6 +28,7 @@ export default function ProductDetail() {
 }
 
 function ProductView({ product }) {
+  const { products, shipping } = useCatalog()
   const navigate = useNavigate()
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
@@ -43,12 +50,12 @@ function ProductView({ product }) {
 
   return (
     <>
-      <section className="wrap py-8 md:py-12">
+      <section className="wrap py-8 md:py-8">
         <Breadcrumb items={[{ title: <Link to="/">Home</Link> }, { title: <Link to={`/shop?category=${category.id}`}>{category.label}</Link> }, { title: product.name }]} />
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="mt-5 grid gap-6 lg:grid-cols-2 lg:gap-9">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="relative aspect-square overflow-hidden rounded-4xl border border-linen bg-shell">
+            <div className="relative aspect-[5/4] overflow-hidden rounded-4xl border border-linen bg-shell">
               <AnimatePresence mode="wait">
                 <motion.div key={active} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="group h-full w-full cursor-zoom-in overflow-hidden">
                   <img src={gallery[active]} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -71,7 +78,7 @@ function ProductView({ product }) {
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             <div className="flex flex-wrap items-center gap-2">
-              <Tag color={product.line === 'pearled' ? '#8B5E3C' : '#D98CA3'} className="rounded-full! px-3!">
+              <Tag color={product.line === 'pearled' ? '#8A3A16' : '#C47A5A'} className="rounded-full! px-3!">
                 {product.line === 'pearled' ? 'Pearled Candle' : 'Handcrafted Candle'}
               </Tag>
               {product.badge && <Tag className="rounded-full! px-3!">{product.badge}</Tag>}
@@ -92,7 +99,7 @@ function ProductView({ product }) {
             <p className="mt-1 text-xs text-ash">Inclusive of all taxes</p>
 
             {product.fragrances && (
-              <div className="mt-8">
+              <div className="mt-5">
                 <p className="text-sm font-semibold">Fragrance: <span className="font-normal text-ash">{fragrances.find((f) => f.id === fragrance)?.label}</span></p>
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   {fragrances.map((f) => (
@@ -100,7 +107,7 @@ function ProductView({ product }) {
                       key={f.id}
                       type="button"
                       onClick={() => setFragrance(f.id)}
-                      className={`relative rounded-2xl border p-4 text-left transition ${fragrance === f.id ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
+                      className={`relative rounded-2xl border px-4 py-2.5 text-left transition ${fragrance === f.id ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
                     >
                       <p className="font-medium">{f.label}</p>
                       <p className="text-xs text-ash">{f.note}</p>
@@ -111,7 +118,7 @@ function ProductView({ product }) {
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-5 flex flex-wrap items-center gap-3">
               <InputNumber size="large" min={1} max={20} value={quantity} onChange={(v) => setQuantity(v ?? 1)} className="w-28" />
               <Button size="large" type="primary" className="flex-1" onClick={() => addItem(product.id, { quantity, fragrance })}>
                 Add to cart · {formatPrice(product.price * quantity)}
@@ -126,9 +133,9 @@ function ProductView({ product }) {
             </div>
             <Button size="large" block className="mt-3 border-charcoal! bg-charcoal! text-cream!" onClick={buyNow}>Buy it now</Button>
 
-            <div className="mt-8 grid grid-cols-3 gap-3 text-center text-xs">
+            <div className="mt-5 grid grid-cols-3 gap-3 text-center text-xs">
               {[
-                { icon: CarOutlined, text: 'Free shipping above ₹899' },
+                { icon: CarOutlined, text: shippingShort(shipping) },
                 { icon: SafetyCertificateOutlined, text: '100% soy wax' },
                 { icon: SyncOutlined, text: '7-day easy returns' },
               ].map(({ icon: Icon, text }) => (
@@ -140,7 +147,7 @@ function ProductView({ product }) {
             </div>
 
             <Tabs
-              className="mt-10"
+              className="mt-6"
               items={[
                 { key: 'desc', label: 'Description', children: <p className="leading-relaxed text-ash">{product.description} <br /><br /><b className="text-charcoal">Best for:</b> {product.bestFor}</p> },
                 {
@@ -168,19 +175,19 @@ function ProductView({ product }) {
                     </ol>
                   ),
                 },
-                { key: 'ship', label: 'Shipping', children: <p className="text-ash">Dispatched same day before 2 PM. Metros in 2–3 days, rest of India in 4–6 days. COD available. Free shipping above ₹899.</p> },
+                { key: 'ship', label: 'Shipping', children: <p className="text-ash">Dispatched same day before 2 PM. Metros in 2–3 days, rest of India in 4–6 days. COD available. {shippingSentence(shipping)}</p> },
               ]}
             />
           </motion.div>
         </div>
       </section>
 
-      <section className="border-y border-linen bg-shell py-16">
+      <section className="border-y border-linen bg-shell py-10">
         <div className="wrap">
           <SectionHeading align="left" eyebrow="Reviews" title="What buyers are saying" />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
             {productReviews.map((r) => (
-              <div key={r.id} className="rounded-3xl bg-white p-6">
+              <div key={r.id} className="rounded-3xl bg-white p-5">
                 <Rate disabled defaultValue={r.rating} className="text-sm!" />
                 <p className="mt-3 font-serif text-lg">“{r.quote}”</p>
                 <p className="mt-4 text-sm font-semibold">{r.name} <span className="font-normal text-ash">· {r.location}</span></p>
@@ -190,9 +197,9 @@ function ProductView({ product }) {
         </div>
       </section>
 
-      <section className="wrap py-20">
+      <section className="wrap py-12">
         <SectionHeading align="left" eyebrow="You may also like" title="Pairs beautifully with" />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {related.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
         </div>
       </section>

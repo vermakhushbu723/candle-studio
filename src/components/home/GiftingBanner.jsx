@@ -2,19 +2,20 @@ import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import CandleVisual from '@/components/common/CandleVisual'
-import { getProduct } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 export default function GiftingBanner() {
-  const items = ['kamal-jyoti-urli', 'festive-diya-set', 'dry-fruit-delight'].map(getProduct)
+  const { getProduct } = useCatalog()
+  const items = ['kamal-jyoti-urli', 'festive-diya-set', 'dry-fruit-delight'].map(getProduct).filter(Boolean)
   return (
-    <section className="py-10">
+    <section className="py-7">
       <div className="wrap">
-        <div className="grid items-center gap-10 overflow-hidden rounded-4xl bg-linear-to-br from-[#F5E6C4] via-sand to-shell p-8 md:p-14 lg:grid-cols-2">
+        <div className="grid items-center gap-6 overflow-hidden rounded-4xl bg-linear-to-br from-[#F5E6C4] via-sand to-shell p-6 md:p-8 lg:grid-cols-2">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="eyebrow">Corporate & festive gifting</p>
             <h2 className="mt-3 font-serif text-3xl md:text-5xl">Hampers that people actually keep.</h2>
             <p className="mt-4 max-w-lg text-ash">Custom candle hampers for Diwali, weddings and teams — branded boxes, handwritten notes and bulk pricing from 25 units.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <Link to="/contact?topic=bulk"><Button type="primary" size="large" shape="round">Request a quote</Button></Link>
               <Link to="/shop?category=luxury"><Button size="large" shape="round">Shop festive</Button></Link>
             </div>

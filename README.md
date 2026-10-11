@@ -1,4 +1,4 @@
-# candledust — Pearled & Handcrafted Candles
+# Jyotessa — Pearled & Handcrafted Candles
 
 One storefront that combines the two candle ranges:
 
@@ -22,7 +22,7 @@ src/
 ├── main.jsx               # Entry: router + global styles
 ├── App.jsx                # Providers (antd theme, cart, wishlist)
 ├── routes/AppRoutes.jsx   # All routes (lazy-loaded pages)
-├── theme/antdTheme.js     # Ant Design tokens (candledust colours)
+├── theme/antdTheme.js     # Ant Design tokens (Jyotessa colours)
 ├── styles/index.css       # Tailwind theme tokens, utilities, keyframes
 ├── data/                  # All content — edit here, not in components
 │   ├── products.js        # Catalogue, categories, fragrances

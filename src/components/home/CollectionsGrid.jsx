@@ -2,18 +2,21 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import SectionHeading from '@/components/common/SectionHeading'
-import { categories, inCategory, products } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 const lineLabel = { pearled: 'Pearled', handcrafted: 'Handcrafted', all: 'Collection' }
 
 export default function CollectionsGrid() {
+  const { products, categories, inCategory } = useCatalog()
+  // Seasonal / curated collections (managed in the admin) first, then the product categories
+  const tiles = [...categories.filter((c) => c.isCollection), ...categories.filter((c) => !c.isCollection)]
   return (
-    <section className="pb-4 pt-20 md:pb-6 md:pt-28">
+    <section className="pb-4 pt-12 md:pb-6 md:pt-16">
       <div className="wrap">
         <SectionHeading eyebrow="Collections" title="Find a candle for every feeling" />
         {/* Uniform tiles — no row-spans, so the grid never leaves an empty cell at the end */}
-        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {categories.map((c, i) => {
+        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {tiles.map((c, i) => {
             const count = products.filter((p) => inCategory(p, c.id)).length
             return (
               <motion.div
@@ -23,7 +26,7 @@ export default function CollectionsGrid() {
                 viewport={{ once: true }}
                 transition={{ delay: (i % 4) * 0.06, duration: 0.6 }}
               >
-                <Link to={`/shop?category=${c.id}`} className="group relative block aspect-square overflow-hidden rounded-3xl">
+                <Link to={`/shop?category=${c.id}`} className="group relative block aspect-square overflow-hidden rounded-3xl" style={{ background: c.tone }}>
                   <img src={c.image} alt={c.label} className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-(--ease-luxe) group-hover:scale-110" loading="lazy" />
                   <div className="absolute inset-0 bg-linear-to-t from-charcoal/85 via-charcoal/20 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-4 text-white md:p-5">

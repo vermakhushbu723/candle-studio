@@ -4,23 +4,24 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import SectionHeading from '@/components/common/SectionHeading'
 import ProductCard from '@/components/common/ProductCard'
-import { bestsellers, products } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 const tabs = {
-  bestsellers: () => bestsellers.slice(0, 8),
-  pearled: () => products.filter((p) => p.line === 'pearled'),
-  handcrafted: () => products.filter((p) => p.line === 'handcrafted').slice(0, 8),
-  gifts: () => products.filter((p) => p.moods.includes('gift')).slice(0, 8),
+  bestsellers: ({ bestsellers }) => bestsellers.slice(0, 8),
+  pearled: ({ products }) => products.filter((p) => p.line === 'pearled'),
+  handcrafted: ({ products }) => products.filter((p) => p.line === 'handcrafted').slice(0, 8),
+  gifts: ({ products }) => products.filter((p) => p.moods.includes('gift')).slice(0, 8),
 }
 
 export default function ProductShowcase() {
   const [tab, setTab] = useState('bestsellers')
-  const list = tabs[tab]()
+  const catalog = useCatalog()
+  const list = tabs[tab](catalog)
 
   return (
-    <section className="border-y border-linen bg-shell py-20 md:py-28">
+    <section className="border-y border-linen bg-shell py-12 md:py-16">
       <div className="wrap">
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-5">
           <SectionHeading eyebrow="Shop the glow" title="Choose your lighting experience" subtitle="From a pouch you pour into a glass you already own, to a hand-sculpted bouquet that’s almost too pretty to light." />
           <div className="no-scrollbar max-w-full overflow-x-auto">
             <Segmented
@@ -38,13 +39,13 @@ export default function ProductShowcase() {
           </div>
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={tab} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div key={tab} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {list.map((p, i) => (
               <ProductCard key={p.id} product={p} index={i} />
             ))}
           </motion.div>
         </AnimatePresence>
-        <div className="mt-12 text-center">
+        <div className="mt-7 text-center">
           <Link to="/shop"><Button size="large" shape="round">View all candles</Button></Link>
         </div>
       </div>

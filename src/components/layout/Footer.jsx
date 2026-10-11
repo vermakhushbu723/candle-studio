@@ -48,10 +48,10 @@ export default function Footer() {
   const telHref = `tel:${site.phone.replace(/\s/g, '')}`
 
   return (
-    <footer className="relative mt-24 overflow-hidden bg-charcoal text-cream">
+    <footer className="relative mt-14 overflow-hidden bg-charcoal text-cream">
       <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-terracotta/20 blur-3xl" />
       <div className="wrap relative">
-        <div className="grid gap-12 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="grid gap-7 py-9 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <Logo light />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/70">
@@ -60,17 +60,17 @@ export default function Footer() {
 
             <ul className="mt-6 space-y-2.5 text-sm text-cream/70">
               <li>
-                <a href={`mailto:${site.supportEmail}`} className="flex items-center gap-2.5 hover:text-caramel">
+                <a href={`mailto:${site.supportEmail}`} className="flex items-center gap-2.5 text-cream/70 hover:text-caramel">
                   <MailOutlined className="text-caramel" /> {site.supportEmail}
                 </a>
               </li>
               <li>
-                <a href={telHref} className="flex items-center gap-2.5 hover:text-caramel">
+                <a href={telHref} className="flex items-center gap-2.5 text-cream/70 hover:text-caramel">
                   <PhoneOutlined className="text-caramel" /> {site.phone}
                 </a>
               </li>
               <li>
-                <a href={waHref} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 hover:text-caramel">
+                <a href={waHref} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-cream/70 hover:text-caramel">
                   <WhatsAppOutlined className="text-caramel" /> Chat on WhatsApp
                 </a>
               </li>
@@ -89,8 +89,8 @@ export default function Footer() {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`candledust on ${label}`}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 transition hover:-translate-y-1 hover:border-caramel hover:text-caramel"
+                    aria-label={`Jyotessa on ${label}`}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-cream/80 transition hover:-translate-y-1 hover:border-caramel hover:text-caramel"
                   >
                     <Icon />
                   </a>
@@ -113,7 +113,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-28 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-16 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
           <p>© {new Date().getFullYear()} {site.name}. Handmade in India.</p>
           <p>UPI · Visa · Mastercard · RuPay · Cash on Delivery</p>
         </div>

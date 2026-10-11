@@ -1,3 +1,5 @@
+/* antd styles go in their own layer so Tailwind utilities (e.g. text-cream/70 on links) win */
+@layer theme, base, antd, components, utilities;
 @import 'tailwindcss';
 
 /* Colour theme taken from candledust.online */
@@ -5,18 +7,19 @@
   --color-cream: #fff9f5;
   --color-shell: #f6ede4;
   --color-linen: #eadbc8;
-  --color-sand: #fde8eb;
+  --color-sand: #F7E4D8;
   --color-mist: #e8d5c4;
-  --color-charcoal: #2b2b2b;
-  --color-ash: #6b6b6b;
-  --color-gold: #c9a227;
-  --color-cocoa: #8b5e3c;
-  --color-terracotta: #b76e4a;
-  --color-caramel: #d4a373;
-  --color-rose: #d98ca3;
+  --color-charcoal: #3A1507;
+  --color-ash: #7A5A4C;
+  --color-gold: #C98A4B;
+  --color-cocoa: #8A3A16;
+  --color-terracotta: #6C2408;
+  --color-caramel: #E3A77C;
+  --color-rose: #C47A5A;
 
   --font-sans: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-brand: 'Cinzel', 'Playfair Display', Georgia, serif; /* matches the JYOTESSA wordmark */
 
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
   --radius-4xl: 2rem;
@@ -49,7 +52,7 @@
 
 @utility text-display {
   font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 1.5rem + 3.6vw, 4.75rem);
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 3.9rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
 }
@@ -106,7 +109,7 @@
   animation: floaty 6s ease-in-out infinite;
 }
 .grain {
-  background-image: radial-gradient(rgba(139, 94, 60, 0.07) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(108, 36, 8, 0.07) 1px, transparent 1px);
   background-size: 14px 14px;
 }
 
@@ -192,7 +195,7 @@
 .animate-scroll-cue { animation: scroll-cue 1.8s ease-in-out infinite; }
 
 .text-gradient-glow {
-  background: linear-gradient(100deg, #d4a373, #fde8eb, #d98ca3, #d4a373);
+  background: linear-gradient(100deg, #E3A77C, #F7E4D8, #C47A5A, #E3A77C);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -211,7 +214,7 @@
 .animate-spin-slower { animation: spin 40s linear infinite; }
 
 .text-gradient-flame {
-  background: linear-gradient(100deg, #b76e4a, #d98ca3, #d4a373, #b76e4a);
+  background: linear-gradient(100deg, #6C2408, #C47A5A, #E3A77C, #6C2408);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;

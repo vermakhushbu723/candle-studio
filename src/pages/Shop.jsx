@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { siteImages } from '@/data/site'
 import ProductCard from '@/components/common/ProductCard'
-import { categories, inCategory, lines, products } from '@/data/products'
+import { lines } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 import { formatPrice } from '@/utils/format'
 
 const MAX_PRICE = 3000
@@ -23,6 +24,7 @@ export default function Shop() {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [price, setPrice] = useState([0, MAX_PRICE])
   const [sort, setSort] = useState('featured')
+  const { products, categories, inCategory } = useCatalog()
 
   const line = params.get('line') ?? 'all'
   const category = params.get('category')
@@ -47,13 +49,13 @@ export default function Shop() {
         .filter((p) => p.price >= price[0] && p.price <= price[1])
         .filter((p) => `${p.name} ${p.tagline}`.toLowerCase().includes(query.toLowerCase()))
         .sort(sorters[sort]),
-    [line, category, price, query, sort],
+    [products, inCategory, line, category, price, query, sort],
   )
 
   const heading = category ? categories.find((c) => c.id === category)?.label : line !== 'all' ? lines[line]?.title : 'All Candles'
 
   const filters = (
-    <div className="space-y-8">
+    <div className="space-y-5">
       <div>
         <p className="eyebrow mb-3">Search</p>
         <Input allowClear prefix={<SearchOutlined />} value={query} onChange={(e) => update('q', e.target.value)} placeholder="Search candles" />
@@ -82,9 +84,9 @@ export default function Shop() {
 
   return (
     <>
-      <PageHeader image={siteImages.livingRoom} eyebrow="Shop" title={heading} subtitle={lines[effectiveLine]?.description ?? 'Pearled kits and hand-poured candles, all in one place.'} crumbs={[{ label: 'Shop' }]} />
+      <PageHeader image={categories.find((c) => c.id === category)?.image || siteImages.livingRoom} eyebrow={categories.find((c) => c.id === category)?.isCollection ? "Collection" : "Shop"} title={heading} subtitle={categories.find((c) => c.id === category)?.description || lines[effectiveLine]?.description || 'Pearled kits and hand-poured candles, all in one place.'} crumbs={[{ label: 'Shop' }]} />
 
-      <div className="wrap py-10">
+      <div className="wrap py-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="no-scrollbar max-w-full overflow-x-auto">
             <Segmented
@@ -117,11 +119,11 @@ export default function Shop() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[260px_1fr]">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
           <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">{filters}</aside>
           <div>
             {list.length === 0 ? (
-              <Empty className="py-20" description="No candles match those filters" />
+              <Empty className="py-12" description="No candles match those filters" />
             ) : (
               <motion.div layout className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {list.map((p, i) => (

@@ -50,7 +50,7 @@ export default function About() {
       />
 
       {/* Why pearled wax exists */}
-      <section className="wrap grid items-center gap-12 py-20 lg:grid-cols-2">
+      <section className="wrap grid items-center gap-7 py-12 lg:grid-cols-2">
         <motion.div {...fade()} className="overflow-hidden rounded-4xl">
           <img src={siteImages.livingRoom} alt="A pearled candle glowing in a living room" className="h-full w-full object-cover" loading="lazy" />
         </motion.div>
@@ -80,12 +80,12 @@ export default function About() {
       </section>
 
       {/* Beliefs */}
-      <section className="border-y border-linen bg-shell py-20">
+      <section className="border-y border-linen bg-shell py-12">
         <div className="wrap">
           <SectionHeading eyebrow="What we believe" title="Four ideas behind every kit" />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {beliefs.map(({ icon: Icon, title, body }, i) => (
-              <motion.div key={title} {...fade(i * 0.08)} className="flex h-full flex-col rounded-3xl border border-linen bg-white p-6">
+              <motion.div key={title} {...fade(i * 0.08)} className="flex h-full flex-col rounded-3xl border border-linen bg-white p-5">
                 <span className="grid h-11 w-11 place-items-center rounded-full bg-sand text-lg text-terracotta">
                   <Icon />
                 </span>
@@ -98,9 +98,9 @@ export default function About() {
       </section>
 
       {/* Four steps */}
-      <section className="wrap py-20">
+      <section className="wrap py-12">
         <SectionHeading eyebrow="In four steps" title="Pour, insert, ignite, refresh" />
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <motion.div key={s.title} {...fade(i * 0.08)}>
               <p className="font-serif text-4xl text-caramel">{s.index}</p>
@@ -112,9 +112,9 @@ export default function About() {
       </section>
 
       {/* Proof numbers */}
-      <section className="border-t border-linen bg-shell py-16">
+      <section className="border-t border-linen bg-shell py-10">
         <div className="wrap">
-          <div className="grid gap-8 sm:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-3">
             {proof.map((p, i) => (
               <motion.div key={p.label} {...fade(i * 0.08)} className="text-center">
                 <p className="font-serif text-4xl text-terracotta sm:text-5xl">{p.value}</p>
@@ -122,14 +122,14 @@ export default function About() {
               </motion.div>
             ))}
           </div>
-          <div className="mt-12 text-center">
+          <div className="mt-7 text-center">
             <Link to="/shop"><Button type="primary" size="large" shape="round">Shop the kits</Button></Link>
           </div>
         </div>
       </section>
 
       {/* Contact */}
-      <section className="wrap grid gap-8 py-20 md:grid-cols-[1fr_auto] md:items-center">
+      <section className="wrap grid gap-5 py-12 md:grid-cols-[1fr_auto] md:items-center">
         <motion.div {...fade()}>
           <p className="eyebrow">Come say hello</p>
           <h2 className="mt-3 font-serif text-3xl md:text-4xl">A real team behind every parcel.</h2>
@@ -138,8 +138,8 @@ export default function About() {
             make your candle ritual feel like your own.
           </p>
         </motion.div>
-        <motion.div {...fade(0.08)} className="rounded-3xl border border-linen bg-white p-6 sm:p-8">
-          <p className="font-semibold">Contact candledust</p>
+        <motion.div {...fade(0.08)} className="rounded-3xl border border-linen bg-white p-5 sm:p-6">
+          <p className="font-semibold">Contact Jyotessa</p>
           <ul className="mt-4 space-y-2.5 text-sm text-ash">
             <li><a href={`mailto:${site.supportEmail}`} className="flex items-center gap-2.5 hover:text-terracotta"><MailOutlined /> {site.supportEmail}</a></li>
             <li><a href={`tel:${site.phone.replace(/\s/g, '')}`} className="flex items-center gap-2.5 hover:text-terracotta"><PhoneOutlined /> {site.phone}</a></li>

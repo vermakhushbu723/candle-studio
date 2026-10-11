@@ -36,7 +36,7 @@ export default function SupportDock() {
               <DockButton href={`tel:${site.phone.replace(/\s/g, '')}`} label="Call us" color="bg-terracotta" ring="bg-terracotta" delay="0.6s">
                 <PhoneFilled className="text-xl" />
               </DockButton>
-              <DockButton href={`https://wa.me/${site.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hi candledust! I have a question.')}`} external label="WhatsApp us" color="bg-[#25D366]" ring="bg-[#25D366]" delay="0s">
+              <DockButton href={`https://wa.me/${site.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hi Jyotessa! I have a question.')}`} external label="WhatsApp us" color="bg-[#25D366]" ring="bg-[#25D366]" delay="0s">
                 <WhatsAppOutlined className="text-2xl" />
               </DockButton>
             </motion.div>
@@ -65,7 +65,7 @@ export default function SupportDock() {
             aria-label={chatOpen ? 'Close chat' : 'Open support chat'}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.92 }}
-            className="relative grid h-14 w-14 place-items-center rounded-full bg-linear-to-br from-charcoal to-cocoa text-white shadow-[0_12px_30px_-8px_rgba(43,43,43,0.6)]"
+            className="relative grid h-14 w-14 place-items-center rounded-full bg-linear-to-br from-charcoal to-cocoa text-white shadow-[0_12px_30px_-8px_rgba(58,21,7,0.6)]"
           >
             {!chatOpen && <span className="absolute inset-0 animate-ping rounded-full bg-caramel opacity-40" />}
             <AnimatePresence mode="wait" initial={false}>

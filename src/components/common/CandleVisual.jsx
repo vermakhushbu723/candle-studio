@@ -40,7 +40,7 @@ export default function CandleVisual({ visual, image, alt = '', lit = true, clas
       </defs>
 
       {bg !== 'transparent' && <rect width="200" height="200" fill={`url(#bg-${uid})`} />}
-      <ellipse cx="100" cy="176" rx="62" ry="7" fill="#8B5E3C" opacity="0.12" />
+      <ellipse cx="100" cy="176" rx="62" ry="7" fill="#8A3A16" opacity="0.12" />
 
       <Body shape={shape} uid={uid} vessel={vessel} wax={wax} pearls={pearls} double={double} />
       <Decor kind={decor} shape={shape} />
@@ -84,8 +84,8 @@ function Body({ shape, uid, vessel, wax, pearls, double }) {
           <path d="M62 58 h76 l8 116 h-92 z" fill={vessel} />
           <path d="M62 58 h76 l1 12 h-78 z" fill="#000" opacity="0.12" />
           <rect x="74" y="98" width="52" height="40" rx="6" fill="#FFF9F5" />
-          <text x="100" y="116" textAnchor="middle" fontFamily="Playfair Display, serif" fontSize="9" fill="#8B5E3C">candledust</text>
-          <text x="100" y="129" textAnchor="middle" fontSize="6" fill="#6B6B6B" letterSpacing="1">PEARL WAX</text>
+          <text x="100" y="116" textAnchor="middle" fontFamily="Playfair Display, serif" fontSize="9" fill="#8A3A16">Jyotessa</text>
+          <text x="100" y="129" textAnchor="middle" fontSize="6" fill="#7A5A4C" letterSpacing="1">PEARL WAX</text>
           <g transform="translate(142 128)">
             <rect x="0" y="0" width="34" height="46" rx="6" fill={`url(#glass-${uid})`} stroke={vessel} strokeOpacity="0.4" />
             <rect x="3" y="14" width="28" height="29" rx="4" fill={`url(#pearl-${uid})`} />
@@ -194,7 +194,7 @@ function Decor({ kind, shape }) {
     return (
       <g>
         {[[80, base], [104, base + 14], [118, base - 6], [92, base + 26]].map(([x, y], i) => (
-          <ellipse key={i} cx={x} cy={y} rx="6" ry="3.5" fill={i % 2 ? '#B9A3D1' : '#D98CA3'} transform={`rotate(${i * 40} ${x} ${y})`} />
+          <ellipse key={i} cx={x} cy={y} rx="6" ry="3.5" fill={i % 2 ? '#B9A3D1' : '#C47A5A'} transform={`rotate(${i * 40} ${x} ${y})`} />
         ))}
       </g>
     )
@@ -248,12 +248,12 @@ function Topper({ kind, vessel, wax }) {
     case 'flowers':
       return (
         <g>
-          {[[78, 88, '#E9A3B8'], [122, 86, '#F3C6D1'], [100, 94, '#D98CA3']].map(([x, y, c]) => (
+          {[[78, 88, '#E9A3B8'], [122, 86, '#F3C6D1'], [100, 94, '#C47A5A']].map(([x, y, c]) => (
             <g key={x}>
               {[0, 72, 144, 216, 288].map((a) => (
                 <ellipse key={a} cx={x} cy={y - 6} rx="4" ry="7" fill={c} transform={`rotate(${a} ${x} ${y})`} />
               ))}
-              <circle cx={x} cy={y} r="3" fill="#C9A227" />
+              <circle cx={x} cy={y} r="3" fill="#C98A4B" />
             </g>
           ))}
         </g>

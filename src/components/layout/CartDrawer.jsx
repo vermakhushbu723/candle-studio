@@ -5,14 +5,14 @@ import { AnimatePresence, motion } from 'framer-motion'
 import CandleVisual from '@/components/common/CandleVisual'
 import { useCart } from '@/context/CartContext'
 import { fragrances } from '@/data/products'
-import { site } from '@/data/site'
 import { formatPrice } from '@/utils/format'
 
 export default function CartDrawer() {
-  const { drawerOpen, setDrawerOpen, lines, subtotal, count, remainingForFree, updateQuantity, removeItem } = useCart()
+  const { drawerOpen, setDrawerOpen, lines, subtotal, count, remainingForFree, shippingSettings, updateQuantity, removeItem } = useCart()
   const navigate = useNavigate()
   const close = () => setDrawerOpen(false)
-  const progress = Math.min(100, Math.round(((site.freeShippingAbove - remainingForFree) / site.freeShippingAbove) * 100))
+  const threshold = shippingSettings.freeShippingAbove || 1
+  const progress = remainingForFree === null ? 100 : Math.min(100, Math.round(((threshold - remainingForFree) / threshold) * 100))
 
   return (
     <Drawer
@@ -43,6 +43,7 @@ export default function CartDrawer() {
         </Empty>
       ) : (
         <>
+          {remainingForFree !== null && (
           <div className="mb-5 rounded-2xl bg-shell p-4">
             <p className="text-sm">
               {remainingForFree > 0 ? (
@@ -51,8 +52,9 @@ export default function CartDrawer() {
                 <>You’ve unlocked <b>free shipping</b></>
               )}
             </p>
-            <Progress percent={progress} showInfo={false} strokeColor="#B76E4A" railColor="#EADBC8" />
+            <Progress percent={progress} showInfo={false} strokeColor="#6C2408" railColor="#EADBC8" />
           </div>
+          )}
           <ul className="space-y-4">
             <AnimatePresence initial={false}>
               {lines.map((line) => (

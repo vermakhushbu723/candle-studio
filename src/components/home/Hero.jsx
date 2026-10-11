@@ -3,7 +3,7 @@ import { ArrowRightOutlined, SafetyCertificateOutlined } from '@ant-design/icons
 import { Link } from 'react-router-dom'
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
 import Magnetic from '@/components/common/Magnetic'
-import { getProduct } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 import { siteImages } from '@/data/site'
 
 const ease = [0.22, 1, 0.36, 1]
@@ -23,7 +23,8 @@ const bokeh = Array.from({ length: 6 }, (_, i) => ({
 }))
 
 export default function Hero() {
-  const avatars = ['chai-parle-g-candle', 'bouquet-candle', 'heart-bowl-candle'].map(getProduct)
+  const { getProduct } = useCatalog()
+  const avatars = ['chai-parle-g-candle', 'bouquet-candle', 'heart-bowl-candle'].map(getProduct).filter(Boolean)
 
   const { scrollY } = useScroll()
   const mediaY = useTransform(scrollY, [0, 800], [0, 120])
@@ -41,7 +42,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative isolate flex flex-col overflow-hidden lg:block lg:min-h-[34rem]" onMouseMove={onMove} onMouseLeave={() => { mx.set(0); my.set(0) }}>
+    <section className="relative isolate flex flex-col overflow-hidden lg:block lg:min-h-[30rem]" onMouseMove={onMove} onMouseLeave={() => { mx.set(0); my.set(0) }}>
       {/* Left: soft mixing colour background (whole section) */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
         <div className="animate-blob absolute -left-32 -top-32 h-[34rem] w-[34rem] rounded-full bg-sand opacity-90 blur-3xl" />
@@ -51,7 +52,7 @@ export default function Hero() {
       </div>
 
       {/* Content (left half) */}
-      <div className="wrap relative z-10 grid grid-cols-1 pt-4 md:pt-5 lg:min-h-[34rem] lg:grid-cols-2 lg:items-center lg:py-8">
+      <div className="wrap relative z-10 grid grid-cols-1 pt-4 md:pt-5 lg:min-h-[30rem] lg:grid-cols-2 lg:items-center lg:py-8">
         <div className="min-w-0">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -90,14 +91,14 @@ export default function Hero() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.7, ease }} className="mt-6 flex flex-wrap gap-3">
             <Magnetic>
               <Link to="/shop?line=pearled">
-                <Button type="primary" size="large" shape="round" icon={<ArrowRightOutlined />} iconPlacement="end" className="h-13! px-7! shadow-[0_12px_30px_-10px_rgba(183,110,74,0.8)]!">
+                <Button type="primary" size="large" shape="round" icon={<ArrowRightOutlined />} iconPlacement="end" className="h-11! px-6! shadow-[0_12px_30px_-10px_rgba(183,110,74,0.8)]!">
                   Shop Pearled Kits
                 </Button>
               </Link>
             </Magnetic>
             <Magnetic>
               <Link to="/shop?line=handcrafted">
-                <Button size="large" shape="round" className="h-13! bg-white/70! px-7! backdrop-blur">Explore Handcrafted</Button>
+                <Button size="large" shape="round" className="h-11! bg-white/70! px-6! backdrop-blur">Explore Handcrafted</Button>
               </Link>
             </Magnetic>
           </motion.div>

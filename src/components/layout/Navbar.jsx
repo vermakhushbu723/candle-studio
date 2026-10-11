@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Logo from './Logo'
 import CandleVisual from '@/components/common/CandleVisual'
 import { navLinks } from '@/data/site'
-import { products } from '@/data/products'
+import { useCatalog, useShopMenu } from '@/context/CatalogContext'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { formatPrice } from '@/utils/format'
@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-500 ${
-        scrolled ? 'border-b border-linen bg-cream/85 shadow-[0_8px_30px_-20px_rgba(43,43,43,0.3)] backdrop-blur-xl' : 'bg-cream'
+        scrolled ? 'border-b border-linen bg-cream/85 shadow-[0_8px_30px_-20px_rgba(58,21,7,0.3)] backdrop-blur-xl' : 'bg-cream'
       }`}
     >
       <div className="wrap flex h-18 items-center justify-between gap-4">
@@ -72,13 +72,13 @@ export default function Navbar() {
           </Link>
           <Link to="/wishlist" className="hidden sm:block">
             <IconButton label="Wishlist">
-              <Badge count={ids.length} size="small" color="#B76E4A">
+              <Badge count={ids.length} size="small" color="#6C2408">
                 <HeartOutlined className="text-lg" />
               </Badge>
             </IconButton>
           </Link>
           <IconButton label="Cart" onClick={() => setDrawerOpen(true)}>
-            <Badge count={count} size="small" color="#B76E4A">
+            <Badge count={count} size="small" color="#6C2408">
               <ShoppingOutlined className="text-lg" />
             </Badge>
           </IconButton>
@@ -100,8 +100,8 @@ function IconButton({ children, label, onClick }) {
 }
 
 function MegaMenu({ onClose }) {
-  const featured = products.find((p) => p.id === 'ocean-escape')
-  const shop = navLinks.find((l) => l.mega)
+  const featured = useCatalog().getProduct('ocean-escape')
+  const columns = useShopMenu(navLinks.find((l) => l.mega).mega)
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -110,8 +110,8 @@ function MegaMenu({ onClose }) {
       transition={{ duration: 0.25 }}
       className="absolute inset-x-0 top-full border-b border-linen bg-cream/95 shadow-xl backdrop-blur-xl"
     >
-      <div className="wrap grid grid-cols-[repeat(4,1fr)_1.15fr] gap-8 py-10">
-        {shop.mega.map((col) => (
+      <div className="wrap grid grid-cols-[repeat(4,1fr)_1.15fr] gap-5 py-7">
+        {columns.map((col) => (
           <div key={col.heading}>
             <p className="eyebrow">{col.heading}</p>
             <ul className="mt-4 space-y-3">
@@ -125,7 +125,7 @@ function MegaMenu({ onClose }) {
             </ul>
           </div>
         ))}
-        <Link to={`/product/${featured.id}`} onClick={onClose} className="group flex gap-5 rounded-3xl bg-shell p-4">
+        {featured && <Link to={`/product/${featured.id}`} onClick={onClose} className="group flex gap-5 rounded-3xl bg-shell p-4">
           <div className="w-36 shrink-0 overflow-hidden rounded-2xl">
             <CandleVisual visual={featured.visual} alt={featured.name} />
           </div>
@@ -135,13 +135,14 @@ function MegaMenu({ onClose }) {
             <p className="mt-1 text-sm text-ash">{featured.tagline}</p>
             <p className="mt-2 font-semibold">{formatPrice(featured.price)}</p>
           </div>
-        </Link>
+        </Link>}
       </div>
     </motion.div>
   )
 }
 
 function MobileMenu({ open, onClose }) {
+  const shopColumns = useShopMenu(navLinks.find((l) => l.mega).mega)
   return (
     <Drawer open={open} onClose={onClose} placement="left" title={<Logo />} closable styles={{ body: { padding: 0 } }}>
       <nav className="flex flex-col">
@@ -150,7 +151,7 @@ function MobileMenu({ open, onClose }) {
             <NavLink to={link.to} end={link.to === '/'} onClick={onClose} className="block px-6 py-4 font-serif text-xl">
               {link.label}
             </NavLink>
-            {link.mega?.map((col) => (
+            {(link.mega ? shopColumns : []).map((col) => (
               <div key={col.heading} className="px-6 pb-4">
                 <p className="eyebrow">{col.heading}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -178,6 +179,7 @@ function MobileMenu({ open, onClose }) {
 function SearchOverlay({ open, onClose }) {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
+  const { products } = useCatalog()
 
   const options = products
     .filter((p) => `${p.name} ${p.tagline} ${p.category}`.toLowerCase().includes(query.toLowerCase()))

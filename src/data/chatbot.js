@@ -32,7 +32,7 @@ export const intents = [
   {
     id: 'shipping',
     match: /ship|deliver|cod|cash on|how long|days|pincode|pin code/i,
-    text: 'Orders before 2 PM ship the same day. Metros get delivery in 2–3 days, rest of India in 4–6 days. Shipping is free above ₹899 and Cash on Delivery works on 22,000+ pin codes.',
+    text: 'Orders before 2 PM ship the same day. Metros get delivery in 2–3 days, rest of India in 4–6 days. {shipping} Cash on Delivery works on 22,000+ pin codes.',
   },
   {
     id: 'returns',

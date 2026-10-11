@@ -29,8 +29,6 @@ export default function IntroLoader() {
     return () => clearTimeout(t)
   }, [show])
 
-  const letters = 'candledust'.split('')
-
   return (
     <AnimatePresence>
       {show && (
@@ -42,25 +40,22 @@ export default function IntroLoader() {
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="flex flex-col items-center">
-            <div className="relative h-28 w-20">
+            <div className="relative">
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.35, duration: 0.6 }}
-                className="absolute left-1/2 top-0 h-24 w-24 -translate-x-1/2 -translate-y-6 rounded-full bg-caramel/40 blur-2xl"
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="absolute inset-0 rounded-full bg-caramel/40 blur-3xl"
               />
-              <motion.svg viewBox="0 0 20 30" className="absolute left-1/2 top-1 h-12 w-8 -translate-x-1/2" initial={{ scaleY: 0, opacity: 0 }} animate={{ scaleY: 1, opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }} style={{ originY: 1 }}>
-                <path className="flame" d="M10 0 C 17 11, 16 24, 10 28 C 4 24, 3 11, 10 0 Z" fill="#F59E0B" />
-              </motion.svg>
-              <div className="absolute bottom-0 left-1/2 h-14 w-14 -translate-x-1/2 rounded-xl bg-linen" />
+              <motion.img
+                src="/logo-light.png"
+                alt="Jyotessa"
+                initial={{ y: 24, opacity: 0, scale: 0.92 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="relative h-64 w-64 md:h-80 md:w-80"
+              />
             </div>
-            <p className="mt-6 flex font-serif text-4xl tracking-tight md:text-5xl">
-              {letters.map((l, i) => (
-                <motion.span key={i} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 + i * 0.05, duration: 0.5 }} className={i >= 6 ? 'italic text-caramel' : ''}>
-                  {l}
-                </motion.span>
-              ))}
-            </p>
             <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.6, duration: 1.4, ease: 'easeInOut' }} className="mt-6 h-px w-40 origin-left bg-caramel" />
           </div>
         </motion.div>

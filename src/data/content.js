@@ -28,7 +28,7 @@ export const faqs = [
     group: 'Orders & Shipping',
     items: [
       { q: 'What are the shipping times across India?', a: 'Orders placed before 2 PM IST are dispatched the same working day. Metro cities receive delivery in 2–3 days, the rest of India in 4–6 days, North-East and island territories in 6–8 days.' },
-      { q: 'Is Cash on Delivery available?', a: 'Yes, COD is available across 22,000+ pin codes. Shipping is free on every order above ₹899.' },
+      { q: 'Is Cash on Delivery available?', a: 'Yes, COD is available across 22,000+ pin codes. {shipping}' },
       { q: 'What if my candle arrives damaged?', a: 'Notify us within 48 hours of delivery with an unboxing video or clear photographs and we will send a free replacement.' },
       { q: 'Is the soy wax safe around dogs and cats?', a: 'The wax is 100% plant-based soy with no paraffin and no lead or zinc wick cores. Use unscented pearls for very sensitive pets and never leave a flame unattended.' },
     ],
@@ -90,7 +90,7 @@ export const milestones = [
   { year: '2021', title: 'A kitchen experiment', body: 'The first chai-and-biscuit candle was poured on a stovetop for a friend’s birthday.' },
   { year: '2022', title: 'Handcrafted studio', body: 'Food-inspired and floral collections launched, hand-poured by a team of six.' },
   { year: '2024', title: 'The pearl idea', body: 'After a toddler knocked over a jar candle, we started testing loose soy pearls. It changed everything.' },
-  { year: '2026', title: 'One home for both', body: 'Pearled kits and handcrafted candles now live together under one roof — candledust.' },
+  { year: '2026', title: 'One home for both', body: 'Pearled kits and handcrafted candles now live together under one roof — Jyotessa.' },
 ]
 
 export const scentStories = [
@@ -108,7 +108,7 @@ export const policies = {
     sections: [
       { heading: 'Dispatch', text: 'Orders placed before 2 PM IST are dispatched the same working day. Tracking details are shared over email and WhatsApp.' },
       { heading: 'Delivery Timelines', text: 'Metro cities — 2 to 3 days. Rest of India — 4 to 6 days. North-East and island territories — 6 to 8 days.' },
-      { heading: 'Shipping Charges', text: 'Free shipping on orders above ₹899. A flat ₹79 applies below that. COD is available across 22,000+ pin codes.' },
+      { heading: 'Shipping Charges', text: '{shipping} COD is available across 22,000+ pin codes.' },
     ],
   },
   returns: {

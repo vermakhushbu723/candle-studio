@@ -1,18 +1,26 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { App } from 'antd'
-import { getProduct } from '@/data/products'
-import { site } from '@/data/site'
+import { api } from '@/api/client'
+import { useCatalog } from '@/context/CatalogContext'
+import { remainingForFree, shippingFor } from '@/utils/shipping'
 import { readStorage, writeStorage } from '@/utils/format'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'cd-cart'
-const COUPONS = { GLOW10: 0.1, PEARL15: 0.15 }
-const SHIPPING_FEE = 79
+
+/** Same maths as the API (coupon.controller.ts) so the summary matches the final order. */
+const discountFor = (c, subtotal) => {
+  if (!c || subtotal < (c.minOrder ?? 0)) return 0
+  let d = c.type === 'percent' ? Math.round((subtotal * c.value) / 100) : c.value
+  if (c.maxDiscount) d = Math.min(d, c.maxDiscount)
+  return Math.min(d, subtotal)
+}
 
 export function CartProvider({ children }) {
   const { message } = App.useApp()
+  const { getProduct, shipping: shippingSettings } = useCatalog()
   const [items, setItems] = useState(() => readStorage(STORAGE_KEY, []))
-  const [coupon, setCoupon] = useState(null)
+  const [couponInfo, setCouponInfo] = useState(null) // { code, type, value, minOrder, maxDiscount }
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => writeStorage(STORAGE_KEY, items), [items])
@@ -25,10 +33,10 @@ export function CartProvider({ children }) {
         if (existing) return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + quantity } : i))
         return [...prev, { key, productId, fragrance, quantity }]
       })
-      message.success(`${getProduct(productId)?.name} added to cart`)
+      message.success(`${getProduct(productId)?.name ?? 'Item'} added to cart`)
       if (openDrawer) setDrawerOpen(true)
     },
-    [message],
+    [message, getProduct],
   )
 
   const updateQuantity = useCallback((key, quantity) => {
@@ -38,34 +46,42 @@ export function CartProvider({ children }) {
   const removeItem = useCallback((key) => setItems((prev) => prev.filter((i) => i.key !== key)), [])
   const clearCart = useCallback(() => {
     setItems([])
-    setCoupon(null)
+    setCouponInfo(null)
   }, [])
-
-  const applyCoupon = useCallback(
-    (code) => {
-      const normalized = code.trim().toUpperCase()
-      if (!COUPONS[normalized]) {
-        message.error('That code is not valid')
-        return false
-      }
-      setCoupon(normalized)
-      message.success(`${normalized} applied`)
-      return true
-    },
-    [message],
-  )
 
   const totals = useMemo(() => {
     const lines = items
       .map((i) => ({ ...i, product: getProduct(i.productId) }))
       .filter((i) => i.product)
     const subtotal = lines.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
-    const discount = coupon ? Math.round(subtotal * COUPONS[coupon]) : 0
+    const discount = discountFor(couponInfo, subtotal)
     const afterDiscount = subtotal - discount
-    const shipping = afterDiscount === 0 || afterDiscount >= site.freeShippingAbove ? 0 : SHIPPING_FEE
+    const shipping = shippingFor(afterDiscount, shippingSettings)
     const count = lines.reduce((sum, i) => sum + i.quantity, 0)
-    return { lines, subtotal, discount, shipping, total: afterDiscount + shipping, count, remainingForFree: Math.max(0, site.freeShippingAbove - afterDiscount) }
-  }, [items, coupon])
+    return { lines, subtotal, discount, shipping, total: afterDiscount + shipping, count, remainingForFree: remainingForFree(afterDiscount, shippingSettings), shippingSettings }
+  }, [items, couponInfo, getProduct, shippingSettings])
+
+  /** Checks the code with the API; returns true when applied. */
+  const applyCoupon = useCallback(
+    async (code) => {
+      const normalized = code.trim().toUpperCase()
+      if (!normalized) return false
+      try {
+        const r = await api('/coupons/validate', { method: 'POST', body: { code: normalized, subtotal: totals.subtotal } })
+        setCouponInfo(r.coupon)
+        message.success(r.message)
+        return true
+      } catch (e) {
+        message.error(e.message)
+        return false
+      }
+    },
+    [message, totals.subtotal],
+  )
+
+  // A coupon only counts while the cart still meets its minimum order
+  const coupon = couponInfo && totals.discount > 0 ? couponInfo.code : null
+  const setCoupon = useCallback((code) => !code && setCouponInfo(null), [])
 
   const value = { ...totals, coupon, addItem, updateQuantity, removeItem, clearCart, applyCoupon, setCoupon, drawerOpen, setDrawerOpen }
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

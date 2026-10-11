@@ -4,11 +4,13 @@ import { Button, Form, Input, Select } from 'antd'
 import { CloseOutlined, FireOutlined, MailOutlined, PhoneOutlined, SendOutlined, WhatsAppOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import { fallback, greeting, inquiryTopics, intents } from '@/data/chatbot'
-import { getProduct } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 import { site } from '@/data/site'
-import { formatPrice, readStorage, writeStorage } from '@/utils/format'
+import { api } from '@/api/client'
+import { formatPrice } from '@/utils/format'
+import { fillShipping } from '@/utils/shipping'
 
-const whatsappLink = (text = 'Hi candledust! I need some help.') => `https://wa.me/${site.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
+const whatsappLink = (text = 'Hi Jyotessa! I need some help.') => `https://wa.me/${site.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
 const callLink = `tel:${site.phone.replace(/\s/g, '')}`
 
 let nextId = 1
@@ -22,6 +24,7 @@ export default function ChatBot({ open, onClose }) {
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const [inquiryTopic, setInquiryTopic] = useState(null)
+  const [sending, setSending] = useState(false)
   const scrollRef = useRef(null)
 
   useEffect(() => {
@@ -41,10 +44,17 @@ export default function ChatBot({ open, onClose }) {
     }, 750)
   }
 
-  const submitInquiry = (values) => {
-    const ticket = `CD-${Date.now().toString().slice(-6)}`
-    // Stored locally for the demo — send `values` to your CRM / email API here
-    writeStorage('cd-inquiries', [...readStorage('cd-inquiries', []), { ...values, ticket, createdAt: new Date().toISOString() }])
+  const submitInquiry = async (values) => {
+    setSending(true)
+    let ticket
+    try {
+      ticket = (await api('/tickets', { method: 'POST', body: values })).ticketId
+    } catch (e) {
+      setMessages((m) => [...m, botMessage({ text: `Sorry, I couldn’t send that (${e.message}). Please try again or reach us on WhatsApp.`, actions: [{ type: 'whatsapp', label: 'Chat on WhatsApp', prefill: values.message }] })])
+      return
+    } finally {
+      setSending(false)
+    }
     setInquiryTopic(null)
     setMessages((m) => [
       ...m,
@@ -67,10 +77,10 @@ export default function ChatBot({ open, onClose }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.9 }}
           transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-          className="fixed bottom-4 right-4 z-[90] flex h-[min(32rem,calc(100svh-8.5rem))] w-[min(20rem,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-linen bg-cream shadow-[0_30px_80px_-20px_rgba(43,43,43,0.45)]"
+          className="fixed bottom-4 right-4 z-[90] flex h-[min(32rem,calc(100svh-8.5rem))] w-[min(20rem,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-linen bg-cream shadow-[0_30px_80px_-20px_rgba(58,21,7,0.45)]"
         >
           {/* Header */}
-          <div className="relative overflow-hidden bg-linear-to-br from-charcoal to-[#4a3528] px-5 py-4 text-cream">
+          <div className="relative overflow-hidden bg-linear-to-br from-charcoal to-[#521F0B] px-5 py-4 text-cream">
             <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-terracotta/50 blur-2xl" />
             <div className="relative flex items-center gap-3">
               <span className="relative grid h-11 w-11 place-items-center rounded-full bg-linear-to-br from-terracotta to-rose text-xl">
@@ -78,7 +88,7 @@ export default function ChatBot({ open, onClose }) {
                 <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-charcoal bg-emerald-400" />
               </span>
               <div className="flex-1">
-                <p className="font-serif text-lg leading-tight">Diya · candledust</p>
+                <p className="font-serif text-lg leading-tight">Diya · Jyotessa</p>
                 <p className="text-xs text-cream/70">Typically replies instantly</p>
               </div>
               <button type="button" onClick={onClose} aria-label="Close chat" className="grid h-9 w-9 place-items-center rounded-full hover:bg-white/10">
@@ -117,7 +127,7 @@ export default function ChatBot({ open, onClose }) {
                     <Input />
                   </Form.Item>
                   <Form.Item name="phone" label="Mobile" rules={[{ required: true, pattern: /^[6-9]\d{9}$/, message: '10-digit mobile number' }]} className="mb-3!">
-                    <Input addonBefore="+91" maxLength={10} />
+                    <Input prefix={<span className="text-ash">+91</span>} maxLength={10} />
                   </Form.Item>
                   <Form.Item name="topic" label="Topic" className="mb-3!">
                     <Select options={inquiryTopics.map((t) => ({ value: t, label: t }))} />
@@ -127,7 +137,7 @@ export default function ChatBot({ open, onClose }) {
                   </Form.Item>
                   <div className="flex gap-2">
                     <Button onClick={() => setInquiryTopic(null)}>Cancel</Button>
-                    <Button type="primary" htmlType="submit" block>Submit</Button>
+                    <Button type="primary" htmlType="submit" block loading={sending}>Submit</Button>
                   </div>
                 </Form>
               </motion.div>
@@ -146,16 +156,17 @@ export default function ChatBot({ open, onClose }) {
 }
 
 function Message({ message, onQuickReply, onInquiry, onNavigate }) {
+  const { getProduct, shipping } = useCatalog()
   const isBot = message.from === 'bot'
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={`flex flex-col ${isBot ? 'items-start' : 'items-end'}`}>
       <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${isBot ? 'rounded-bl-md bg-white text-charcoal' : 'rounded-br-md bg-terracotta text-white'}`}>
-        {message.text}
+        {fillShipping(message.text, shipping)}
       </div>
 
       {message.products && (
         <div className="mt-2 grid w-full gap-2">
-          {message.products.map(getProduct).map((p) => (
+          {message.products.map(getProduct).filter(Boolean).map((p) => (
             <Link key={p.id} to={`/product/${p.id}`} onClick={onNavigate} className="flex items-center gap-3 rounded-2xl bg-white p-2 pr-3 shadow-sm transition hover:ring-1 hover:ring-terracotta">
               <img src={p.images[0]} alt="" className="h-12 w-12 rounded-xl object-cover" />
               <span className="min-w-0 flex-1 truncate text-sm font-medium">{p.name}</span>

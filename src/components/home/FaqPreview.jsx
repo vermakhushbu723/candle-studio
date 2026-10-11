@@ -3,15 +3,17 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import SectionHeading from '@/components/common/SectionHeading'
 import { faqs } from '@/data/content'
+import { useCatalog } from '@/context/CatalogContext'
+import { fillShipping } from '@/utils/shipping'
 
 export default function FaqPreview() {
   const items = faqs.flatMap((g) => g.items).slice(0, 5)
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-12 md:py-16">
       <div className="wrap max-w-4xl!">
         <SectionHeading eyebrow="Good questions" title="Frequently Asked Questions" subtitle="Everything people ask us before their first order." />
-        <FaqList items={items} className="mt-12" />
-        <div className="mt-10 text-center">
+        <FaqList items={items} className="mt-7" />
+        <div className="mt-6 text-center">
           <Link to="/faq"><Button shape="round" size="large">See all FAQs</Button></Link>
         </div>
       </div>
@@ -20,6 +22,7 @@ export default function FaqPreview() {
 }
 
 export function FaqList({ items, className = '' }) {
+  const { shipping } = useCatalog()
   return (
     <Collapse
       accordion
@@ -30,7 +33,7 @@ export function FaqList({ items, className = '' }) {
       items={items.map((f, i) => ({
         key: i,
         label: <span className="font-serif text-lg">{f.q}</span>,
-        children: <p className="leading-relaxed text-ash">{f.a}</p>,
+        children: <p className="leading-relaxed text-ash">{fillShipping(f.a, shipping)}</p>,
         className: 'mb-3 rounded-2xl! border border-linen bg-white',
       }))}
     />

@@ -17,13 +17,13 @@ export default function Cart() {
   return (
     <>
       <PageHeader image={siteImages.hero} eyebrow="Cart" title="Your cart" crumbs={[{ label: 'Cart' }]} />
-      <section className="wrap py-14">
+      <section className="wrap py-9">
         {lines.length === 0 ? (
-          <Empty className="py-20" description="Your cart is empty">
+          <Empty className="py-12" description="Your cart is empty">
             <Link to="/shop"><Button type="primary" size="large">Start shopping</Button></Link>
           </Empty>
         ) : (
-          <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr]">
+          <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
             <ul className="divide-y divide-linen rounded-4xl border border-linen bg-white px-6">
               <AnimatePresence initial={false}>
                 {lines.map((l) => (
