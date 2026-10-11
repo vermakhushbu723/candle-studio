@@ -1,0 +1,14 @@
+{
+  "name": "Jyotessa — Handmade Candles",
+  "short_name": "Jyotessa",
+  "description": "Handmade soy candles, pearled candle kits and gift sets.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF9F5",
+  "theme_color": "#6C2408",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

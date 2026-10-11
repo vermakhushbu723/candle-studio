@@ -1,17 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FFF9F5" />
-    <link rel="icon" type="image/png" href="/logo-mark.png" />
-    <title>Jyotessa — Pearled & Handcrafted Candles</title>
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/logo-mark.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Jyotessa" />
+    <!-- Generic tags for the app shell; each page gets its own title/description/canonical/social tags
+         at build time (scripts/prerender.mjs) and on navigation (src/seo/SeoManager.jsx). -->
+    <title>Jyotessa — Handmade Soy Candles & Gift Sets</title>
     <meta
       name="description"
-      content="Spill-proof pearled soy wax kits and hand-poured Indian-inspired decorative candles. Free Pan-India shipping above ₹899."
+      content="Handmade soy wax candles, spill-proof pearled candle kits and festive gift sets from Jyotessa. Shipping across India with Cash on Delivery."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.jyotessa.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..600&family=Plus+Jakarta+Sans:wght@400..800&family=Cinzel:wght@500;600;700&display=swap"
@@ -19,6 +26,9 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="font-family: Georgia, serif; padding: 24px">Jyotessa — handmade soy candles, pearled candle kits and gift sets. Please enable JavaScript to shop at jyotessa.com.</p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
