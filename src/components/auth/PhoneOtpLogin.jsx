@@ -4,6 +4,7 @@ import { Alert, App, Button, Checkbox, Divider, Form, Input } from 'antd'
 import { EditOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import { api } from '@/api/client'
+import { confirmSmsOtp, sendSmsOtp, smsOtpEnabled } from '@/utils/phoneAuth'
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 const RESEND_SECONDS = 30
@@ -20,6 +21,8 @@ export default function PhoneOtpLogin({ onSignedIn }) {
   const [devOtp, setDevOtp] = useState('')
   const [loading, setLoading] = useState(false)
   const [wait, setWait] = useState(0)
+  const confirmation = useRef(null) // Firebase SMS session
+  const idToken = useRef(null) // kept so a retry (e.g. email already used) doesn't need a new SMS
 
   useEffect(() => {
     if (!wait) return
@@ -30,13 +33,23 @@ export default function PhoneOtpLogin({ onSignedIn }) {
   const sendOtp = async (number) => {
     setLoading(true)
     try {
-      const r = await api('/auth/otp/send', { method: 'POST', body: { phone: number } })
+      if (smsOtpEnabled) {
+        // Real SMS through Firebase (Google sends it)
+        const status = await api('/auth/phone/status', { method: 'POST', body: { phone: number } })
+        confirmation.current = await sendSmsOtp(number, 'recaptcha-container')
+        idToken.current = null
+        setIsNewUser(status.isNewUser)
+        setDevOtp('')
+        message.success(`OTP sent by SMS to +91 ${number}`)
+      } else {
+        const r = await api('/auth/otp/send', { method: 'POST', body: { phone: number } })
+        setIsNewUser(r.isNewUser)
+        setDevOtp(r.devOtp ?? '')
+        message.success(r.message)
+      }
       setPhone(number)
-      setIsNewUser(r.isNewUser)
-      setDevOtp(r.devOtp ?? '')
       setStep('otp')
       setWait(RESEND_SECONDS)
-      message.success(r.message)
     } catch (e) {
       message.error(e.message)
     } finally {
@@ -47,8 +60,13 @@ export default function PhoneOtpLogin({ onSignedIn }) {
   const verify = async (values) => {
     setLoading(true)
     try {
-      const r = await api('/auth/otp/verify', { method: 'POST', body: { phone, otp: values.otp, name: values.name, email: values.email || undefined } })
-      onSignedIn(r)
+      const profile = { name: values.name, email: values.email || undefined }
+      if (smsOtpEnabled) {
+        idToken.current ??= await confirmSmsOtp(confirmation.current, values.otp)
+        onSignedIn(await api('/auth/phone/firebase', { method: 'POST', body: { idToken: idToken.current, ...profile } }))
+      } else {
+        onSignedIn(await api('/auth/otp/verify', { method: 'POST', body: { phone, otp: values.otp, ...profile } }))
+      }
     } catch (e) {
       message.error(e.message)
     } finally {
@@ -58,6 +76,7 @@ export default function PhoneOtpLogin({ onSignedIn }) {
 
   return (
     <div className="mt-6">
+      <div id="recaptcha-container" />
       <AnimatePresence mode="wait">
         {step === 'phone' ? (
           <motion.div key="phone" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>

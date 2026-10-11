@@ -3,18 +3,11 @@
  * Needs VITE_FIREBASE_* + VITE_FIREBASE_VAPID_KEY (Firebase Console → Project settings → Web app / Cloud Messaging).
  * Everything here is a no-op when Firebase isn't configured or the browser can't do push (e.g. iOS Safari outside a home-screen app).
  */
-import { initializeApp } from 'firebase/app'
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging'
 import { api } from '@/api/client'
+import { firebaseApp, firebaseConfig as config } from '@/utils/firebase'
 
 const FIREBASE_SDK_VERSION = '13.0.0' // keep in sync with package.json → firebase
-const config = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-}
 const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY
 const TOKEN_KEY = 'jy-push-token'
 
@@ -24,7 +17,7 @@ let messagingPromise
 const messaging = () =>
   (messagingPromise ??= (async () => {
     if (!pushConfigured || !(await isSupported())) return null
-    return getMessaging(initializeApp(config))
+    return getMessaging(firebaseApp())
   })())
 
 /** 'unsupported' | 'denied' | 'granted' | 'default' */
