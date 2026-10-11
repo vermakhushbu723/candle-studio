@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AutoComplete, Badge, Drawer, Input } from 'antd'
-import { HeartOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons'
+import { HeartOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import Logo from './Logo'
+import UserMenu, { UserAvatar, logoutCustomer } from './UserMenu'
+import { useSession } from '@/utils/session'
 import CandleVisual from '@/components/common/CandleVisual'
 import { navLinks } from '@/data/site'
 import { useCatalog, useShopMenu } from '@/context/CatalogContext'
@@ -65,11 +67,7 @@ export default function Navbar() {
           <IconButton label="Search" onClick={() => setSearchOpen(true)}>
             <SearchOutlined />
           </IconButton>
-          <Link to="/login" className="hidden sm:block">
-            <IconButton label="Login or account">
-              <UserOutlined className="text-lg" />
-            </IconButton>
-          </Link>
+          <UserMenu />
           <Link to="/wishlist" className="hidden sm:block">
             <IconButton label="Wishlist">
               <Badge count={ids.length} size="small" color="#6C2408">
@@ -142,6 +140,7 @@ function MegaMenu({ onClose }) {
 }
 
 function MobileMenu({ open, onClose }) {
+  const session = useSession()
   const shopColumns = useShopMenu(navLinks.find((l) => l.mega).mega)
   return (
     <Drawer open={open} onClose={onClose} placement="left" title={<Logo />} closable styles={{ body: { padding: 0 } }}>
@@ -168,9 +167,24 @@ function MobileMenu({ open, onClose }) {
         <Link to="/wishlist" onClick={onClose} className="border-b border-linen px-6 py-4 font-serif text-xl">
           Wishlist
         </Link>
-        <Link to="/login" onClick={onClose} className="px-6 py-4 font-serif text-xl">
-          Login / Sign up
-        </Link>
+        {session ? (
+          <div className="flex items-center gap-3 px-6 py-4">
+            <Link to="/login" onClick={onClose} className="flex min-w-0 flex-1 items-center gap-3">
+              <UserAvatar user={session} size={42} />
+              <span className="min-w-0">
+                <span className="block truncate font-serif text-xl">{session.name}</span>
+                <span className="block text-xs text-ash">My account & orders</span>
+              </span>
+            </Link>
+            <button type="button" aria-label="Log out" onClick={async () => { await logoutCustomer(); onClose() }} className="grid h-10 w-10 place-items-center rounded-full text-ash hover:bg-shell hover:text-terracotta">
+              <LogoutOutlined />
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" onClick={onClose} className="px-6 py-4 font-serif text-xl">
+            Login / Sign up
+          </Link>
+        )}
       </nav>
     </Drawer>
   )

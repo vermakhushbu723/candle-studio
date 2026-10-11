@@ -6,10 +6,10 @@ import PageHeader from '@/components/common/PageHeader'
 import { siteImages } from '@/data/site'
 import OrderSummary from '@/components/common/OrderSummary'
 import { useCart } from '@/context/CartContext'
-import { api, SESSION_KEY } from '@/api/client'
+import { api } from '@/api/client'
 import { payWithRazorpay } from '@/api/razorpay'
-import { readStorage } from '@/utils/format'
 import NotificationSettings from '@/components/account/NotificationSettings'
+import { useSession } from '@/utils/session'
 
 const paymentOptions = [
   { value: 'upi', label: 'UPI', note: 'GPay, PhonePe, Paytm' },
@@ -26,7 +26,7 @@ export default function Checkout() {
   const [pending, setPending] = useState(null) // { order, razorpay } while an online payment is unfinished
   const [form] = Form.useForm()
   // Logged-in customers get their details pre-filled
-  const [session] = useState(() => readStorage(SESSION_KEY, null))
+  const session = useSession()
   const navigate = useNavigate()
 
   if (order) {

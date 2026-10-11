@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { App, FloatButton } from 'antd'
-import { SESSION_KEY } from '@/api/client'
 import { listenForeground, refreshPushToken } from '@/utils/push'
-import { readStorage } from '@/utils/format'
+import { getSession } from '@/utils/session'
 import { AnimatePresence, motion } from 'framer-motion'
 import AnnouncementBar from './AnnouncementBar'
 import Navbar from './Navbar'
@@ -18,7 +17,7 @@ export default function MainLayout() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (readStorage(SESSION_KEY, null)?.token) refreshPushToken()
+    if (getSession()) refreshPushToken()
     let stop = () => {}
     listenForeground(({ title, body, link }) => {
       notification.open({

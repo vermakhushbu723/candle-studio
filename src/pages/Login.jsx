@@ -8,9 +8,11 @@ import { motion } from 'framer-motion'
 import { siteImages } from '@/data/site'
 import PhoneOtpLogin from '@/components/auth/PhoneOtpLogin'
 import NotificationSettings from '@/components/account/NotificationSettings'
-import { disablePushForThisDevice, refreshPushToken } from '@/utils/push'
-import { api, SESSION_KEY } from '@/api/client'
-import { formatPrice, readStorage, writeStorage } from '@/utils/format'
+import { refreshPushToken } from '@/utils/push'
+import { saveSession, useSession } from '@/utils/session'
+import { UserAvatar, logoutCustomer } from '@/components/layout/UserMenu'
+import { api } from '@/api/client'
+import { formatPrice } from '@/utils/format'
 
 const perks = [
   { icon: CarOutlined, text: 'Track every order in one place' },
@@ -22,8 +24,7 @@ export default function Login() {
   const { message } = App.useApp()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  // Sessions saved by the old offline demo have no token, so they don't count
-  const [session, setSession] = useState(() => (readStorage(SESSION_KEY, null)?.token ? readStorage(SESSION_KEY, null) : null))
+  const session = useSession() // shared with the navbar — login/logout updates both instantly
   const [orders, setOrders] = useState(null)
 
   // Refresh the profile + order history whenever a session exists (also drops expired/blocked sessions)
@@ -31,31 +32,23 @@ export default function Login() {
     if (!session?.token) return
     Promise.all([api('/auth/me'), api('/orders/mine')])
       .then(([me, mine]) => {
-        const next = { ...me.user, token: session.token }
-        writeStorage(SESSION_KEY, next)
+        saveSession({ ...me.user, token: session.token })
         setOrders(mine.orders)
       })
       .catch((e) => {
-        if (e.status === 401) {
-          writeStorage(SESSION_KEY, null)
-          setSession(null)
-        }
+        if (e.status === 401) saveSession(null)
       })
   }, [session?.token])
 
   const signedIn = ({ token, user }) => {
-    const next = { ...user, token }
-    writeStorage(SESSION_KEY, next)
-    setSession(next)
+    saveSession({ ...user, token })
     refreshPushToken() // link this browser's notifications to the new session
     message.success(`Welcome to Jyotessa, ${user.name.split(' ')[0]}!`)
     if (params.get('next')) navigate(params.get('next'))
   }
 
   const logout = async () => {
-    await disablePushForThisDevice() // stop this browser getting the account's notifications
-    writeStorage(SESSION_KEY, null)
-    setSession(null)
+    await logoutCustomer()
     setOrders(null)
     message.success('You have been logged out.')
   }
@@ -95,7 +88,10 @@ export default function Login() {
         {session ? (
           <div>
             <p className="eyebrow">My account</p>
-            <h1 className="mt-3 font-serif text-4xl">Hello, {session.name.split(' ')[0]}</h1>
+            <div className="mt-3 flex items-center gap-4">
+              <UserAvatar user={session} size={56} />
+              <h1 className="font-serif text-4xl">Hello, {session.name.split(' ')[0]}</h1>
+            </div>
             <p className="mt-2 text-ash">You are signed in as {session.phone ? `+91 ${session.phone}` : session.email}.</p>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -115,7 +111,7 @@ export default function Login() {
 
             {orders?.length > 0 && (
               <div className="mt-5">
-                <p className="eyebrow">My orders</p>
+                <p id="orders" className="eyebrow scroll-mt-28">My orders</p>
                 <ul className="mt-3 divide-y divide-linen rounded-2xl border border-linen">
                   {orders.slice(0, 5).map((o) => (
                     <li key={o.id}>
