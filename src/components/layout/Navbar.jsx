@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AutoComplete, Badge, Drawer, Input } from 'antd'
-import { HeartOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined } from '@ant-design/icons'
+import { BellOutlined, HeartOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, ShoppingOutlined } from '@ant-design/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import Logo from './Logo'
 import UserMenu, { UserAvatar, logoutCustomer } from './UserMenu'
 import { useSession } from '@/utils/session'
+import { OPEN_PUSH_PROMPT, usePushPending } from '@/components/support/PushPrompt'
 import CandleVisual from '@/components/common/CandleVisual'
 import { navLinks } from '@/data/site'
 import { useCatalog, useShopMenu } from '@/context/CatalogContext'
@@ -20,6 +21,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
   const { count, setDrawerOpen } = useCart()
   const { ids } = useWishlist()
+  const pushPending = usePushPending() // logged in but notifications not allowed yet → show the bell
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -67,6 +69,17 @@ export default function Navbar() {
           <IconButton label="Search" onClick={() => setSearchOpen(true)}>
             <SearchOutlined />
           </IconButton>
+          {pushPending && (
+            <IconButton label="Turn on notifications" onClick={() => window.dispatchEvent(new Event(OPEN_PUSH_PROMPT))}>
+              <span className="relative">
+                <BellOutlined className="text-lg" />
+                <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-terracotta opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-terracotta" />
+                </span>
+              </span>
+            </IconButton>
+          )}
           <UserMenu />
           <Link to="/wishlist" className="hidden sm:block">
             <IconButton label="Wishlist">
