@@ -40,8 +40,15 @@ const deviceName = () => {
   return `${browser} on ${os}`
 }
 
+let inflight
 /** Asks permission (must be called from a click) and registers this browser for the logged-in customer. */
-export async function enablePush() {
+export function enablePush() {
+  // Login and the account page may both ask at once — share one registration so only one token is created
+  inflight ??= registerDevice().finally(() => (inflight = undefined))
+  return inflight
+}
+
+async function registerDevice() {
   const m = await messaging()
   if (!m) throw new Error('Notifications aren’t available in this browser.')
   const permission = await Notification.requestPermission()
@@ -52,6 +59,9 @@ export async function enablePush() {
   if (!token) throw new Error('Could not turn on notifications. Please try again.')
   await api('/notifications/devices', { method: 'POST', body: { token, device: deviceName() } })
   try {
+    // Firebase rotates tokens now and then — drop the old one so the account doesn't keep a dead device
+    const previous = localStorage.getItem(TOKEN_KEY)
+    if (previous && previous !== token) await api('/notifications/devices', { method: 'DELETE', body: { token: previous } }).catch(() => undefined)
     localStorage.setItem(TOKEN_KEY, token)
   } catch {
     /* storage unavailable */
