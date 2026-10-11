@@ -12,7 +12,11 @@ export default function NotificationSettings({ compact = false }) {
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    pushStatus().then(setStatus)
+    pushStatus().then((s) => {
+      setStatus(s)
+      // Permission given earlier (maybe for another account) → make sure this device is linked to *this* account
+      if (s === 'granted') enablePush().catch(() => undefined)
+    })
     if (!compact) api('/notifications/preferences').then((r) => setOffers(r.notifyOffers)).catch(() => setOffers(null))
   }, [compact])
 

@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 import { siteImages } from '@/data/site'
 import PhoneOtpLogin from '@/components/auth/PhoneOtpLogin'
 import NotificationSettings from '@/components/account/NotificationSettings'
-import { disablePushForThisDevice } from '@/utils/push'
+import { disablePushForThisDevice, refreshPushToken } from '@/utils/push'
 import { api, SESSION_KEY } from '@/api/client'
 import { formatPrice, readStorage, writeStorage } from '@/utils/format'
 
@@ -47,6 +47,7 @@ export default function Login() {
     const next = { ...user, token }
     writeStorage(SESSION_KEY, next)
     setSession(next)
+    refreshPushToken() // link this browser's notifications to the new session
     message.success(`Welcome to Jyotessa, ${user.name.split(' ')[0]}!`)
     if (params.get('next')) navigate(params.get('next'))
   }
