@@ -44,6 +44,21 @@ for (const path of prerenderPaths(ctx)) {
   pages++
 }
 
+// Category / collection / line pages live at /shop?category=… and /shop?line=… — nginx maps those to these files
+const { categories: productCategories, lines } = await import('../src/data/products.js')
+const listing = [
+  ...productCategories.filter((c) => c.line !== 'all').map((c) => ['category', c.id]),
+  ...collections.map((c) => ['category', c.id ?? c.slug]),
+  ...Object.keys(lines).map((id) => ['line', id]),
+]
+for (const [kind, id] of listing) {
+  if (!/^[a-z0-9-]+$/.test(id)) continue
+  const file = join(dist, 'shop', `_${kind}`, id, 'index.html')
+  mkdirSync(dirname(file), { recursive: true })
+  writeFileSync(file, render(metaFor('/shop', { ...ctx, search: `${kind}=${id}` })))
+  pages++
+}
+
 // sitemap.xml (with product images)
 const x = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const urls = sitemapEntries(ctx)
