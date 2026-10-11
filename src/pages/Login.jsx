@@ -7,6 +7,8 @@ import {
 import { motion } from 'framer-motion'
 import { siteImages } from '@/data/site'
 import PhoneOtpLogin from '@/components/auth/PhoneOtpLogin'
+import NotificationSettings from '@/components/account/NotificationSettings'
+import { disablePushForThisDevice } from '@/utils/push'
 import { api, SESSION_KEY } from '@/api/client'
 import { formatPrice, readStorage, writeStorage } from '@/utils/format'
 
@@ -49,7 +51,8 @@ export default function Login() {
     if (params.get('next')) navigate(params.get('next'))
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await disablePushForThisDevice() // stop this browser getting the account's notifications
     writeStorage(SESSION_KEY, null)
     setSession(null)
     setOrders(null)
@@ -106,6 +109,8 @@ export default function Login() {
                 </Link>
               ))}
             </div>
+
+            <NotificationSettings />
 
             {orders?.length > 0 && (
               <div className="mt-5">

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Alert, App, Button, Empty, Form, Input, Radio, Result, Steps } from 'antd'
 import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
@@ -9,6 +9,7 @@ import { useCart } from '@/context/CartContext'
 import { api, SESSION_KEY } from '@/api/client'
 import { payWithRazorpay } from '@/api/razorpay'
 import { readStorage } from '@/utils/format'
+import NotificationSettings from '@/components/account/NotificationSettings'
 
 const paymentOptions = [
   { value: 'upi', label: 'UPI', note: 'GPay, PhonePe, Paytm' },
@@ -26,6 +27,7 @@ export default function Checkout() {
   const [form] = Form.useForm()
   // Logged-in customers get their details pre-filled
   const [session] = useState(() => readStorage(SESSION_KEY, null))
+  const navigate = useNavigate()
 
   if (order) {
     return (
@@ -37,9 +39,27 @@ export default function Checkout() {
           extra={[
             <Link key="track" to={`/track-order?order=${order.id}&contact=${encodeURIComponent(order.customer.email)}`}><Button type="primary" size="large">Track order</Button></Link>,
             <Link key="shop" to="/shop"><Button size="large">Keep shopping</Button></Link>,
+            <div key="push" className="mt-4 flex justify-center"><NotificationSettings compact /></div>,
           ]}
         />
       </motion.div>
+    )
+  }
+
+  // Orders need an account (order history, notifications, faster repeat checkout)
+  if (!session?.token && lines.length > 0) {
+    return (
+      <div className="wrap py-16">
+        <Result
+          status="info"
+          title={<span className="font-serif text-3xl">Please log in to place your order</span>}
+          subTitle="Log in or sign up with your mobile number or Google — it takes a few seconds. Your cart is saved."
+          extra={[
+            <Button key="login" type="primary" size="large" onClick={() => navigate('/login?next=/checkout')}>Log in to continue</Button>,
+            <Link key="cart" to="/cart"><Button size="large">Back to cart</Button></Link>,
+          ]}
+        />
+      </div>
     )
   }
 
@@ -71,6 +91,8 @@ export default function Checkout() {
       setPending(r)
       await pay(r)
     } catch (e) {
+      // Session expired → log in again and come straight back
+      if (e.status === 401) return navigate('/login?next=/checkout')
       message.error(e.message)
     } finally {
       setPlacing(false)

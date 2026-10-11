@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import { FloatButton } from 'antd'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { App, FloatButton } from 'antd'
+import { SESSION_KEY } from '@/api/client'
+import { listenForeground, refreshPushToken } from '@/utils/push'
+import { readStorage } from '@/utils/format'
 import { AnimatePresence, motion } from 'framer-motion'
 import AnnouncementBar from './AnnouncementBar'
 import Navbar from './Navbar'
@@ -11,6 +14,29 @@ import IntroLoader from './IntroLoader'
 import SupportDock from '@/components/support/SupportDock'
 
 export default function MainLayout() {
+  const { notification } = App.useApp()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (readStorage(SESSION_KEY, null)?.token) refreshPushToken()
+    let stop = () => {}
+    listenForeground(({ title, body, link }) => {
+      notification.open({
+        message: title,
+        description: body,
+        placement: 'topRight',
+        duration: 8,
+        onClick: () => {
+          if (!link) return
+          const url = new URL(link, window.location.origin)
+          if (url.origin === window.location.origin) navigate(url.pathname + url.search)
+          else window.location.href = link
+        },
+      })
+    }).then((fn) => (stop = fn))
+    return () => stop()
+  }, [notification, navigate])
+
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
