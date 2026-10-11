@@ -40,6 +40,16 @@ const deviceName = () => {
   return `${browser} on ${os}`
 }
 
+const activated = (reg) =>
+  reg.active
+    ? Promise.resolve()
+    : new Promise((resolve) => {
+        const worker = reg.installing || reg.waiting
+        if (!worker) return resolve()
+        worker.addEventListener('statechange', () => worker.state === 'activated' && resolve())
+        setTimeout(resolve, 10000) // never hang the UI
+      })
+
 let inflight
 /** Asks permission (must be called from a click) and registers this browser for the logged-in customer. */
 export function enablePush() {
@@ -55,7 +65,9 @@ async function registerDevice() {
   if (permission !== 'granted') throw new Error('Notifications are blocked. Allow them in your browser’s site settings.')
   const qs = new URLSearchParams({ ...config, v: FIREBASE_SDK_VERSION })
   const registration = await navigator.serviceWorker.register(`/firebase-messaging-sw.js?${qs}`)
-  const token = await getToken(m, { vapidKey: VAPID_KEY, serviceWorkerRegistration: registration })
+  await activated(registration) // a brand-new worker can't take a push subscription until it is active
+  const ask = () => getToken(m, { vapidKey: VAPID_KEY, serviceWorkerRegistration: registration })
+  const token = await ask().catch(() => new Promise((r) => setTimeout(r, 2000)).then(ask)) // one retry for slow first installs
   if (!token) throw new Error('Could not turn on notifications. Please try again.')
   await api('/notifications/devices', { method: 'POST', body: { token, device: deviceName() } })
   try {
