@@ -58,7 +58,7 @@ export const intents = [
   {
     id: 'human',
     match: /human|agent|person|call|talk|speak|support|contact|help/i,
-    text: 'Of course! Our team is available Mon–Sat, 10 AM – 7 PM. Choose how you’d like to connect:',
+    text: 'Of course! Our team is available 24 hours, 7 days a week. Choose how you’d like to connect:',
     actions: [
       { type: 'whatsapp', label: 'Chat on WhatsApp' },
       { type: 'call', label: 'Call us now' },

@@ -128,8 +128,8 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-16 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
-          <p>© {new Date().getFullYear()} {site.name}. Handmade in India.</p>
-          <p>UPI · Visa · Mastercard · RuPay · Cash on Delivery</p>
+          <p>© {new Date().getFullYear()} {site.name}. Handmade in India{site.womenOwned ? ' · Women-owned business' : ''}.</p>
+          <p>UPI · Google Pay · Visa · Mastercard · RuPay · Cash on Delivery</p>
         </div>
       </div>
     </footer>

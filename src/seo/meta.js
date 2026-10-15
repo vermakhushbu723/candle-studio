@@ -36,6 +36,7 @@ const organization = () => ({
   logo: abs(LOGO),
   email: site.supportEmail,
   telephone: site.phone.replace(/\s/g, ''),
+  foundingDate: site.foundingDate,
   sameAs: site.socials.map((s) => s.href),
   contactPoint: [{ '@type': 'ContactPoint', contactType: 'customer support', telephone: site.phone.replace(/\s/g, ''), email: site.supportEmail, areaServed: 'IN', availableLanguage: ['en', 'hi'] }],
 })
@@ -61,7 +62,11 @@ const localBusiness = () => ({
   },
   hasMap: site.googleMapsUrl,
   areaServed: { '@type': 'Country', name: 'India' },
-  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '10:00', closes: '19:00' }],
+  foundingDate: site.foundingDate,
+  paymentAccepted: 'Cash, Credit Card, Debit Card, Google Pay, UPI',
+  currenciesAccepted: 'INR',
+  // Open 24 hours, 7 days — same as the Google Business Profile
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' }],
   parentOrganization: { '@id': `${SITE_URL}/#organization` },
 })
 

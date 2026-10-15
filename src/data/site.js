@@ -7,7 +7,9 @@ export const site = {
   supportEmail: 'support@jyotessa.com',
   whatsapp: '+91 93105 08371',
   phone: '+91 93105 08371',
-  hours: 'Monday to Saturday, 10:00 AM – 7:00 PM IST',
+  hours: 'Open 24 hours, 7 days a week',
+  foundingDate: '2026-10-01',
+  womenOwned: true,
   address: 'Handmade in India · Shipping Pan-India',
   // Studio address — must match the Google Business Profile exactly
   location: {
