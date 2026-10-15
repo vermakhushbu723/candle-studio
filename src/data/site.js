@@ -11,14 +11,14 @@ export const site = {
   address: 'Handmade in India · Shipping Pan-India',
   // Studio address — must match the Google Business Profile exactly
   location: {
-    street: 'Near Barat Ghar, Wazidpur, Sector 63',
+    street: 'Near Barat Ghar, Wajidpur, Sector 63',
     city: 'Noida',
     region: 'Uttar Pradesh',
     postalCode: '201301',
     country: 'IN',
   },
-  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jyotessa%2C%20Wazidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301',
-  googleMapsEmbed: 'https://maps.google.com/maps?q=Jyotessa%2C%20Wazidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301&z=15&output=embed',
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jyotessa%2C%20Wajidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301',
+  googleMapsEmbed: 'https://maps.google.com/maps?q=Jyotessa%2C%20Wajidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301&z=15&output=embed',
   googleReviewUrl: 'https://g.page/r/CQ2T_G0wSr7nECE/review',
   socials: [
     { label: 'Instagram', handle: '@jyotessa', href: 'https://www.instagram.com/jyotessa/' },
