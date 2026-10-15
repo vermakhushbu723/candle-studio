@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { App, Button, Form, Input, Select } from 'antd'
-import { ClockCircleOutlined, EnvironmentOutlined, FacebookFilled, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled } from '@ant-design/icons'
+import { ClockCircleOutlined, EnvironmentOutlined, GoogleOutlined, StarFilled, FacebookFilled, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { site, siteImages } from '@/data/site'
@@ -12,7 +12,7 @@ const channels = [
   { icon: PhoneOutlined, title: 'Call us', value: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
   { icon: MailOutlined, title: 'Email', value: site.supportEmail, href: `mailto:${site.supportEmail}` },
   { icon: ClockCircleOutlined, title: 'Hours', value: site.hours },
-  { icon: EnvironmentOutlined, title: 'Where we ship', value: site.address },
+  { icon: EnvironmentOutlined, title: 'Our studio', value: `${site.location.street}, ${site.location.city}, ${site.location.region} ${site.location.postalCode}`, href: site.googleMapsUrl },
 ]
 
 const socialIcons = { Instagram: InstagramOutlined, Facebook: FacebookFilled, YouTube: YoutubeFilled, Pinterest: PinterestOutlined }
@@ -106,6 +106,31 @@ export default function Contact() {
             <Button type="primary" size="large" htmlType="submit" block loading={sending}>Send message</Button>
           </Form>
         </motion.div>
+      </section>
+
+      <section className="wrap pb-10">
+        <div className="grid overflow-hidden rounded-4xl border border-linen bg-white lg:grid-cols-[1.4fr_1fr]">
+          <iframe
+            title="Jyotessa on Google Maps"
+            src={site.googleMapsEmbed}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-64 w-full border-0 lg:h-full lg:min-h-72"
+          />
+          <div className="flex flex-col justify-center gap-4 p-6">
+            <p className="text-xs font-semibold uppercase tracking-widest text-ash">Find us on Google</p>
+            <h2 className="font-serif text-2xl md:text-3xl">Loved your Jyotessa candle?</h2>
+            <p className="text-sm leading-relaxed text-ash">A quick Google review helps our small, handmade studio reach more candle lovers. It takes 30 seconds.</p>
+            <div className="flex flex-wrap gap-3">
+              <a href={site.googleReviewUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-terracotta px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-charcoal">
+                <StarFilled /> Review us on Google
+              </a>
+              <a href={site.googleMapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-linen px-5 py-2.5 text-sm font-semibold transition hover:border-terracotta hover:text-terracotta">
+                <GoogleOutlined /> Open in Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   )

@@ -40,6 +40,31 @@ const organization = () => ({
   contactPoint: [{ '@type': 'ContactPoint', contactType: 'customer support', telephone: site.phone.replace(/\s/g, ''), email: site.supportEmail, areaServed: 'IN', availableLanguage: ['en', 'hi'] }],
 })
 
+/** The studio as a local business — matches the Google Business Profile (name, address, phone, hours). */
+const localBusiness = () => ({
+  '@type': 'Store',
+  '@id': `${SITE_URL}/#store`,
+  name: BRAND,
+  url: SITE_URL,
+  image: abs(OG_IMAGE),
+  logo: abs(LOGO),
+  telephone: site.phone.replace(/\s/g, ''),
+  email: site.supportEmail,
+  priceRange: '₹₹',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.location.street,
+    addressLocality: site.location.city,
+    addressRegion: site.location.region,
+    postalCode: site.location.postalCode,
+    addressCountry: site.location.country,
+  },
+  hasMap: site.googleMapsUrl,
+  areaServed: { '@type': 'Country', name: 'India' },
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '10:00', closes: '19:00' }],
+  parentOrganization: { '@id': `${SITE_URL}/#organization` },
+})
+
 const breadcrumbs = (items) => ({
   '@type': 'BreadcrumbList',
   itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: abs(it.path) })),
@@ -79,6 +104,7 @@ export function metaFor(pathname, ctx = {}) {
       canonical: abs('/'),
       jsonLd: graph(
         organization(),
+        localBusiness(),
         {
           '@type': 'WebSite',
           '@id': `${SITE_URL}/#website`,
@@ -212,7 +238,7 @@ export function metaFor(pathname, ctx = {}) {
       title: pg.title,
       description: clip(pg.description),
       canonical: abs(path),
-      jsonLd: graph(path === '/contact' ? organization() : null, breadcrumbs([{ name: 'Home', path: '/' }, { name: pg.title.split(' — ')[0].split(' | ')[0], path }]), extra),
+      jsonLd: graph(path === '/contact' ? organization() : null, path === '/contact' ? localBusiness() : null, breadcrumbs([{ name: 'Home', path: '/' }, { name: pg.title.split(' — ')[0].split(' | ')[0], path }]), extra),
     }
   }
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
-  ClockCircleOutlined, FacebookFilled, InstagramOutlined, MailOutlined,
+  ClockCircleOutlined, EnvironmentOutlined, FacebookFilled, StarFilled, InstagramOutlined, MailOutlined,
   PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled,
 } from '@ant-design/icons'
 import Logo from './Logo'
@@ -77,7 +77,21 @@ export default function Footer() {
               <li className="flex items-start gap-2.5">
                 <ClockCircleOutlined className="mt-1 text-caramel" /> {site.hours}
               </li>
+              <li>
+                <a href={site.googleMapsUrl} target="_blank" rel="noreferrer" className="flex items-start gap-2.5 text-cream/70 hover:text-caramel">
+                  <EnvironmentOutlined className="mt-1 text-caramel" /> {site.location.street}, {site.location.city}, {site.location.region} {site.location.postalCode}
+                </a>
+              </li>
             </ul>
+
+            <a
+              href={site.googleReviewUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-caramel/60 px-4 py-2 text-xs font-semibold text-caramel transition hover:bg-caramel hover:text-charcoal"
+            >
+              <StarFilled /> Review us on Google
+            </a>
 
             <p className="mt-7 text-xs font-bold uppercase tracking-[0.22em] text-caramel">Follow us</p>
             <div className="mt-3 flex gap-2">

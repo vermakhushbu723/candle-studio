@@ -4,11 +4,22 @@ export const site = {
   subTagline: 'Life is too short to light boring candles.',
   mission:
     'We set out to remove the one thing standing between people and a lit candle: the fear of knocking it over. Pearled soy wax burns clean, spills nothing and refills forever — so ambience never has to be a risk.',
-  supportEmail: 'care@candledust.in',
+  supportEmail: 'support@jyotessa.com',
   whatsapp: '+91 93105 08371',
   phone: '+91 93105 08371',
   hours: 'Monday to Saturday, 10:00 AM – 7:00 PM IST',
   address: 'Handmade in India · Shipping Pan-India',
+  // Studio address — must match the Google Business Profile exactly
+  location: {
+    street: 'Near Barat Ghar, Wazidpur, Sector 63',
+    city: 'Noida',
+    region: 'Uttar Pradesh',
+    postalCode: '201301',
+    country: 'IN',
+  },
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jyotessa%2C%20Wazidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301',
+  googleMapsEmbed: 'https://maps.google.com/maps?q=Jyotessa%2C%20Wazidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301&z=15&output=embed',
+  googleReviewUrl: 'https://g.page/r/CQ2T_G0wSr7nECE/review',
   socials: [
     { label: 'Instagram', handle: '@candledust.official', href: 'https://www.instagram.com/candledust.official/' },
     { label: 'Facebook', handle: 'candledust', href: 'https://www.facebook.com/profile.php?id=61593924424350' },
