@@ -21,10 +21,8 @@ export const site = {
   googleMapsEmbed: 'https://maps.google.com/maps?q=Jyotessa%2C%20Wazidpur%2C%20Sector%2063%2C%20Noida%2C%20Uttar%20Pradesh%20201301&z=15&output=embed',
   googleReviewUrl: 'https://g.page/r/CQ2T_G0wSr7nECE/review',
   socials: [
-    { label: 'Instagram', handle: '@candledust.official', href: 'https://www.instagram.com/candledust.official/' },
-    { label: 'Facebook', handle: 'candledust', href: 'https://www.facebook.com/profile.php?id=61593924424350' },
-    { label: 'YouTube', handle: '@Candledust-official', href: 'https://www.youtube.com/@Candledust-official' },
-    { label: 'Pinterest', handle: 'candledustofficial', href: 'https://in.pinterest.com/candledustofficial/' },
+    { label: 'Instagram', handle: '@jyotessa', href: 'https://www.instagram.com/jyotessa/' },
+    { label: 'Facebook', handle: 'jyotessa', href: 'https://www.facebook.com/jyotessa/' },
   ],
 }
 
