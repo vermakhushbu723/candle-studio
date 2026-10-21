@@ -16,6 +16,7 @@ const Wishlist = lazy(() => import('@/pages/Wishlist'))
 const Policy = lazy(() => import('@/pages/Policy'))
 const Disclaimer = lazy(() => import('@/pages/Disclaimer'))
 const Login = lazy(() => import('@/pages/Login'))
+const FollowOffer = lazy(() => import('@/pages/FollowOffer'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 export default function AppRoutes() {
@@ -37,6 +38,7 @@ export default function AppRoutes() {
           <Route path="policies/:id" element={<Policy />} />
           <Route path="disclaimer" element={<Disclaimer />} />
           <Route path="login" element={<Login />} />
+          <Route path="follow" element={<FollowOffer />} />
           <Route path="about-us" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

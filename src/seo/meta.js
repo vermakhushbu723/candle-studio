@@ -225,6 +225,7 @@ export function metaFor(pathname, ctx = {}) {
     '/contact': { title: `Contact ${BRAND} — Order Help, Bulk & Corporate Gifting`, description: `Reach ${BRAND} on WhatsApp ${site.whatsapp}, call or email ${site.supportEmail}. Order support, bulk and corporate gifting, custom hampers — we reply within a day.`, schema: 'ContactPage' },
     '/faq': { title: `FAQs — Shipping, COD, Returns & Candle Care | ${BRAND}`, description: clip(`Answers about pearled candles, burn time, shipping, Cash on Delivery, returns and candle care. ${shippingLine(ctx.shipping)}`) },
     '/track-order': { title: `Track Your Order | ${BRAND}`, description: `Track your ${BRAND} order with your order ID and phone number or email — see when it is packed, shipped and out for delivery.` },
+    '/follow': { title: `Follow Us & Get 10% Off | ${BRAND}`, description: `Scan, follow ${BRAND} on Instagram, Facebook and Google and get a personal 10% off coupon on your next candle order. One coupon per customer and per phone.` },
     '/disclaimer': { title: `Disclaimer | ${BRAND}`, description: `Product, safety and website disclaimers for ${BRAND} candles.` },
   }
   if (path === '/about-us') return { ...metaFor('/about', ctx), canonical: abs('/about') }
@@ -293,6 +294,7 @@ export function sitemapEntries(ctx = {}) {
     entry('/contact', '0.6', 'monthly'),
     entry('/faq', '0.6', 'monthly'),
     entry('/track-order', '0.4', 'monthly'),
+    entry('/follow', '0.5', 'monthly'),
     ...Object.keys(policies).map((id) => entry(`/policies/${id}`, '0.3', 'yearly')),
     entry('/disclaimer', '0.3', 'yearly'),
   ]
@@ -301,7 +303,7 @@ export function sitemapEntries(ctx = {}) {
 /** Paths that get their own pre-rendered HTML file. */
 export function prerenderPaths(ctx = {}) {
   return [
-    '/', '/shop', '/about', '/about-us', '/contact', '/faq', '/track-order', '/disclaimer', '/policies/disclaimer',
+    '/', '/shop', '/about', '/about-us', '/contact', '/faq', '/track-order', '/follow', '/disclaimer', '/policies/disclaimer',
     ...Object.keys(policies).map((id) => `/policies/${id}`),
     '/cart', '/checkout', '/wishlist', '/login',
     ...(ctx.products ?? []).map(productUrl),

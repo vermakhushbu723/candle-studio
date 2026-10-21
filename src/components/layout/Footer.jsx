@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import QRCode from 'qrcode'
 import {
   ClockCircleOutlined, EnvironmentOutlined, FacebookFilled, StarFilled, InstagramOutlined, MailOutlined,
   PhoneOutlined, PinterestOutlined, WhatsAppOutlined, YoutubeFilled,
@@ -127,11 +129,44 @@ export default function Footer() {
           ))}
         </div>
 
+        <FollowQr />
+
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-16 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
           <p>© {new Date().getFullYear()} {site.name}. Handmade in India{site.womenOwned ? ' · Women-owned business' : ''}.</p>
           <p>UPI · Google Pay · Visa · Mastercard · RuPay · Cash on Delivery</p>
         </div>
       </div>
     </footer>
+  )
+}
+
+const FOLLOW_URL = 'https://jyotessa.com/follow?utm_source=qr'
+
+/** "Scan · Follow · Save 10%" — the QR opens the Follow & Save page (social links + personal coupon). */
+function FollowQr() {
+  const [src, setSrc] = useState('')
+  useEffect(() => {
+    QRCode.toDataURL(FOLLOW_URL, { width: 360, margin: 1, color: { dark: '#3A1507', light: '#FFFFFF' }, errorCorrectionLevel: 'M' })
+      .then(setSrc)
+      .catch(() => setSrc(''))
+  }, [])
+
+  return (
+    <div className="mb-8 flex flex-col items-center gap-5 rounded-3xl border border-caramel/30 bg-white/5 p-5 text-center sm:flex-row sm:text-left">
+      <Link to="/follow" aria-label="Open the Follow & Save offer" className="shrink-0 rounded-2xl bg-white p-2 shadow-lg">
+        {src ? <img src={src} alt="QR code: follow Jyotessa and get 10% off" width="132" height="132" className="h-33 w-33" /> : <div className="h-33 w-33" />}
+      </Link>
+      <div className="min-w-0">
+        <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Scan · Follow · Save 10%</p>
+        <p className="mt-2 font-serif text-2xl text-cream">Follow us and get 10% off your order</p>
+        <p className="mt-2 max-w-xl text-sm text-cream/70">
+          Scan the code with your phone camera, follow Jyotessa on Instagram, Facebook and Google, and unlock a personal 10% coupon.
+          One coupon per customer and per phone.
+        </p>
+        <Link to="/follow" className="mt-3 inline-flex items-center gap-2 rounded-full bg-caramel px-4 py-2 text-xs font-bold text-charcoal transition hover:bg-cream">
+          Get my 10% coupon →
+        </Link>
+      </div>
+    </div>
   )
 }
