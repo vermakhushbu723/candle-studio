@@ -159,7 +159,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-16 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:text-left">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 pb-28 pr-16 pt-6 text-center text-xs text-cream/50 md:flex-row md:pb-6 md:pr-0 md:text-left">
           <p>
             © {new Date().getFullYear()} {site.name}. Handmade in India
             {site.womenOwned ? ' · Women-owned business' : ''}.
@@ -196,7 +196,7 @@ function FollowQr() {
       <span className="rounded-xl bg-white p-1.5">
         {src ? <img src={src} alt="QR code: follow Jyotessa and get 10% off" width="104" height="104" className="h-24 w-24 sm:h-26 sm:w-26" /> : <span className="block h-24 w-24 sm:h-26 sm:w-26" />}
       </span>
-      <span className="text-[10px] font-bold uppercase leading-tight tracking-[0.14em] text-caramel">Scan · Follow</span>
+      <span className="whitespace-nowrap text-[9px] font-bold uppercase leading-tight tracking-[0.1em] text-caramel sm:text-[10px] sm:tracking-[0.14em]">Scan · Follow</span>
       <span className="text-xs font-semibold leading-tight text-cream group-hover:text-caramel">Get 10% off</span>
     </Link>
   )
@@ -233,7 +233,7 @@ function BrandPromise() {
             </Link>
           </div>
         </div>
-        <ul className="grid grid-cols-2 gap-3">
+        <ul className="grid gap-3 sm:grid-cols-2">
           {perks.map(({ icon: Icon, title, text }) => (
             <li key={title} className="flex items-center gap-3 rounded-2xl bg-white/5 p-3">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-caramel/15 text-lg text-caramel">
