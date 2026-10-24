@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, App, Button, Empty, Form, Input, Radio, Result, Steps } from 'antd'
 import { motion } from 'framer-motion'
@@ -10,6 +10,7 @@ import { api } from '@/api/client'
 import { payWithRazorpay } from '@/api/razorpay'
 import NotificationSettings from '@/components/account/NotificationSettings'
 import { useSession } from '@/utils/session'
+import { track } from '@/utils/analytics'
 
 const paymentOptions = [
   { value: 'upi', label: 'UPI', note: 'GPay, PhonePe, Paytm' },
@@ -19,7 +20,7 @@ const paymentOptions = [
 
 export default function Checkout() {
   const { message } = App.useApp()
-  const { lines, coupon, clearCart } = useCart()
+  const { lines, coupon, clearCart, total } = useCart()
   const [step, setStep] = useState(0)
   const [order, setOrder] = useState(null)
   const [placing, setPlacing] = useState(false)
@@ -28,6 +29,14 @@ export default function Checkout() {
   // Logged-in customers get their details pre-filled
   const session = useSession()
   const navigate = useNavigate()
+
+  // Analytics: checkout started (once per visit, once the customer is logged in and has items)
+  const checkoutTracked = useRef(false)
+  useEffect(() => {
+    if (checkoutTracked.current || !session?.token || lines.length === 0 || order) return
+    checkoutTracked.current = true
+    track.beginCheckout(lines, total, coupon)
+  }, [session?.token, lines, total, coupon, order])
 
   if (order) {
     return (
@@ -73,8 +82,12 @@ export default function Checkout() {
 
   const next = async () => {
     if (step === 0) await form.validateFields(['fullName', 'phone', 'email', 'line1', 'city', 'state', 'pincode'])
-    if (step < 1) return setStep(step + 1)
+    if (step < 1) {
+      track.addShippingInfo(lines, total)
+      return setStep(step + 1)
+    }
     const values = await form.validateFields()
+    track.addPaymentInfo(lines, total, values.payment)
     setPlacing(true)
     try {
       // Online payment already started for this cart → reopen it instead of creating a second order
@@ -112,6 +125,7 @@ export default function Checkout() {
   }
 
   const done = (o) => {
+    track.purchase(o)
     setOrder(o)
     setPending(null)
     clearCart()

@@ -13,6 +13,7 @@ import IntroLoader from './IntroLoader'
 import SupportDock from '@/components/support/SupportDock'
 import PushPrompt from '@/components/support/PushPrompt'
 import SeoManager from '@/seo/SeoManager'
+import AnalyticsTracker from '@/seo/AnalyticsTracker'
 
 export default function MainLayout() {
   const { notification } = App.useApp()
@@ -71,6 +72,7 @@ export default function MainLayout() {
       <SupportDock />
       <PushPrompt />
       <SeoManager />
+      <AnalyticsTracker />
       <FloatButton.BackTop visibilityHeight={600} style={{ insetInlineEnd: 'auto', insetInlineStart: 16, bottom: 16 }} />
     </div>
   )

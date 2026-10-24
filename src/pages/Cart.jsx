@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Empty, InputNumber } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
@@ -7,12 +8,19 @@ import { siteImages } from '@/data/site'
 import CandleVisual from '@/components/common/CandleVisual'
 import OrderSummary from '@/components/common/OrderSummary'
 import { useCart } from '@/context/CartContext'
+import { track } from '@/utils/analytics'
 import { fragrances } from '@/data/products'
 import { formatPrice } from '@/utils/format'
 
 export default function Cart() {
-  const { lines, updateQuantity, removeItem } = useCart()
+  const { lines, updateQuantity, removeItem, total } = useCart()
   const navigate = useNavigate()
+  const viewed = useRef(false)
+  useEffect(() => {
+    if (viewed.current || lines.length === 0) return
+    viewed.current = true
+    track.viewCart(lines, total)
+  }, [lines, total])
 
   return (
     <>

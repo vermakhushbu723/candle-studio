@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { site, siteImages } from '@/data/site'
 import { api } from '@/api/client'
+import { track } from '@/utils/analytics'
 
 const channels = [
   { icon: WhatsAppOutlined, title: 'WhatsApp', value: site.whatsapp, href: `https://wa.me/${site.whatsapp.replace(/\D/g, '')}` },
@@ -27,6 +28,7 @@ export default function Contact() {
     setSending(true)
     try {
       const r = await api('/inquiries', { method: 'POST', body: values })
+      track.lead(values.topic)
       message.success(r.message)
       form.resetFields()
     } catch (e) {

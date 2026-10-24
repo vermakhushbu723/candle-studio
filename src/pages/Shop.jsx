@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button, Checkbox, Drawer, Empty, Input, Segmented, Select, Slider } from 'antd'
 import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
@@ -9,6 +9,7 @@ import ProductCard from '@/components/common/ProductCard'
 import { lines } from '@/data/products'
 import { useCatalog } from '@/context/CatalogContext'
 import { formatPrice } from '@/utils/format'
+import { track } from '@/utils/analytics'
 
 const MAX_PRICE = 3000
 const sorters = {
@@ -51,6 +52,13 @@ export default function Shop() {
         .sort(sorters[sort]),
     [products, inCategory, line, category, price, query, sort],
   )
+
+  // Analytics: which listing the customer is browsing (category / line), once per change
+  const listName = category ?? (line !== 'all' ? line : 'All Candles')
+  useEffect(() => {
+    if (list.length) track.viewItemList(listName, list)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the listing itself changes
+  }, [listName])
 
   const heading = category ? categories.find((c) => c.id === category)?.label : line !== 'all' ? lines[line]?.title : 'All Candles'
 

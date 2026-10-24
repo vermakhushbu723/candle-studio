@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Breadcrumb, Button, InputNumber, Rate, Result, Tabs, Tag } from 'antd'
 import { CarOutlined, CheckOutlined, HeartFilled, HeartOutlined, SafetyCertificateOutlined, ShareAltOutlined, SyncOutlined } from '@ant-design/icons'
@@ -14,6 +14,7 @@ import { siteImages } from '@/data/site'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { discountPercent, formatPrice } from '@/utils/format'
+import { track } from '@/utils/analytics'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -35,6 +36,7 @@ function ProductView({ product }) {
   const [quantity, setQuantity] = useState(1)
   const [fragrance, setFragrance] = useState(product.fragrances ? fragrances[0].id : null)
   const [active, setActive] = useState(0)
+  useEffect(() => track.viewItem(product), [product])
   // Pearled kits have one studio shot, so add the brand lifestyle photos to their gallery
   const gallery = product.line === 'pearled' ? [...product.images, siteImages.proofPearled, siteImages.stepPour, siteImages.stepIgnite, siteImages.livingRoom] : product.images
 

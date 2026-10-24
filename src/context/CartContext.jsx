@@ -4,6 +4,7 @@ import { api } from '@/api/client'
 import { useCatalog } from '@/context/CatalogContext'
 import { remainingForFree, shippingFor } from '@/utils/shipping'
 import { readStorage, writeStorage } from '@/utils/format'
+import { track } from '@/utils/analytics'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'cd-cart'
@@ -34,6 +35,7 @@ export function CartProvider({ children }) {
         return [...prev, { key, productId, fragrance, quantity }]
       })
       message.success(`${getProduct(productId)?.name ?? 'Item'} added to cart`)
+      if (getProduct(productId)) track.addToCart(getProduct(productId), quantity, fragrance)
       if (openDrawer) setDrawerOpen(true)
     },
     [message, getProduct],
@@ -43,7 +45,14 @@ export function CartProvider({ children }) {
     setItems((prev) => (quantity <= 0 ? prev.filter((i) => i.key !== key) : prev.map((i) => (i.key === key ? { ...i, quantity } : i))))
   }, [])
 
-  const removeItem = useCallback((key) => setItems((prev) => prev.filter((i) => i.key !== key)), [])
+  const removeItem = useCallback(
+    (key) => {
+      const gone = items.find((i) => i.key === key)
+      if (gone && getProduct(gone.productId)) track.removeFromCart(getProduct(gone.productId), gone.quantity)
+      setItems((prev) => prev.filter((i) => i.key !== key))
+    },
+    [items, getProduct],
+  )
   const clearCart = useCallback(() => {
     setItems([])
     setCouponInfo(null)
@@ -69,6 +78,7 @@ export function CartProvider({ children }) {
       try {
         const r = await api('/coupons/validate', { method: 'POST', body: { code: normalized, subtotal: totals.subtotal } })
         setCouponInfo(r.coupon)
+        track.applyCoupon(r.coupon.code)
         message.success(r.message)
         return true
       } catch (e) {

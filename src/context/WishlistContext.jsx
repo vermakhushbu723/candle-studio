@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { readStorage, writeStorage } from '@/utils/format'
+import { useCatalog } from '@/context/CatalogContext'
+import { track } from '@/utils/analytics'
 
 const WishlistContext = createContext(null)
 const STORAGE_KEY = 'cd-wishlist'
@@ -9,7 +11,14 @@ export function WishlistProvider({ children }) {
 
   useEffect(() => writeStorage(STORAGE_KEY, ids), [ids])
 
-  const toggle = useCallback((id) => setIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])), [])
+  const { getProduct } = useCatalog()
+  const toggle = useCallback(
+    (id) => {
+      if (!ids.includes(id) && getProduct(id)) track.addToWishlist(getProduct(id))
+      setIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+    },
+    [ids, getProduct],
+  )
   const has = useCallback((id) => ids.includes(id), [ids])
 
   return <WishlistContext.Provider value={{ ids, toggle, has }}>{children}</WishlistContext.Provider>

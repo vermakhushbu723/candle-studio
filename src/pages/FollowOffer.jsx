@@ -13,6 +13,7 @@ import { useCart } from '@/context/CartContext'
 import { useSession } from '@/utils/session'
 import { getDeviceId, getFingerprint } from '@/utils/device'
 import { readStorage, writeStorage } from '@/utils/format'
+import { track } from '@/utils/analytics'
 
 const VISITED_KEY = 'jy-follow-visited'
 const icons = { instagram: InstagramOutlined, facebook: FacebookFilled, google: GoogleOutlined, youtube: YoutubeFilled }
@@ -58,6 +59,7 @@ export default function FollowOffer() {
         body: { deviceId: getDeviceId(), fingerprint: await getFingerprint(), visited },
       })
       setData((d) => ({ ...d, claimed: true, coupon: r.coupon }))
+      track.followOfferClaimed()
       message.success(r.message)
     } catch (e) {
       if (e.status === 401) return navigate('/login?next=/follow')

@@ -64,9 +64,9 @@ export default function PhoneOtpLogin({ onSignedIn }) {
       const profile = { name: values.name, email: values.email || undefined }
       if (smsOtpEnabled) {
         idToken.current ??= await confirmSmsOtp(confirmation.current, values.otp)
-        onSignedIn(await api('/auth/phone/firebase', { method: 'POST', body: { idToken: idToken.current, ...profile } }))
+        onSignedIn({ ...(await api('/auth/phone/firebase', { method: 'POST', body: { idToken: idToken.current, ...profile } })), method: 'phone', isNew: isNewUser })
       } else {
-        onSignedIn(await api('/auth/otp/verify', { method: 'POST', body: { phone, otp: values.otp, ...profile } }))
+        onSignedIn({ ...(await api('/auth/otp/verify', { method: 'POST', body: { phone, otp: values.otp, ...profile } })), method: 'phone', isNew: isNewUser })
       }
     } catch (e) {
       message.error(e.message)
@@ -207,7 +207,7 @@ function GoogleButton({ onSignedIn }) {
         client_id: GOOGLE_CLIENT_ID,
         callback: async ({ credential }) => {
           try {
-            handler.current(await api('/auth/google', { method: 'POST', body: { credential } }))
+            handler.current({ ...(await api('/auth/google', { method: 'POST', body: { credential } })), method: 'google' })
           } catch (e) {
             message.error(e.message)
           }

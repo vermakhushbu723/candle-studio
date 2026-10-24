@@ -13,6 +13,7 @@ import { saveSession, useSession } from '@/utils/session'
 import { UserAvatar, logoutCustomer } from '@/components/layout/UserMenu'
 import { api } from '@/api/client'
 import { formatPrice } from '@/utils/format'
+import { track } from '@/utils/analytics'
 
 const perks = [
   { icon: CarOutlined, text: 'Track every order in one place' },
@@ -40,8 +41,9 @@ export default function Login() {
       })
   }, [session?.token])
 
-  const signedIn = ({ token, user }) => {
+  const signedIn = ({ token, user, method = 'phone', isNew = false }) => {
     saveSession({ ...user, token })
+    isNew ? track.signUp(method) : track.login(method)
     refreshPushToken() // link this browser's notifications to the new session
     message.success(`Welcome to Jyotessa, ${user.name.split(' ')[0]}!`)
     if (params.get('next')) navigate(params.get('next'))
