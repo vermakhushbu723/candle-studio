@@ -25,7 +25,8 @@ export function initAnalytics() {
 }
 
 const send = (name, params = {}) => {
-  if (!analyticsEnabled || !window.gtag) return
+  if (!analyticsEnabled) return
+  initAnalytics() // events fired by the first page can run before the tracker mounts — start GA on demand
   window.gtag('event', name, params)
 }
 
@@ -33,7 +34,8 @@ export const trackPageView = (path) => send('page_view', { page_path: path, page
 
 /** Logged-in customers are counted as one user across devices (no personal data is sent — only the internal ID). */
 export const setAnalyticsUser = (id) => {
-  if (!analyticsEnabled || !window.gtag) return
+  if (!analyticsEnabled) return
+  initAnalytics()
   window.gtag('set', { user_id: id ?? null })
 }
 
