@@ -11,8 +11,8 @@ const sections = [
     heading: 'Open Flame & Product Safety',
     bullets: [
       'Our candles involve a genuine open flame. Never leave a lit candle unattended, and always burn it on a stable, heat-safe surface away from curtains, paper and other flammable material.',
-      'Keep burning candles and loose wax pearls out of reach of young children and pets. Adult supervision is required at all times while a candle is lit.',
-      'The auto-extinguish behaviour described on this site reduces spill risk under normal use — it is not a guarantee against fire in every circumstance, and it does not remove the need for the usual candle-safety precautions above.',
+      'Keep burning candles and wax out of reach of young children and pets. Adult supervision is required at all times while a candle is lit.',
+      'Sweet- and food-shaped candles look very real — they are not edible. Label them clearly when gifting and keep them away from small children.',
       'Fragrance oils and dyes should be kept away from eyes and broken skin, and used only in the quantities suggested. Discontinue use if irritation occurs.',
     ],
   },
@@ -20,7 +20,7 @@ const sections = [
     heading: 'Website Content',
     bullets: [
       'We try to keep product descriptions, pricing and imagery accurate and up to date, but we do not warrant that every detail on this website is complete, current or error-free.',
-      'Photographs are for illustration — actual pearl colour, jar shape and included decor may vary slightly by batch.',
+      'Photographs are for illustration — actual colour, shape and included décor may vary slightly by batch, as every candle is hand-poured.',
       'Customer reviews and testimonials reflect individual experiences. They are not a guarantee that you will have the same result.',
     ],
   },

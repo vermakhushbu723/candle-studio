@@ -3,7 +3,6 @@ import StatsStrip from '@/components/home/StatsStrip'
 import TwoWorlds from '@/components/home/TwoWorlds'
 import ProductShowcase from '@/components/home/ProductShowcase'
 import ScentStories from '@/components/home/ScentStories'
-import SafetyTest from '@/components/home/SafetyTest'
 import HowItWorks from '@/components/home/HowItWorks'
 import CollectionsGrid from '@/components/home/CollectionsGrid'
 import WhyUs from '@/components/home/WhyUs'
@@ -22,7 +21,6 @@ export default function Home() {
       <TwoWorlds />
       <ProductShowcase />
       <ScentStories />
-      <SafetyTest />
       <HowItWorks />
       <CollectionsGrid />
       <GiftingBanner />

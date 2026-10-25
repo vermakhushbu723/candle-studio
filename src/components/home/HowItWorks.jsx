@@ -6,7 +6,7 @@ export default function HowItWorks() {
   return (
     <section className="grain border-y border-linen bg-shell py-12 md:py-16">
       <div className="wrap">
-        <SectionHeading eyebrow="How it works" title="Four steps, about ninety seconds" subtitle="No double boiler, no thermometer, no wax melting on your stove. Pour, wick, light — and when it's spent, refresh and start over." />
+        <SectionHeading eyebrow="Candle care" title="Four steps to a perfect burn" subtitle="A little care makes every candle burn cleaner, longer and safer." />
 
         <div className="relative mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div aria-hidden className="absolute left-0 right-0 top-[7.5rem] hidden h-px bg-linear-to-r from-transparent via-caramel to-transparent lg:block" />

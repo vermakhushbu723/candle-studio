@@ -20,7 +20,7 @@ export const intents = [
     id: 'recommend',
     match: /choose|recommend|suggest|which|best|gift for|confused/i,
     text: 'Happy to help! Here are our most-loved picks from both ranges:',
-    products: ['ocean-escape', 'chai-parle-g-candle', 'heart-bowl-candle'],
+    products: ['lotus-pond', 'rose-bubble', 'designer-diya'],
     actions: [{ type: 'link', label: 'Take the scent quiz', to: '/#scent-finder' }],
   },
   {
@@ -44,15 +44,21 @@ export const intents = [
     ],
   },
   {
-    id: 'pearled',
-    match: /pearl|reuse|refill|extinguish|spill|safe|kids|pets|wick/i,
-    text: 'Pearled candles are loose soy wax pearls — tip one over and the pearls smother the flame in about half a second. Only the melted pool is used, so you just add a fresh wick to reuse it.',
-    actions: [{ type: 'link', label: 'Shop pearled kits', to: '/shop?line=pearled' }],
+    id: 'festive',
+    match: /diya|diwali|pooja|puja|lotus|ganpati|ganesh|festival|festive/i,
+    text: 'For Diwali and pooja, try our carved terracotta wax diyas (packs of 4, 8 and 12) and the lotus water-pond candle in a brass bowl. Ladoo & modak candles make sweet return gifts too!',
+    actions: [{ type: 'link', label: 'Shop Pooja & Diyas', to: '/shop?category=pooja-festive' }],
+  },
+  {
+    id: 'care',
+    match: /safe|kids|pets|wick|burn|how long|care|float/i,
+    text: 'Trim the wick to 5 mm, burn on a stable heat-safe surface for up to 3–4 hours at a time and never leave a candle unattended. Keep the sweet-shaped candles away from small children — they look very real! Floating candles go gently on water in a bowl or urli.',
+    actions: [{ type: 'link', label: 'Read FAQs', to: '/faq' }],
   },
   {
     id: 'offers',
     match: /coupon|discount|offer|code|sale|cheap|price/i,
-    text: 'Use code GLOW10 for 10% off your first order. Prices start at just ₹159.',
+    text: 'Use code GLOW10 for 10% off your first order. Prices start at just ₹35.',
     actions: [{ type: 'link', label: 'Browse all candles', to: '/shop' }],
   },
   {

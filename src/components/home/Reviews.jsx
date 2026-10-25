@@ -8,7 +8,7 @@ export default function Reviews() {
   return (
     <section className="overflow-hidden border-y border-linen bg-shell py-12 md:py-16">
       <div className="wrap flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <SectionHeading align="left" eyebrow="Social proof" title="2,000+ homes, zero spill complaints" subtitle="Unedited reviews from verified buyers across India." />
+        <SectionHeading align="left" eyebrow="Social proof" title="Loved in homes across India" subtitle="Unedited reviews from verified buyers across India." />
         <div className="flex items-center gap-4 rounded-3xl bg-white px-6 py-4">
           <span className="font-serif text-5xl text-terracotta">4.9</span>
           <div>

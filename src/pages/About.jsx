@@ -10,23 +10,23 @@ import SectionHeading from '@/components/common/SectionHeading'
 import { site, siteImages } from '@/data/site'
 
 const beliefs = [
-  { icon: SafetyCertificateOutlined, title: 'Spill-Proof & Safe', body: 'Tip it over and the loose pearls collapse onto the flame, smothering it in under a second. No running wax, no scorched tabletops.' },
-  { icon: RetweetOutlined, title: 'Infinite Reusability', body: 'Only the melted pool around the wick is spent. Lift it out, drop in a fresh wick, and the remaining pearls are good as new.' },
-  { icon: ExperimentOutlined, title: 'Clean & Non-Toxic', body: 'Zero soot, zero paraffin, zero lead cores. Just 100% plant-based soy wax that burns cool and leaves walls unmarked.' },
-  { icon: FireOutlined, title: 'Refill Any Vessel', body: 'Old whisky glasses, brass urlis, coconut shells, ceramic bowls — if it holds pearls, it becomes a designer candle.' },
+  { icon: FireOutlined, title: 'Hand-Poured by Us', body: 'Every diya, rose and bubble cube is poured, finished and checked by hand in our studio — in small batches.' },
+  { icon: SafetyCertificateOutlined, title: 'Clean-Burning', body: 'Quality wax and cotton wicks for a steady, even burn. Each product comes with simple care instructions.' },
+  { icon: ExperimentOutlined, title: 'Festive at Heart', body: 'Diyas, lotus bowls, ladoos and modaks — candles made for the festivals and pooja rituals we grew up with.' },
+  { icon: RetweetOutlined, title: 'Gift-Ready Always', body: 'Gift boxes and handwritten notes at no extra cost, plus custom and bulk orders for weddings and teams.' },
 ]
 
 const steps = [
-  { index: '01', title: 'Pour', body: 'Fill any heat-safe glass, bowl or vessel with pearl wax — right up to two-thirds full.' },
-  { index: '02', title: 'Insert', body: 'Plant a braided cotton wick in the centre, leaving about a quarter inch standing proud.' },
-  { index: '03', title: 'Ignite', body: 'Light it and settle in. A soft pool forms around the wick — soot-free, smoke-free warmth.' },
-  { index: '04', title: 'Refresh', body: 'Once cool, lift out the hardened pool, drop in a fresh wick, and the candle is brand new.' },
+  { index: '01', title: 'Trim', body: 'Trim the wick to about 5 mm before every burn for a clean, steady flame.' },
+  { index: '02', title: 'Place', body: 'Set the candle on a stable, heat-safe surface — away from curtains, drafts, children and pets.' },
+  { index: '03', title: 'Light', body: 'Light it and enjoy the glow. Floating candles go gently on water in a bowl or urli.' },
+  { index: '04', title: 'Put out', body: 'Burn for up to 3–4 hours at a time, then snuff it out — never leave a lit candle unattended.' },
 ]
 
 const proof = [
   { value: '4.9/5', label: 'Average rating' },
   { value: '2,000+', label: 'Happy homes' },
-  { value: '0', label: 'Spill complaints' },
+  { value: '48', label: 'Handmade designs' },
 ]
 
 const fade = (delay = 0) => ({
@@ -49,31 +49,26 @@ export default function About() {
         crumbs={[{ label: 'About Us' }]}
       />
 
-      {/* Why pearled wax exists */}
+      {/* Our story */}
       <section className="wrap grid items-center gap-7 py-12 lg:grid-cols-2">
         <motion.div {...fade()} className="overflow-hidden rounded-4xl">
-          <img src={siteImages.livingRoom} alt="A pearled candle glowing in a living room" className="h-full w-full object-cover" loading="lazy" />
+          <img src={siteImages.livingRoom} alt="A candle glowing in a living room" className="h-full w-full object-cover" loading="lazy" />
         </motion.div>
         <motion.div {...fade(0.1)}>
-          <SectionHeading align="left" eyebrow="Our story" title="Why pearled wax exists" />
+          <SectionHeading align="left" eyebrow="Our story" title="Made by hand, for every celebration" />
           <div className="mt-6 space-y-4 leading-relaxed text-ash">
             <p>
-              A regular candle is a single block of wax — tip it, and everything it’s made of comes pouring out with the
-              flame still attached. We didn’t think that trade-off was necessary just to get warm, flickering light in a room.
+              Jyotessa began at a kitchen stove, pouring candles as gifts for friends and family. The joy on their faces when a
+              diya or a little rose candle was lit is what we still pour into every piece.
             </p>
             <p>
-              Pearled wax replaces that block with thousands of loose soy pearls. Only the small pool immediately around the
-              wick is ever molten; the rest stays solid, dry and inert. Knock it over, and the dry pearls avalanche across the
-              flame the way sand smothers a spark — no running wax, no scorched wood, no panic.
+              Today we make 48 designs by hand — terracotta wax diyas and lotus water-pond bowls for pooja and Diwali, ladoo,
+              modak and rasgulla candles that look good enough to eat, rose bouquets and rose bubble cubes for the people you
+              love, gel glasses, mandala tins, floating candles and tea lights for every corner of your home.
             </p>
             <p>
-              The same structure that makes it safe also makes it reusable: once the melted pool hardens, lifting it out and
-              dropping in a fresh wick turns the same jar into a brand-new candle. One pouch, refilled indefinitely, in whatever
-              glass, bowl or shell you already own.
-            </p>
-            <p>
-              Alongside the pearls, we hand-pour Indian-inspired candles — chai and Parle-G, jalebi and rabdi, brass urlis for
-              Diwali — because {site.subTagline.toLowerCase()}
+              Every candle is poured in small batches, finished by hand and packed gift-ready, then shipped across India with Cash
+              on Delivery — because {site.subTagline.toLowerCase()}
             </p>
           </div>
         </motion.div>
@@ -82,7 +77,7 @@ export default function About() {
       {/* Beliefs */}
       <section className="border-y border-linen bg-shell py-12">
         <div className="wrap">
-          <SectionHeading eyebrow="What we believe" title="Four ideas behind every kit" />
+          <SectionHeading eyebrow="What we believe" title="Four promises behind every candle" />
           <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {beliefs.map(({ icon: Icon, title, body }, i) => (
               <motion.div key={title} {...fade(i * 0.08)} className="flex h-full flex-col rounded-3xl border border-linen bg-white p-5">
@@ -99,7 +94,7 @@ export default function About() {
 
       {/* Four steps */}
       <section className="wrap py-12">
-        <SectionHeading eyebrow="In four steps" title="Pour, insert, ignite, refresh" />
+        <SectionHeading eyebrow="Candle care" title="Trim, place, light, put out" />
         <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <motion.div key={s.title} {...fade(i * 0.08)}>
@@ -123,7 +118,7 @@ export default function About() {
             ))}
           </div>
           <div className="mt-7 text-center">
-            <Link to="/shop"><Button type="primary" size="large" shape="round">Shop the kits</Button></Link>
+            <Link to="/shop"><Button type="primary" size="large" shape="round">Shop the candles</Button></Link>
           </div>
         </div>
       </section>

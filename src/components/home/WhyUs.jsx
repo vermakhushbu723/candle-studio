@@ -1,24 +1,24 @@
 import { EnvironmentOutlined, ExperimentOutlined, GiftOutlined, HeartOutlined, SafetyOutlined, SyncOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import SectionHeading from '@/components/common/SectionHeading'
-import { whyPearled } from '@/data/content'
+import { whyUs } from '@/data/content'
 import { siteImages } from '@/data/site'
 
 const extra = [
-  { title: 'Built from India', body: 'Jalebi rabri, chai Parle-G, mogra and monsoon — scents from real Indian life, not generic “ocean mist”.' },
+  { title: 'Custom & Bulk Orders', body: 'Wedding favours, Diwali hampers and corporate gifting — tell us the quantity and we will make it happen.' },
   { title: 'Gift-Ready Always', body: 'Every order ships in a keepsake box with a handwritten note option — no extra charge.' },
 ]
 const icons = [SafetyOutlined, SyncOutlined, ExperimentOutlined, EnvironmentOutlined, HeartOutlined, GiftOutlined]
 
 export default function WhyUs() {
-  const items = [...whyPearled, ...extra]
+  const items = [...whyUs, ...extra]
   return (
     <section className="py-12 md:py-16">
       <div className="wrap grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading align="left" eyebrow="Why Jyotessa" title="Six reasons it replaces every candle you own" subtitle="Loose soy pearls behave nothing like a solid block of wax — and hand-poured means every candle has a story. Together, they fix almost everything people quietly dislike about candles." />
+          <SectionHeading align="left" eyebrow="Why Jyotessa" title="Six reasons homes across India choose us" subtitle="Hand-poured means every candle has a story — from Diwali diyas to rose bouquets. Made in small batches, packed with care and shipped across India." />
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="mt-5 aspect-[11/7] overflow-hidden rounded-4xl">
-            <img src={siteImages.livingRoom} alt="A warm living room at dusk with a lit pearled candle on the coffee table" className="h-full w-full object-cover" loading="lazy" />
+            <img src={siteImages.livingRoom} alt="A warm living room at dusk with a lit candle on the coffee table" className="h-full w-full object-cover" loading="lazy" />
           </motion.div>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">

@@ -80,17 +80,19 @@ function ProductView({ product }) {
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             <div className="flex flex-wrap items-center gap-2">
-              <Tag color={product.line === 'pearled' ? '#8A3A16' : '#C47A5A'} className="rounded-full! px-3!">
-                {product.line === 'pearled' ? 'Pearled Candle' : 'Handcrafted Candle'}
+              <Tag color="#8A3A16" className="rounded-full! px-3!">
+                {category?.label ?? 'Handcrafted Candle'}
               </Tag>
               {product.badge && <Tag className="rounded-full! px-3!">{product.badge}</Tag>}
             </div>
             <p className="eyebrow mt-5">{product.subtitle}</p>
             <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{product.name}</h1>
-            <div className="mt-3 flex items-center gap-3 text-sm text-ash">
-              <Rate disabled allowHalf defaultValue={product.rating} />
-              <span>{product.rating} · {product.reviews} reviews</span>
-            </div>
+            {product.reviews > 0 && (
+              <div className="mt-3 flex items-center gap-3 text-sm text-ash">
+                <Rate disabled allowHalf defaultValue={product.rating} />
+                <span>{product.rating} · {product.reviews} reviews</span>
+              </div>
+            )}
             <p className="mt-5 text-lg text-ash">{product.tagline}</p>
 
             <div className="mt-6 flex items-end gap-3">
@@ -138,7 +140,7 @@ function ProductView({ product }) {
             <div className="mt-5 grid grid-cols-3 gap-3 text-center text-xs">
               {[
                 { icon: CarOutlined, text: shippingShort(shipping) },
-                { icon: SafetyCertificateOutlined, text: '100% soy wax' },
+                { icon: SafetyCertificateOutlined, text: 'Hand-poured in India' },
                 { icon: SyncOutlined, text: '7-day easy returns' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="rounded-2xl bg-shell p-4">

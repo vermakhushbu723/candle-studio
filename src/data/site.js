@@ -1,9 +1,9 @@
 export const site = {
   name: 'Jyotessa',
-  tagline: "The World's Safest & Endless Pearled Candle",
+  tagline: 'Hand-poured candles for every celebration',
   subTagline: 'Life is too short to light boring candles.',
   mission:
-    'We set out to remove the one thing standing between people and a lit candle: the fear of knocking it over. Pearled soy wax burns clean, spills nothing and refills forever — so ambience never has to be a risk.',
+    'We hand-pour candles that make everyday moments feel festive — terracotta diyas and lotus bowls for pooja, rose bouquets for the people you love, and sweet-shop treats you can light. Small batches, clean-burning wax and gift-ready packing, shipped across India.',
   supportEmail: 'support@jyotessa.com',
   whatsapp: '+91 93105 08371',
   phone: '+91 93105 08371',
@@ -58,7 +58,7 @@ export const announcements = [
   'Use code GLOW10 for 10% off your first order',
   'Cash on Delivery across 22,000+ pin codes',
   'Same-day dispatch on orders before 2 PM',
-  'Hand-poured in India · 100% soy wax',
+  'Hand-poured in India · 48 handmade designs',
 ]
 
 export const navLinks = [
@@ -68,21 +68,21 @@ export const navLinks = [
     to: '/shop',
     mega: [
       {
-        heading: 'Pearled Candles',
+        heading: 'Festive & Gifting',
         items: [
-          { label: 'All Pearl Kits', to: '/shop?line=pearled' },
-          { label: 'Refills', to: '/shop?category=refills' },
-          { label: 'Decor Kits', to: '/shop?category=pearl-kits' },
+          { label: 'Pooja & Diyas', to: '/shop?category=pooja-festive' },
+          { label: 'Sweets & Treats', to: '/shop?category=food-inspired' },
+          { label: 'Bouquets & Roses', to: '/shop?category=floral' },
+          { label: 'Cute & Gifting', to: '/shop?category=cute-gifts' },
         ],
       },
       {
-        heading: 'Handcrafted Candles',
+        heading: 'Home & Décor',
         items: [
-          { label: 'Food Inspired', to: '/shop?category=food-inspired' },
-          { label: 'Love in the Air', to: '/shop?category=love-in-the-air' },
-          { label: 'Floral', to: '/shop?category=floral' },
-          { label: 'Luxury & Festive', to: '/shop?category=luxury' },
-          { label: 'Wax Fresheners', to: '/shop?category=wax-fresheners' },
+          { label: 'Bubble Candles', to: '/shop?category=bubble-candles' },
+          { label: 'Jars & Glass', to: '/shop?category=jars-glass' },
+          { label: 'Floating Candles', to: '/shop?category=floating-candles' },
+          { label: 'Tea Lights', to: '/shop?category=tealights' },
         ],
       },
       {
@@ -116,5 +116,5 @@ export const stats = [
   { value: 2143, suffix: '+', label: 'Verified reviews' },
   { value: 4.9, suffix: '/5', label: 'Average rating', decimals: 1 },
   { value: 22000, suffix: '+', label: 'Pin codes served' },
-  { value: 0.5, suffix: 's', label: 'Auto-extinguish', decimals: 1 },
+  { value: 48, suffix: '', label: 'Handmade designs' },
 ]

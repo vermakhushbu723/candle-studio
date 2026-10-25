@@ -24,7 +24,7 @@ const bokeh = Array.from({ length: 6 }, (_, i) => ({
 
 export default function Hero() {
   const { getProduct } = useCatalog()
-  const avatars = ['chai-parle-g-candle', 'bouquet-candle', 'heart-bowl-candle'].map(getProduct).filter(Boolean)
+  const avatars = ['lotus-pond', 'rose-bubble', 'teddy-bear'].map(getProduct).filter(Boolean)
 
   const { scrollY } = useScroll()
   const mediaY = useTransform(scrollY, [0, 800], [0, 120])
@@ -64,17 +64,17 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-terracotta opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-terracotta" />
             </span>
-            <SafetyCertificateOutlined className="text-terracotta" /> Two ways to glow · One home
+            <SafetyCertificateOutlined className="text-terracotta" /> Hand-poured in India · Gift-ready
             <span className="animate-shine absolute inset-y-0 w-10 -skew-x-12 bg-white/70" />
           </motion.div>
 
           <h1 className="mt-4 font-serif text-[clamp(2.2rem,1.3rem+2.6vw,3.75rem)] leading-[1.05] tracking-tight">
-            {["The World's", 'Safest &', 'Most Loved'].map((line, i) => (
+            {['Hand-Poured', 'Candles for', 'Every Celebration'].map((line, i) => (
               <span key={line} className="block overflow-hidden pb-1">
                 <motion.span className="block" initial={{ y: '110%', rotate: 3 }} animate={{ y: 0, rotate: 0 }} transition={{ duration: 1, delay: 0.15 + i * 0.12, ease }}>
                   {i === 2 ? (
                     <>
-                      <em className="text-gradient-flame">Most Loved</em> Candles
+                      <em className="text-gradient-flame">Every</em> Celebration
                     </>
                   ) : (
                     line
@@ -85,20 +85,20 @@ export default function Hero() {
           </h1>
 
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className="mt-4 max-w-xl text-base leading-relaxed text-ash md:text-lg">
-            Spill-proof <b className="text-charcoal">pearled soy wax</b> you pour into any vessel — and <b className="text-charcoal">hand-poured candles</b> that smell like chai breaks, jalebi Sundays and Diwali nights.
+            Terracotta <b className="text-charcoal">diyas</b> and lotus bowls for pooja, <b className="text-charcoal">rose bouquets</b> for the people you love, and sweet-shop candles you can light — hand-poured in small batches and packed gift-ready.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 0.7, ease }} className="mt-6 flex flex-wrap gap-3">
             <Magnetic>
-              <Link to="/shop?line=pearled">
+              <Link to="/shop">
                 <Button type="primary" size="large" shape="round" icon={<ArrowRightOutlined />} iconPlacement="end" className="h-11! px-6! shadow-[0_12px_30px_-10px_rgba(183,110,74,0.8)]!">
-                  Shop Pearled Kits
+                  Shop All Candles
                 </Button>
               </Link>
             </Magnetic>
             <Magnetic>
-              <Link to="/shop?line=handcrafted">
-                <Button size="large" shape="round" className="h-11! bg-white/70! px-6! backdrop-blur">Explore Handcrafted</Button>
+              <Link to="/shop?category=pooja-festive">
+                <Button size="large" shape="round" className="h-11! bg-white/70! px-6! backdrop-blur">Diwali & Pooja</Button>
               </Link>
             </Magnetic>
           </motion.div>

@@ -7,7 +7,7 @@ import CandleVisual from './CandleVisual'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { discountPercent, formatPrice } from '@/utils/format'
-import { fragrances } from '@/data/products'
+import { fragrances, getCategory } from '@/data/products'
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart()
@@ -66,7 +66,7 @@ export default function ProductCard({ product, index = 0 }) {
             {off > 0 && <span className="w-fit rounded-full bg-terracotta px-2.5 py-1 text-[0.65rem] font-bold text-white">-{off}%</span>}
           </div>
           <span className="absolute bottom-3 left-3 rounded-full bg-white/80 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-cocoa backdrop-blur">
-            {product.line === 'pearled' ? 'Pearled' : 'Handcrafted'}
+            {getCategory(product.category)?.label ?? 'Handcrafted'}
           </span>
           <span className="absolute bottom-3 right-3 translate-y-4 rounded-full bg-charcoal/85 px-3 py-1.5 text-xs font-semibold text-cream opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
             View details →
@@ -87,8 +87,14 @@ export default function ProductCard({ product, index = 0 }) {
 
         <div className="relative z-10 flex flex-1 flex-col p-4 [transform:translateZ(30px)]">
           <div className="flex items-center gap-2 text-xs text-ash">
-            <Rate disabled allowHalf defaultValue={product.rating} className="text-xs!" />
-            <span>({product.reviews})</span>
+            {product.reviews > 0 ? (
+              <>
+                <Rate disabled allowHalf defaultValue={product.rating} className="text-xs!" />
+                <span>({product.reviews})</span>
+              </>
+            ) : (
+              <span className="line-clamp-1">{product.subtitle}</span>
+            )}
           </div>
           <Link to={`/product/${product.id}`} className="mt-1.5 font-serif text-lg leading-snug text-charcoal hover:text-terracotta">
             {product.name}

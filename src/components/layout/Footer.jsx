@@ -33,12 +33,12 @@ const columns = [
   {
     heading: 'Shop',
     links: [
-      { label: 'Pearled Candles', to: '/shop?line=pearled' },
-      { label: 'Handcrafted Candles', to: '/shop?line=handcrafted' },
+      { label: 'Pooja & Diyas', to: '/shop?category=pooja-festive' },
+      { label: 'Bouquets & Roses', to: '/shop?category=floral' },
       { label: 'Diwali Special', to: '/shop?category=diwali-special' },
       { label: 'Valentine Special', to: '/shop?category=valentine-special' },
       { label: 'Cartoons & Kids', to: '/shop?category=cartoons-kids' },
-      { label: 'Refills', to: '/shop?category=refills' },
+      { label: 'Tea Lights', to: '/shop?category=tealights' },
     ],
   },
   {
@@ -209,7 +209,7 @@ function BrandPromise() {
   const perks = [
     { icon: CarOutlined, title: ship.title, text: ship.text },
     { icon: CreditCardOutlined, title: 'Cash on Delivery', text: '22,000+ pin codes' },
-    { icon: SafetyCertificateOutlined, title: '100% soy wax', text: 'Clean burn · no soot' },
+    { icon: SafetyCertificateOutlined, title: 'Hand-poured', text: 'Small batches · made in India' },
     { icon: GiftOutlined, title: 'Gift-ready packing', text: 'Handwritten notes' },
   ]
   const payments = ['UPI', 'Google Pay', 'Visa', 'Mastercard', 'RuPay', 'COD']
@@ -221,7 +221,7 @@ function BrandPromise() {
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Light up every moment</p>
           <p className="mt-3 font-serif text-2xl leading-snug text-cream">Hand-poured in small batches, delivered across India.</p>
           <p className="mt-3 text-sm leading-relaxed text-cream/65">
-            From spill-proof pearled kits to chai-and-biscuit candles, every Jyotessa piece is made with 100% soy wax and packed gift-ready. Questions about an order or bulk gifting? Our team is a
+            From terracotta diyas to rose bouquets, every Jyotessa candle is hand-poured in small batches and packed gift-ready. Questions about an order or bulk gifting? Our team is a
             WhatsApp message away.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">

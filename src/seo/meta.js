@@ -105,7 +105,7 @@ export function metaFor(pathname, ctx = {}) {
     return {
       ...base,
       title: `Handmade Soy Candles & Candle Gift Sets in India | ${BRAND}`,
-      description: clip(`Shop hand-poured soy wax candles, spill-proof pearled candle kits and festive gift sets from ${BRAND}. Diwali, Valentine & winter collections. ${shippingLine(ctx.shipping)} Cash on Delivery across India.`),
+      description: clip(`Shop hand-poured candles from ${BRAND} — terracotta wax diyas, lotus pooja bowls, rose bouquets, bubble candles, floating candles and gift boxes from ₹35. ${shippingLine(ctx.shipping)} Cash on Delivery across India.`),
       canonical: abs('/'),
       jsonLd: graph(
         organization(),
@@ -141,13 +141,13 @@ export function metaFor(pathname, ctx = {}) {
       ? `${name} — Buy ${name.replace(/ Collection$/, '')} Candles Online | ${BRAND}`
       : lineInfo
         ? `${name} — ${lineInfo.kicker} | ${BRAND}`
-        : `Shop All Candles — Soy Wax, Pearled Kits & Gift Sets | ${BRAND}`
+        : `Shop All Candles — Diyas, Rose Candles & Gift Sets | ${BRAND}`
     const description = clip(
       cat?.description
         ? `${cat.description} ${list.length} handmade designs${from ? ` from ${inr(from)}` : ''}. ${shippingLine(ctx.shipping)}`
         : lineInfo
           ? `${lineInfo.description} ${list.length} designs${from ? ` from ${inr(from)}` : ''}.`
-          : `Browse ${list.length || 'all'} handmade candles — pearled soy wax kits, food-inspired, floral and festive candles${from ? ` from ${inr(from)}` : ''}. ${shippingLine(ctx.shipping)}`,
+          : `Browse ${list.length || 'all'} handmade candles — diyas, lotus bowls, rose bouquets, bubble cubes, floating candles and tea lights${from ? ` from ${inr(from)}` : ''}. ${shippingLine(ctx.shipping)}`,
     )
     return {
       ...base,
@@ -221,9 +221,9 @@ export function metaFor(pathname, ctx = {}) {
 
   // ——— Content pages
   const pages = {
-    '/about': { title: `About ${BRAND} — Handmade Candles Poured in India`, description: `The story behind ${BRAND}: spill-proof pearled soy wax candles and hand-poured, Indian-inspired decorative candles made in small batches.`, schema: 'AboutPage' },
+    '/about': { title: `About ${BRAND} — Handmade Candles Poured in India`, description: `The story behind ${BRAND}: hand-poured diyas, lotus bowls, rose candles and festive gift sets made in small batches in India.`, schema: 'AboutPage' },
     '/contact': { title: `Contact ${BRAND} — Order Help, Bulk & Corporate Gifting`, description: `Reach ${BRAND} on WhatsApp ${site.whatsapp}, call or email ${site.supportEmail}. Order support, bulk and corporate gifting, custom hampers — we reply within a day.`, schema: 'ContactPage' },
-    '/faq': { title: `FAQs — Shipping, COD, Returns & Candle Care | ${BRAND}`, description: clip(`Answers about pearled candles, burn time, shipping, Cash on Delivery, returns and candle care. ${shippingLine(ctx.shipping)}`) },
+    '/faq': { title: `FAQs — Shipping, COD, Returns & Candle Care | ${BRAND}`, description: clip(`Answers about our candles, burn time, gifting, shipping, Cash on Delivery, returns and candle care. ${shippingLine(ctx.shipping)}`) },
     '/track-order': { title: `Track Your Order | ${BRAND}`, description: `Track your ${BRAND} order with your order ID and phone number or email — see when it is packed, shipped and out for delivery.` },
     '/follow': { title: `Follow Us & Get 10% Off | ${BRAND}`, description: `Scan, follow ${BRAND} on Instagram, Facebook and Google and get a personal 10% off coupon on your next candle order. One coupon per customer and per phone.` },
     '/disclaimer': { title: `Disclaimer | ${BRAND}`, description: `Product, safety and website disclaimers for ${BRAND} candles.` },
@@ -280,8 +280,6 @@ export function sitemapEntries(ctx = {}) {
   return [
     entry('/', '1.0', 'daily'),
     entry('/shop', '0.9', 'daily'),
-    entry('/shop?line=pearled', '0.8', 'weekly'),
-    entry('/shop?line=handcrafted', '0.8', 'weekly'),
     ...cats.map((c) => entry(`/shop?category=${c}`, '0.8', 'weekly')),
     ...collections.map((c) => entry(`/shop?category=${encodeURIComponent(c.id ?? c.slug)}`, '0.8', 'weekly')),
     ...products.map((p) =>

@@ -8,8 +8,8 @@ import { useCatalog } from '@/context/CatalogContext'
 
 const tabs = {
   bestsellers: ({ bestsellers }) => bestsellers.slice(0, 8),
-  pearled: ({ products }) => products.filter((p) => p.line === 'pearled'),
-  handcrafted: ({ products }) => products.filter((p) => p.line === 'handcrafted').slice(0, 8),
+  festive: ({ products }) => products.filter((p) => ['pooja-festive', 'food-inspired'].includes(p.category)).slice(0, 8),
+  roses: ({ products }) => products.filter((p) => ['floral', 'bubble-candles'].includes(p.category)).slice(0, 8),
   gifts: ({ products }) => products.filter((p) => p.moods.includes('gift')).slice(0, 8),
 }
 
@@ -22,7 +22,7 @@ export default function ProductShowcase() {
     <section className="border-y border-linen bg-shell py-12 md:py-16">
       <div className="wrap">
         <div className="flex flex-col items-center gap-5">
-          <SectionHeading eyebrow="Shop the glow" title="Choose your lighting experience" subtitle="From a pouch you pour into a glass you already own, to a hand-sculpted bouquet that’s almost too pretty to light." />
+          <SectionHeading eyebrow="Shop the glow" title="Choose your lighting experience" subtitle="From ₹35 floating roses to diya gift boxes and rose bouquets that are almost too pretty to light." />
           <div className="no-scrollbar max-w-full overflow-x-auto">
             <Segmented
               size="large"
@@ -31,8 +31,8 @@ export default function ProductShowcase() {
               onChange={setTab}
               options={[
                 { label: 'Hot Selling', value: 'bestsellers' },
-                { label: 'Pearled Kits', value: 'pearled' },
-                { label: 'Handcrafted', value: 'handcrafted' },
+                { label: 'Festive & Pooja', value: 'festive' },
+                { label: 'Roses & Bubbles', value: 'roses' },
                 { label: 'Gifting', value: 'gifts' },
               ]}
             />

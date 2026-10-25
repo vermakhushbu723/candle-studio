@@ -6,7 +6,7 @@ import { useCatalog } from '@/context/CatalogContext'
 
 export default function GiftingBanner() {
   const { getProduct } = useCatalog()
-  const items = ['kamal-jyoti-urli', 'festive-diya-set', 'dry-fruit-delight'].map(getProduct).filter(Boolean)
+  const items = ['lotus-pond-pack-of-4', 'designer-diya-pack-of-12', 'ladoo-modak'].map(getProduct).filter(Boolean)
   return (
     <section className="py-7">
       <div className="wrap">
@@ -17,7 +17,7 @@ export default function GiftingBanner() {
             <p className="mt-4 max-w-lg text-ash">Custom candle hampers for Diwali, weddings and teams — branded boxes, handwritten notes and bulk pricing from 25 units.</p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link to="/contact?topic=bulk"><Button type="primary" size="large" shape="round">Request a quote</Button></Link>
-              <Link to="/shop?category=luxury"><Button size="large" shape="round">Shop festive</Button></Link>
+              <Link to="/shop?category=pooja-festive"><Button size="large" shape="round">Shop festive</Button></Link>
             </div>
           </motion.div>
           <div className="grid grid-cols-3 gap-4">

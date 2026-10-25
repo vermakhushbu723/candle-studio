@@ -92,7 +92,7 @@ export default function Shop() {
 
   return (
     <>
-      <PageHeader image={categories.find((c) => c.id === category)?.image || siteImages.livingRoom} eyebrow={categories.find((c) => c.id === category)?.isCollection ? "Collection" : "Shop"} title={heading} subtitle={categories.find((c) => c.id === category)?.description || lines[effectiveLine]?.description || 'Pearled kits and hand-poured candles, all in one place.'} crumbs={[{ label: 'Shop' }]} />
+      <PageHeader image={categories.find((c) => c.id === category)?.image || siteImages.livingRoom} eyebrow={categories.find((c) => c.id === category)?.isCollection ? "Collection" : "Shop"} title={heading} subtitle={categories.find((c) => c.id === category)?.description || lines[effectiveLine]?.description || 'All 48 hand-poured designs — diyas, roses, bubble cubes, tea lights and more.'} crumbs={[{ label: 'Shop' }]} />
 
       <div className="wrap py-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -100,13 +100,9 @@ export default function Shop() {
             <Segmented
               shape="round"
               size="large"
-              value={line}
-              onChange={(v) => update('line', v)}
-              options={[
-                { label: 'All', value: 'all' },
-                { label: 'Pearled', value: 'pearled' },
-                { label: 'Handcrafted', value: 'handcrafted' },
-              ]}
+              value={category && !categories.find((c) => c.id === category)?.isCollection ? category : 'all'}
+              onChange={(v) => update('category', v)}
+              options={[{ label: 'All', value: 'all' }, ...categories.filter((c) => !c.isCollection).map((c) => ({ label: c.label, value: c.id }))]}
             />
           </div>
           <div className="flex items-center gap-3">

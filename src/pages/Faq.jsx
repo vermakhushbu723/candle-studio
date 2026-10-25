@@ -16,7 +16,7 @@ export default function Faq() {
 
   return (
     <>
-      <PageHeader image={siteImages.stepPour} eyebrow="Help centre" title="Frequently Asked Questions" subtitle="Everything about pearled wax, handcrafted candles, shipping and returns." crumbs={[{ label: 'FAQs' }]} />
+      <PageHeader image={siteImages.stepPour} eyebrow="Help centre" title="Frequently Asked Questions" subtitle="Everything about our candles, gifting, shipping and returns." crumbs={[{ label: 'FAQs' }]} />
       <section className="wrap max-w-4xl! py-10">
         <Input size="large" allowClear prefix={<SearchOutlined />} placeholder="Search questions…" value={query} onChange={(e) => setQuery(e.target.value)} />
         {groups.map((g) => (

@@ -47,7 +47,7 @@ export default function ScentFinder() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Scent Finder</p>
               <h2 className="mt-3 font-serif text-3xl md:text-5xl">Not sure which candle? Let us match you.</h2>
-              <p className="mt-4 text-cream/70">Three quick questions. We’ll pick from both pearled and handcrafted ranges.</p>
+              <p className="mt-4 text-cream/70">Three quick questions. We’ll pick from all 48 hand-poured designs.</p>
               <Progress className="mt-5" percent={Math.round((Math.min(step, scentQuiz.length) / scentQuiz.length) * 100)} strokeColor="#E3A77C" railColor="rgba(255,255,255,0.12)" format={(p) => <span className="text-cream/70">{p}%</span>} />
               {step > 0 && (
                 <Button ghost shape="round" icon={<ReloadOutlined />} onClick={reset} className="mt-4">Start over</Button>

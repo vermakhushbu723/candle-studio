@@ -5,7 +5,7 @@ import { shippingPerk } from '@/utils/shipping'
 const perks = [
   { icon: CarOutlined, shipping: true },
   { icon: CreditCardOutlined, title: 'COD available', text: '22,000+ pin codes' },
-  { icon: SafetyCertificateOutlined, title: '100% soy wax', text: 'No paraffin, no soot' },
+  { icon: SafetyCertificateOutlined, title: 'Hand-poured', text: 'Small batches, made in India' },
   { icon: GiftOutlined, title: 'Gift-ready', text: 'Keepsake packaging' },
 ]
 

@@ -9,7 +9,7 @@ import CandleVisual from '@/components/common/CandleVisual'
 import OrderSummary from '@/components/common/OrderSummary'
 import { useCart } from '@/context/CartContext'
 import { track } from '@/utils/analytics'
-import { fragrances } from '@/data/products'
+import { fragrances, getCategory } from '@/data/products'
 import { formatPrice } from '@/utils/format'
 
 export default function Cart() {
@@ -43,7 +43,7 @@ export default function Cart() {
                       <div className="flex justify-between gap-3">
                         <div>
                           <Link to={`/product/${l.product.id}`} className="font-serif text-xl hover:text-terracotta">{l.product.name}</Link>
-                          <p className="text-sm text-ash">{l.product.line === 'pearled' ? 'Pearled' : 'Handcrafted'}{l.fragrance && ` · ${fragrances.find((f) => f.id === l.fragrance)?.label}`}</p>
+                          <p className="text-sm text-ash">{l.product.subtitle || getCategory(l.product.category)?.label}{l.fragrance && ` · ${fragrances.find((f) => f.id === l.fragrance)?.label}`}</p>
                         </div>
                         <Button type="text" icon={<DeleteOutlined />} onClick={() => removeItem(l.key)} aria-label="Remove" />
                       </div>

@@ -111,7 +111,7 @@ function IconButton({ children, label, onClick }) {
 }
 
 function MegaMenu({ onClose }) {
-  const featured = useCatalog().getProduct('ocean-escape')
+  const featured = useCatalog().getProduct('lotus-pond')
   const columns = useShopMenu(navLinks.find((l) => l.mega).mega)
   return (
     <motion.div
@@ -220,7 +220,7 @@ function SearchOverlay({ open, onClose }) {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate font-medium">{p.name}</p>
-            <p className="text-xs text-ash">{p.line === 'pearled' ? 'Pearled' : 'Handcrafted'}</p>
+            <p className="text-xs text-ash">{p.subtitle}</p>
           </div>
           <span className="font-semibold">{formatPrice(p.price)}</span>
         </div>

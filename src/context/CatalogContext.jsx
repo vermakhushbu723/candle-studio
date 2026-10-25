@@ -1,17 +1,16 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { api } from '@/api/client'
-import { categories as bundledCategories, collectionMap, products as bundled } from '@/data/products'
+import { categories as bundledCategories, collectionMap, pickBestsellers, products as bundled } from '@/data/products'
 import { DEFAULT_SHIPPING } from '@/utils/shipping'
 
 const CatalogContext = createContext(null)
-const BESTSELLER_BADGES = ['Most Popular', 'Bestseller', 'Hot Selling']
 const FESTIVE = ['diwali-special', 'christmas-special', 'valentine-special', 'new-year-special']
 
 // The bundled catalogue renders instantly (and keeps the site usable if the API is down);
 // the live catalogue and collections from the admin replace it as soon as they arrive.
 const fallbackProducts = bundled.map((p) => ({
   ...p,
-  collections: Object.entries(collectionMap).filter(([, ids]) => ids.includes(p.id)).map(([id]) => id),
+  collections: p.collections ?? Object.entries(collectionMap).filter(([, ids]) => ids.includes(p.id)).map(([id]) => id),
 }))
 const productCategories = bundledCategories.filter((c) => c.line !== 'all')
 const fallbackCollections = bundledCategories
@@ -52,7 +51,7 @@ export function CatalogProvider({ children }) {
       shipping,
       getProduct: (id) => byId.get(id),
       getCategory: (id) => categories.find((c) => c.id === id),
-      bestsellers: products.filter((p) => BESTSELLER_BADGES.includes(p.badge)),
+      bestsellers: pickBestsellers(products),
       /** True when a product belongs to a category, either directly or through a collection. */
       inCategory: (product, id) => product.category === id || Boolean(product.collections?.includes(id)),
     }
