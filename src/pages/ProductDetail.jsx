@@ -5,12 +5,11 @@ import { CarOutlined, CheckOutlined, HeartFilled, HeartOutlined, SafetyCertifica
 import { AnimatePresence, motion } from 'framer-motion'
 import ProductCard from '@/components/common/ProductCard'
 import SectionHeading from '@/components/common/SectionHeading'
-import { fragrances, getCategory } from '@/data/products'
+import { colorImages, fragrances, getCategory, variantsOf } from '@/data/products'
 import { useCatalog } from '@/context/CatalogContext'
 import PageLoader from '@/components/common/PageLoader'
 import { shippingSentence, shippingShort } from '@/utils/shipping'
 import { reviews } from '@/data/content'
-import { siteImages } from '@/data/site'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { discountPercent, formatPrice } from '@/utils/format'
@@ -35,10 +34,15 @@ function ProductView({ product }) {
   const { has, toggle } = useWishlist()
   const [quantity, setQuantity] = useState(1)
   const [fragrance, setFragrance] = useState(product.fragrances ? fragrances[0].id : null)
+  const [color, setColor] = useState(product.colors?.[0]?.name ?? null)
   const [active, setActive] = useState(0)
   useEffect(() => track.viewItem(product), [product])
-  // Pearled kits have one studio shot, so add the brand lifestyle photos to their gallery
-  const gallery = product.line === 'pearled' ? [...product.images, siteImages.proofPearled, siteImages.stepPour, siteImages.stepIgnite, siteImages.livingRoom] : product.images
+  const gallery = colorImages(product, color)
+  const packs = variantsOf(product, products)
+  const pickColor = (name) => {
+    setColor(name)
+    setActive(0)
+  }
 
   const category = getCategory(product.category)
   const off = discountPercent(product.price, product.compareAt)
@@ -46,7 +50,7 @@ function ProductView({ product }) {
   const productReviews = reviews.slice(0, 3)
 
   const buyNow = () => {
-    addItem(product.id, { quantity, fragrance, openDrawer: false })
+    addItem(product.id, { quantity, fragrance, color, openDrawer: false })
     navigate('/checkout')
   }
 
@@ -60,7 +64,7 @@ function ProductView({ product }) {
             <div className="relative aspect-[5/4] overflow-hidden rounded-4xl border border-linen bg-shell">
               <AnimatePresence mode="wait">
                 <motion.div key={active} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="group h-full w-full cursor-zoom-in overflow-hidden">
-                  <img src={gallery[active]} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <img src={gallery[active] ?? gallery[0]} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 </motion.div>
               </AnimatePresence>
               {gallery.length > 1 && (
@@ -69,8 +73,8 @@ function ProductView({ product }) {
             </div>
             {gallery.length > 1 && (
               <div className="mt-4 grid grid-cols-4 gap-3">
-                {gallery.slice(0, 8).map((src, i) => (
-                  <button key={src} type="button" onClick={() => setActive(i)} className={`aspect-square overflow-hidden rounded-2xl border-2 transition ${active === i ? 'border-terracotta' : 'border-transparent opacity-70 hover:opacity-100'}`}>
+                {gallery.slice(0, 12).map((src, i) => (
+                  <button key={`${src}-${i}`} type="button" onClick={() => setActive(i)} className={`aspect-square overflow-hidden rounded-2xl border-2 transition ${active === i ? 'border-terracotta' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                     <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
                   </button>
                 ))}
@@ -102,6 +106,52 @@ function ProductView({ product }) {
             </div>
             <p className="mt-1 text-xs text-ash">Inclusive of all taxes</p>
 
+            {product.colors?.length > 0 && (
+              <div className="mt-5">
+                <p className="text-sm font-semibold">Colour: <span className="font-normal text-ash">{color}</span></p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {product.colors.map((c) => (
+                    <button
+                      key={c.name}
+                      type="button"
+                      title={c.name}
+                      onClick={() => pickColor(c.name)}
+                      className={`w-20 overflow-hidden rounded-2xl border-2 bg-white text-center transition ${color === c.name ? 'border-terracotta' : 'border-linen hover:border-caramel'}`}
+                    >
+                      {c.images?.[0] ? (
+                        <img src={c.images[0]} alt={c.name} className="aspect-square w-full object-cover" loading="lazy" />
+                      ) : (
+                        <span className="flex aspect-square w-full items-center justify-center">
+                          <span className="h-10 w-10 rounded-full border border-black/10" style={{ background: c.hex || '#EADBC8' }} />
+                        </span>
+                      )}
+                      <span className="block truncate px-1 py-1 text-xs font-medium">{c.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {packs.length > 0 && (
+              <div className="mt-5">
+                <p className="text-sm font-semibold">Pack size: <span className="font-normal text-ash">{product.variantLabel}</span></p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {packs.map((p) => (
+                    <Link
+                      key={p.id}
+                      to={`/product/${p.id}`}
+                      replace
+                      className={`min-w-28 rounded-2xl border-2 px-4 py-2.5 text-left transition ${p.id === product.id ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
+                    >
+                      <p className="text-sm font-semibold text-charcoal">{p.variantLabel || p.subtitle}</p>
+                      <p className="text-sm text-ash">{formatPrice(p.price)}</p>
+                      {p.stock === 0 && <p className="text-[0.65rem] font-semibold uppercase text-terracotta">Sold out</p>}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {product.fragrances && (
               <div className="mt-5">
                 <p className="text-sm font-semibold">Fragrance: <span className="font-normal text-ash">{fragrances.find((f) => f.id === fragrance)?.label}</span></p>
@@ -124,7 +174,7 @@ function ProductView({ product }) {
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <InputNumber size="large" min={1} max={20} value={quantity} onChange={(v) => setQuantity(v ?? 1)} className="w-28" />
-              <Button size="large" type="primary" className="flex-1" onClick={() => addItem(product.id, { quantity, fragrance })}>
+              <Button size="large" type="primary" className="flex-1" onClick={() => addItem(product.id, { quantity, fragrance, color })}>
                 Add to cart · {formatPrice(product.price * quantity)}
               </Button>
               <Button size="large" icon={has(product.id) ? <HeartFilled className="text-terracotta" /> : <HeartOutlined />} onClick={() => toggle(product.id)} aria-label="Wishlist" />

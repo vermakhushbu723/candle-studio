@@ -27,15 +27,18 @@ export function CartProvider({ children }) {
   useEffect(() => writeStorage(STORAGE_KEY, items), [items])
 
   const addItem = useCallback(
-    (productId, { quantity = 1, fragrance = null, openDrawer = true } = {}) => {
-      const key = `${productId}__${fragrance ?? 'default'}`
+    (productId, { quantity = 1, fragrance = null, color = null, openDrawer = true } = {}) => {
+      // Products with colours always carry one, defaulting to the first
+      const product = getProduct(productId)
+      const colour = product?.colors?.length ? (product.colors.find((c) => c.name === color) ?? product.colors[0]).name : null
+      const key = `${productId}__${fragrance ?? 'default'}${colour ? `__${colour}` : ''}`
       setItems((prev) => {
         const existing = prev.find((i) => i.key === key)
         if (existing) return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + quantity } : i))
-        return [...prev, { key, productId, fragrance, quantity }]
+        return [...prev, { key, productId, fragrance, color: colour, quantity }]
       })
-      message.success(`${getProduct(productId)?.name ?? 'Item'} added to cart`)
-      if (getProduct(productId)) track.addToCart(getProduct(productId), quantity, fragrance)
+      message.success(`${product?.name ?? 'Item'}${colour ? ` (${colour})` : ''} added to cart`)
+      if (product) track.addToCart(product, quantity, [colour, fragrance].filter(Boolean).join(' / ') || null)
       if (openDrawer) setDrawerOpen(true)
     },
     [message, getProduct],
@@ -60,7 +63,12 @@ export function CartProvider({ children }) {
 
   const totals = useMemo(() => {
     const lines = items
-      .map((i) => ({ ...i, product: getProduct(i.productId) }))
+      .map((i) => {
+        const product = getProduct(i.productId)
+        // The line's photo follows the chosen colour
+        const image = product && i.color ? product.colors?.find((c) => c.name === i.color)?.images?.[0] : null
+        return { ...i, product, visual: image ? { ...product.visual, image } : product?.visual }
+      })
       .filter((i) => i.product)
     const subtotal = lines.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
     const discount = discountFor(couponInfo, subtotal)

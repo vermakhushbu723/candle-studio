@@ -7,7 +7,8 @@ import CandleVisual from './CandleVisual'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { discountPercent, formatPrice } from '@/utils/format'
-import { fragrances, getCategory } from '@/data/products'
+import { fragrances, getCategory, variantsOf } from '@/data/products'
+import { useCatalog } from '@/context/CatalogContext'
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart()
@@ -15,6 +16,7 @@ export default function ProductCard({ product, index = 0 }) {
   const off = discountPercent(product.price, product.compareAt)
   const wished = has(product.id)
   const hoverImage = product.images?.[1]
+  const packs = variantsOf(product, useCatalog().products).length
 
   // 3D tilt + spotlight that follows the pointer
   const ref = useRef(null)
@@ -100,6 +102,17 @@ export default function ProductCard({ product, index = 0 }) {
             {product.name}
           </Link>
           <p className="mt-1 line-clamp-1 text-sm text-ash">{product.tagline}</p>
+          {(product.colors?.length > 0 || packs > 0) && (
+            <div className="mt-2 flex items-center gap-1.5 text-xs text-ash">
+              {product.colors?.slice(0, 5).map((c) => (
+                <span key={c.name} title={c.name} className="h-3.5 w-3.5 rounded-full border border-black/15" style={{ background: c.hex || '#EADBC8' }} />
+              ))}
+              {product.colors?.length > 5 && <span>+{product.colors.length - 5}</span>}
+              {product.colors?.length > 0 && <span className="ml-0.5">{product.colors.length} colours</span>}
+              {product.colors?.length > 0 && packs > 0 && <span>·</span>}
+              {packs > 0 && <span>{packs} pack sizes</span>}
+            </div>
+          )}
           <div className="mt-auto flex items-end justify-between gap-3 pt-3">
             <div>
               <span className="text-lg font-bold text-charcoal">{formatPrice(product.price)}</span>

@@ -67,10 +67,11 @@ export default function CartDrawer() {
                   className="flex gap-4"
                 >
                   <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl">
-                    <CandleVisual visual={line.product.visual} lit={false} />
+                    <CandleVisual visual={line.visual} lit={false} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{line.product.name}</p>
+                    {line.color && <p className="text-xs text-ash">Colour: {line.color}</p>}
                     {line.fragrance && <p className="text-xs text-ash">{fragrances.find((f) => f.id === line.fragrance)?.label}</p>}
                     <div className="mt-2 flex items-center justify-between">
                       <InputNumber size="small" min={1} max={20} value={line.quantity} onChange={(v) => updateQuantity(line.key, v ?? 1)} />

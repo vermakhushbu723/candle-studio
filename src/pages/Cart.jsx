@@ -37,13 +37,13 @@ export default function Cart() {
                 {lines.map((l) => (
                   <motion.li key={l.key} layout exit={{ opacity: 0, x: -40 }} className="flex gap-5 py-6">
                     <Link to={`/product/${l.product.id}`} className="h-28 w-28 shrink-0 overflow-hidden rounded-2xl">
-                      <CandleVisual visual={l.product.visual} lit={false} />
+                      <CandleVisual visual={l.visual} lit={false} />
                     </Link>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex justify-between gap-3">
                         <div>
                           <Link to={`/product/${l.product.id}`} className="font-serif text-xl hover:text-terracotta">{l.product.name}</Link>
-                          <p className="text-sm text-ash">{l.product.subtitle || getCategory(l.product.category)?.label}{l.fragrance && ` · ${fragrances.find((f) => f.id === l.fragrance)?.label}`}</p>
+                          <p className="text-sm text-ash">{l.product.subtitle || getCategory(l.product.category)?.label}{l.color && ` · ${l.color}`}{l.fragrance && ` · ${fragrances.find((f) => f.id === l.fragrance)?.label}`}</p>
                         </div>
                         <Button type="text" icon={<DeleteOutlined />} onClick={() => removeItem(l.key)} aria-label="Remove" />
                       </div>
