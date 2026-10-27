@@ -67,7 +67,7 @@ export default function About() {
               love, gel glasses, mandala tins, floating candles and tea lights for every corner of your home.
             </p>
             <p>
-              Every candle is poured in small batches, finished by hand and packed gift-ready, then shipped across India with Cash
+              Every candle is poured in small batches, finished by hand and packed gift-ready, then delivered across Uttar Pradesh with Cash
               on Delivery — because {site.subTagline.toLowerCase()}
             </p>
           </div>

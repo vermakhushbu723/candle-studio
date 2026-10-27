@@ -37,8 +37,9 @@ function ProductView({ product }) {
   const [color, setColor] = useState(product.colors?.[0]?.name ?? null)
   const [active, setActive] = useState(0)
   useEffect(() => track.viewItem(product), [product])
-  const gallery = colorImages(product, color)
   const packs = variantsOf(product, products)
+  // Without colours, every pack size shows all photos of the design (its own first)
+  const gallery = product.colors?.length ? colorImages(product, color) : [...new Set([...product.images, ...packs.flatMap((p) => p.images)])]
   const pickColor = (name) => {
     setColor(name)
     setActive(0)
@@ -229,7 +230,7 @@ function ProductView({ product }) {
                     </ol>
                   ),
                 },
-                { key: 'ship', label: 'Shipping', children: <p className="text-ash">Dispatched same day before 2 PM. Metros in 2–3 days, rest of India in 4–6 days. COD available. {shippingSentence(shipping)}</p> },
+                { key: 'ship', label: 'Shipping', children: <p className="text-ash">We deliver only in Uttar Pradesh. Dispatched same day before 2 PM — Noida & Ghaziabad in 1–2 days, rest of UP in 2–4 days. COD available. {shippingSentence(shipping)}</p> },
               ]}
             />
           </motion.div>

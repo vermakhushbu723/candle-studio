@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Alert, App, Button, Empty, Form, Input, Radio, Result, Steps } from 'antd'
+import { Alert, App, Button, Empty, Form, Input, Radio, Result, Select, Steps } from 'antd'
 import { motion } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import { siteImages } from '@/data/site'
@@ -11,16 +11,18 @@ import { payWithRazorpay } from '@/api/razorpay'
 import NotificationSettings from '@/components/account/NotificationSettings'
 import { useSession } from '@/utils/session'
 import { track } from '@/utils/analytics'
+import { deliveryError, deliveryStates } from '@/utils/shipping'
 
 const paymentOptions = [
   { value: 'upi', label: 'UPI', note: 'GPay, PhonePe, Paytm' },
   { value: 'card', label: 'Credit / Debit card', note: 'Visa, Mastercard, RuPay' },
-  { value: 'cod', label: 'Cash on Delivery', note: 'Available on 22,000+ pin codes' },
+  { value: 'cod', label: 'Cash on Delivery', note: 'Available on every order' },
 ]
 
 export default function Checkout() {
   const { message } = App.useApp()
-  const { lines, coupon, clearCart, total } = useCart()
+  const { lines, coupon, clearCart, total, shippingSettings } = useCart()
+  const states = deliveryStates(shippingSettings)
   const [step, setStep] = useState(0)
   const [order, setOrder] = useState(null)
   const [placing, setPlacing] = useState(false)
@@ -148,8 +150,30 @@ export default function Checkout() {
               <Form.Item name="line1" label="Address" rules={[{ required: true, min: 5, message: 'Enter your full address' }]}><Input size="large" placeholder="House no., street, area" /></Form.Item>
               <div className="grid gap-x-4 sm:grid-cols-3">
                 <Form.Item name="city" label="City" rules={[{ required: true, message: 'Required' }]}><Input size="large" /></Form.Item>
-                <Form.Item name="state" label="State" rules={[{ required: true, message: 'Required' }]}><Input size="large" /></Form.Item>
-                <Form.Item name="pincode" label="Pincode" rules={[{ required: true, pattern: /^\d{6}$/, message: '6 digits' }]}><Input size="large" maxLength={6} /></Form.Item>
+                <Form.Item
+                  name="state"
+                  label="State"
+                  initialValue={states.length === 1 ? states[0] : undefined}
+                  rules={[{ required: true, message: 'Required' }]}
+                >
+                  {states.length ? <Select size="large" options={states.map((v) => ({ value: v, label: v }))} /> : <Input size="large" />}
+                </Form.Item>
+                <Form.Item
+                  name="pincode"
+                  label="Pincode"
+                  dependencies={['state']}
+                  rules={[
+                    { required: true, pattern: /^\d{6}$/, message: '6 digits' },
+                    ({ getFieldValue }) => ({
+                      validator: (_, v) => {
+                        const err = /^\d{6}$/.test(v ?? '') ? deliveryError(getFieldValue('state') ?? states[0], v, shippingSettings) : null
+                        return err ? Promise.reject(new Error(err)) : Promise.resolve()
+                      },
+                    }),
+                  ]}
+                >
+                  <Input size="large" maxLength={6} />
+                </Form.Item>
               </div>
               <Form.Item name="giftNote" label="Gift note (optional)"><Input.TextArea rows={2} placeholder="We’ll handwrite it on a card" /></Form.Item>
             </div>

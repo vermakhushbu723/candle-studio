@@ -69,9 +69,9 @@ export default function Shop() {
         <Input allowClear prefix={<SearchOutlined />} value={query} onChange={(e) => update('q', e.target.value)} placeholder="Search candles" />
       </div>
       <div>
-        <p className="eyebrow mb-3">Collection</p>
+        <p className="eyebrow mb-3">Category</p>
         <div className="flex flex-col gap-2.5">
-          {visibleCategories.map((c) => (
+          {visibleCategories.filter((c) => !c.isCollection).map((c) => (
             <Checkbox key={c.id} checked={category === c.id} onChange={(e) => update('category', e.target.checked ? c.id : null)}>
               {c.label}
             </Checkbox>

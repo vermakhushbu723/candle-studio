@@ -36,7 +36,7 @@ export default function Navbar() {
         scrolled ? 'border-b border-linen bg-cream/85 shadow-[0_8px_30px_-20px_rgba(58,21,7,0.3)] backdrop-blur-xl' : 'bg-cream'
       }`}
     >
-      <div className="wrap flex h-18 items-center justify-between gap-4">
+      <div className="wrap flex h-18 items-center justify-between gap-2 sm:gap-4">
         <button type="button" className="text-xl lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open menu">
           <MenuOutlined />
         </button>
@@ -65,7 +65,7 @@ export default function Navbar() {
           <AnimatePresence>{megaOpen && <MegaMenu onClose={() => setMegaOpen(false)} />}</AnimatePresence>
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center sm:gap-1">
           <IconButton label="Search" onClick={() => setSearchOpen(true)}>
             <SearchOutlined />
           </IconButton>
@@ -104,7 +104,7 @@ export default function Navbar() {
 
 function IconButton({ children, label, onClick }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className="grid h-10 w-10 place-items-center rounded-full text-lg transition hover:bg-shell">
+    <button type="button" aria-label={label} onClick={onClick} className="grid h-9 w-9 place-items-center rounded-full text-lg transition hover:bg-shell sm:h-10 sm:w-10">
       {children}
     </button>
   )

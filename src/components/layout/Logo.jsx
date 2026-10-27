@@ -13,9 +13,9 @@ export default function Logo({ light = false }) {
     )
   }
   return (
-    <Link to="/" className="group flex items-center gap-2" aria-label="Jyotessa home">
-      <img src="/logo-mark.png" alt="" width="512" height="512" className="h-14 w-auto transition-transform duration-500 group-hover:scale-105" />
-      <span className="font-brand text-2xl font-semibold tracking-[0.14em] text-terracotta">JYOTESSA</span>
+    <Link to="/" className="group flex min-w-0 items-center gap-1.5 sm:gap-2" aria-label="Jyotessa home">
+      <img src="/logo-mark.png" alt="" width="512" height="512" className="h-10 w-auto shrink-0 transition-transform duration-500 group-hover:scale-105 sm:h-14" />
+      <span className="truncate font-brand text-lg font-semibold tracking-[0.08em] text-terracotta sm:text-2xl sm:tracking-[0.14em]">JYOTESSA</span>
     </Link>
   )
 }

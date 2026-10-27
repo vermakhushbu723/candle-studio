@@ -208,7 +208,7 @@ function BrandPromise() {
   const ship = shippingPerk(shipping)
   const perks = [
     { icon: CarOutlined, title: ship.title, text: ship.text },
-    { icon: CreditCardOutlined, title: 'Cash on Delivery', text: '22,000+ pin codes' },
+    { icon: CreditCardOutlined, title: 'Cash on Delivery', text: 'All UP pincodes' },
     { icon: SafetyCertificateOutlined, title: 'Hand-poured', text: 'Small batches · made in India' },
     { icon: GiftOutlined, title: 'Gift-ready packing', text: 'Handwritten notes' },
   ]
@@ -219,7 +219,7 @@ function BrandPromise() {
       <div className="grid gap-6 lg:grid-cols-[1fr_1.3fr] lg:items-center">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Light up every moment</p>
-          <p className="mt-3 font-serif text-2xl leading-snug text-cream">Hand-poured in small batches, delivered across India.</p>
+          <p className="mt-3 font-serif text-2xl leading-snug text-cream">Hand-poured in small batches, delivered across Uttar Pradesh.</p>
           <p className="mt-3 text-sm leading-relaxed text-cream/65">
             From terracotta diyas to rose bouquets, every Jyotessa candle is hand-poured in small batches and packed gift-ready. Questions about an order or bulk gifting? Our team is a
             WhatsApp message away.

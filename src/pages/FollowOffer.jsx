@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { App, Button, Result, Skeleton } from 'antd'
+import { App, Button, Input, Result, Skeleton } from 'antd'
 import {
   CheckCircleFilled, CopyOutlined, FacebookFilled, GiftOutlined, GoogleOutlined, InstagramOutlined,
   LinkOutlined, LockOutlined, ShoppingOutlined, YoutubeFilled,
@@ -31,6 +31,7 @@ export default function FollowOffer() {
   const [deviceUsed, setDeviceUsed] = useState(false)
   const [visited, setVisited] = useState(() => readStorage(VISITED_KEY, []))
   const [claiming, setClaiming] = useState(false)
+  const [handle, setHandle] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -56,9 +57,9 @@ export default function FollowOffer() {
     try {
       const r = await api('/offers/follow/claim', {
         method: 'POST',
-        body: { deviceId: getDeviceId(), fingerprint: await getFingerprint(), visited },
+        body: { deviceId: getDeviceId(), fingerprint: await getFingerprint(), visited, handle: handle.trim() },
       })
-      setData((d) => ({ ...d, claimed: true, coupon: r.coupon }))
+      setData((d) => ({ ...d, claimed: true, status: r.status, handle: r.handle, coupon: r.coupon }))
       track.followOfferClaimed()
       message.success(r.message)
     } catch (e) {
@@ -104,6 +105,13 @@ export default function FollowOffer() {
           <Skeleton active paragraph={{ rows: 8 }} />
         ) : data.coupon ? (
           <CouponCard coupon={data.coupon} onCopy={copy} onUse={useNow} />
+        ) : data.status === 'pending' ? (
+          <Result
+            status="info"
+            title="We’re checking your follow"
+            subTitle={`Thanks${data.handle ? `, @${data.handle}` : ''}! Our team will check that you follow Jyotessa and switch on your ${percent}% coupon — usually within 24 hours. It will appear right here.`}
+            extra={<Button onClick={() => api('/offers/follow').then(setData).catch(() => undefined)}>Check again</Button>}
+          />
         ) : !data.offer.enabled ? (
           <Result status="info" title="This offer has ended" subTitle="Follow our pages anyway — that’s where we announce new launches and offers first." />
         ) : session && deviceUsed ? (
@@ -151,16 +159,26 @@ export default function FollowOffer() {
             </Step>
 
             {/* Step 3 — claim */}
-            <Step n={3} done={false} title={`Claim your ${percent}% coupon`} text="Use it at checkout on any order.">
+            <Step n={3} done={false} title={`Claim your ${percent}% coupon`} text="Tell us the username you followed from. We check it and switch on your code — usually within 24 hours.">
+              <Input
+                size="large"
+                prefix="@"
+                className="mb-3 max-w-sm"
+                placeholder="Your Instagram / Facebook username"
+                value={handle}
+                disabled={!allVisited}
+                onChange={(e) => setHandle(e.target.value)}
+              />
+              <br />
               <Button
                 type="primary"
                 size="large"
                 icon={<GiftOutlined />}
-                disabled={!session || !allVisited}
+                disabled={!session || !allVisited || handle.trim().length < 2}
                 loading={claiming}
                 onClick={claim}
               >
-                Get my {percent}% coupon
+                Request my {percent}% coupon
               </Button>
               {!allVisited && <p className="mt-2 text-xs text-ash">Follow all {links.length} pages above to unlock the coupon.</p>}
             </Step>
@@ -222,7 +240,8 @@ function Terms({ offer }) {
     'One coupon per customer account and one per phone/device.',
     'The coupon is personal — it works only when you are logged in to the account that claimed it.',
     'Single use: it is used up once an order with it is placed (online payments: once the payment succeeds).',
-    `Valid for ${offer.validDays} days after you claim it. Only one coupon can be used per order.`,
+    'We check every follow before the coupon is switched on.',
+    `Valid for ${offer.validDays} days after it is switched on. Only one coupon can be used per order.`,
     'Unfollowing or misuse (multiple accounts, fake numbers) may cancel the coupon or the order.',
   ]
   return (

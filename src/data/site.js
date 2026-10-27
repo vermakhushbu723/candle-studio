@@ -10,7 +10,7 @@ export const site = {
   hours: 'Open 24 hours, 7 days a week',
   foundingDate: '2026-10-01',
   womenOwned: true,
-  address: 'Handmade in India · Shipping Pan-India',
+  address: 'Handmade in India · Delivering across Uttar Pradesh',
   // Studio address — must match the Google Business Profile exactly
   location: {
     street: 'Near Barat Ghar, Wajidpur, Sector 63',
@@ -54,9 +54,9 @@ export const instagramFeed = [
 ]
 
 export const announcements = [
-  '{shippingShort} · Pan-India',
+  '{shippingShort} · Delivering across {deliveryArea}',
   'Use code GLOW10 for 10% off your first order',
-  'Cash on Delivery across 22,000+ pin codes',
+  'Cash on Delivery on every order',
   'Same-day dispatch on orders before 2 PM',
   'Hand-poured in India · 48 handmade designs',
 ]
@@ -83,25 +83,6 @@ export const navLinks = [
           { label: 'Jars & Glass', to: '/shop?category=jars-glass' },
           { label: 'Floating Candles', to: '/shop?category=floating-candles' },
           { label: 'Tea Lights', to: '/shop?category=tealights' },
-        ],
-      },
-      {
-        heading: 'Collections',
-        items: [
-          { label: 'Cartoons & Kids', to: '/shop?category=cartoons-kids' },
-          { label: 'Ocean', to: '/shop?category=ocean' },
-          { label: 'Aesthetic', to: '/shop?category=aesthetic' },
-          { label: 'Spiritual', to: '/shop?category=spiritual' },
-          { label: 'Winter', to: '/shop?category=winter' },
-        ],
-      },
-      {
-        heading: 'Festive Specials',
-        items: [
-          { label: 'Diwali Special', to: '/shop?category=diwali-special' },
-          { label: 'Christmas Special', to: '/shop?category=christmas-special' },
-          { label: 'Valentine Special', to: '/shop?category=valentine-special' },
-          { label: 'New Year Special', to: '/shop?category=new-year-special' },
         ],
       },
     ],

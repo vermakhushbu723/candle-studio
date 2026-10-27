@@ -60,8 +60,10 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
   body {
+    overflow-x: clip; /* decorative blobs and wide rows never cause sideways scrolling on phones */
     background: var(--color-cream);
     color: var(--color-charcoal);
     font-family: var(--font-sans);

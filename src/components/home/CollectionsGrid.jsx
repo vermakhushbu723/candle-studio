@@ -4,16 +4,13 @@ import { motion } from 'framer-motion'
 import SectionHeading from '@/components/common/SectionHeading'
 import { useCatalog } from '@/context/CatalogContext'
 
-const lineLabel = { pearled: 'Pearled', handcrafted: 'Handcrafted', all: 'Collection' }
-
 export default function CollectionsGrid() {
   const { products, categories, inCategory } = useCatalog()
-  // Seasonal / curated collections (managed in the admin) first, then the product categories
-  const tiles = [...categories.filter((c) => c.isCollection), ...categories.filter((c) => !c.isCollection)]
+  const tiles = categories.filter((c) => !c.isCollection)
   return (
     <section className="pb-4 pt-12 md:pb-6 md:pt-16">
       <div className="wrap">
-        <SectionHeading eyebrow="Collections" title="Find a candle for every feeling" />
+        <SectionHeading eyebrow="Shop by category" title="Find a candle for every feeling" />
         {/* Uniform tiles — no row-spans, so the grid never leaves an empty cell at the end */}
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
           {tiles.map((c, i) => {
@@ -31,7 +28,7 @@ export default function CollectionsGrid() {
                   <div className="absolute inset-0 bg-linear-to-t from-charcoal/85 via-charcoal/20 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-4 text-white md:p-5">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-caramel">
-                      {lineLabel[c.line]} · {count}
+                      {count} designs
                     </span>
                     <p className="mt-1 font-serif text-lg leading-tight md:text-xl">{c.label}</p>
                     <span className="mt-2 inline-flex items-center gap-2 text-sm opacity-0 transition-all duration-500 group-hover:opacity-100">

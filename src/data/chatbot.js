@@ -32,7 +32,7 @@ export const intents = [
   {
     id: 'shipping',
     match: /ship|deliver|cod|cash on|how long|days|pincode|pin code/i,
-    text: 'Orders before 2 PM ship the same day. Metros get delivery in 2–3 days, rest of India in 4–6 days. {shipping} Cash on Delivery works on 22,000+ pin codes.',
+    text: 'We currently deliver only in Uttar Pradesh. Orders before 2 PM ship the same day — Noida & Ghaziabad in 1–2 days, rest of UP in 2–4 days. {shipping} Cash on Delivery is available on every order.',
   },
   {
     id: 'returns',

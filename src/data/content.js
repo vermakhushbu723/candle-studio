@@ -26,8 +26,8 @@ export const faqs = [
   {
     group: 'Orders & Shipping',
     items: [
-      { q: 'What are the shipping times across India?', a: 'Orders placed before 2 PM IST are dispatched the same working day. Metro cities receive delivery in 2–3 days, the rest of India in 4–6 days, North-East and island territories in 6–8 days.' },
-      { q: 'Is Cash on Delivery available?', a: 'Yes, COD is available across 22,000+ pin codes. {shipping}' },
+      { q: 'Where do you deliver, and how fast?', a: 'We currently deliver only in {deliveryArea}. Orders placed before 2 PM IST are dispatched the same working day — Noida & Ghaziabad receive delivery in 1–2 days, the rest of Uttar Pradesh in 2–4 days.' },
+      { q: 'Is Cash on Delivery available?', a: 'Yes, Cash on Delivery is available on every order we deliver ({deliveryArea}). {shipping}' },
       { q: 'What if my candle arrives damaged?', a: 'Notify us within 48 hours of delivery with an unboxing video or clear photographs and we will send a free replacement.' },
     ],
   },
@@ -80,7 +80,7 @@ export const milestones = [
   { year: '2021', title: 'A kitchen experiment', body: 'The first candles were poured on a stovetop as gifts for friends and family.' },
   { year: '2023', title: 'Festive favourites', body: 'Diyas, lotus bowls and sweet-shop candles became our Diwali and Ganpati best-loved range.' },
   { year: '2025', title: 'Roses & bubbles', body: 'Rose bouquets, bubble cubes and gel glasses joined the collection for gifting and décor.' },
-  { year: '2026', title: 'Jyotessa online', body: 'All 48 designs now ship across India from our studio in Noida.' },
+  { year: '2026', title: 'Jyotessa online', body: 'All 48 designs now ship across Uttar Pradesh from our studio in Noida.' },
 ]
 export const scentStories = [
   { title: 'Diwali Night', notes: 'Diyas · Rangoli · Family', line: 'Rows of carved terracotta diyas glowing at the door, with no oil and no mess.', image: '/images/products/catalog/designer-diya.jpg', productId: 'designer-diya-pack-of-12' },
@@ -95,8 +95,8 @@ export const policies = {
     title: 'Shipping Policy',
     sections: [
       { heading: 'Dispatch', text: 'Orders placed before 2 PM IST are dispatched the same working day. Tracking details are shared over email and WhatsApp.' },
-      { heading: 'Delivery Timelines', text: 'Metro cities — 2 to 3 days. Rest of India — 4 to 6 days. North-East and island territories — 6 to 8 days.' },
-      { heading: 'Shipping Charges', text: '{shipping} COD is available across 22,000+ pin codes.' },
+      { heading: 'Delivery Timelines', text: 'We currently deliver only in {deliveryArea}. Noida & Ghaziabad — 1 to 2 days. Rest of Uttar Pradesh — 2 to 4 days.' },
+      { heading: 'Shipping Charges', text: '{shipping} Cash on Delivery is available on every order.' },
     ],
   },
   returns: {
