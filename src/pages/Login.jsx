@@ -56,7 +56,7 @@ export default function Login() {
   }
 
   return (
-    <section className="wrap grid gap-6 py-8 md:py-10 lg:grid-cols-2 lg:items-stretch">
+    <section className="wrap grid grid-cols-1 gap-6 py-8 md:py-10 lg:grid-cols-2 lg:items-stretch">
       {/* Brand panel */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -96,7 +96,7 @@ export default function Login() {
             </div>
             <p className="mt-2 text-ash">You are signed in as {session.phone ? `+91 ${session.phone}` : session.email}.</p>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {[
                 { to: '/track-order', icon: CarOutlined, label: 'Track an order' },
                 { to: '/wishlist', icon: HeartOutlined, label: 'My wishlist' },

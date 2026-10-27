@@ -50,7 +50,7 @@ export default function About() {
       />
 
       {/* Our story */}
-      <section className="wrap grid items-center gap-7 py-12 lg:grid-cols-2">
+      <section className="wrap grid grid-cols-1 items-center gap-7 py-12 lg:grid-cols-2">
         <motion.div {...fade()} className="overflow-hidden rounded-4xl">
           <img src={siteImages.livingRoom} alt="A candle glowing in a living room" className="h-full w-full object-cover" loading="lazy" />
         </motion.div>
@@ -78,7 +78,7 @@ export default function About() {
       <section className="border-y border-linen bg-shell py-12">
         <div className="wrap">
           <SectionHeading eyebrow="What we believe" title="Four promises behind every candle" />
-          <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {beliefs.map(({ icon: Icon, title, body }, i) => (
               <motion.div key={title} {...fade(i * 0.08)} className="flex h-full flex-col rounded-3xl border border-linen bg-white p-5">
                 <span className="grid h-11 w-11 place-items-center rounded-full bg-sand text-lg text-terracotta">
@@ -95,7 +95,7 @@ export default function About() {
       {/* Four steps */}
       <section className="wrap py-12">
         <SectionHeading eyebrow="Candle care" title="Trim, place, light, put out" />
-        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <motion.div key={s.title} {...fade(i * 0.08)}>
               <p className="font-serif text-4xl text-caramel">{s.index}</p>
@@ -109,7 +109,7 @@ export default function About() {
       {/* Proof numbers */}
       <section className="border-t border-linen bg-shell py-10">
         <div className="wrap">
-          <div className="grid gap-5 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
             {proof.map((p, i) => (
               <motion.div key={p.label} {...fade(i * 0.08)} className="text-center">
                 <p className="font-serif text-4xl text-terracotta sm:text-5xl">{p.value}</p>
@@ -124,7 +124,7 @@ export default function About() {
       </section>
 
       {/* Contact */}
-      <section className="wrap grid gap-5 py-12 md:grid-cols-[1fr_auto] md:items-center">
+      <section className="wrap grid grid-cols-1 gap-5 py-12 md:grid-cols-[1fr_auto] md:items-center">
         <motion.div {...fade()}>
           <p className="eyebrow">Come say hello</p>
           <h2 className="mt-3 font-serif text-3xl md:text-4xl">A real team behind every parcel.</h2>

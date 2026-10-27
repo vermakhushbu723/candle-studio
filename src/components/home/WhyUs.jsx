@@ -14,14 +14,14 @@ export default function WhyUs() {
   const items = [...whyUs, ...extra]
   return (
     <section className="py-12 md:py-16">
-      <div className="wrap grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="wrap grid grid-cols-1 gap-14 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading align="left" eyebrow="Why Jyotessa" title="Six reasons homes across India choose us" subtitle="Hand-poured means every candle has a story — from Diwali diyas to rose bouquets. Made in small batches, packed with care and shipped across India." />
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="mt-5 aspect-[11/7] overflow-hidden rounded-4xl">
             <img src={siteImages.livingRoom} alt="A warm living room at dusk with a lit candle on the coffee table" className="h-full w-full object-cover" loading="lazy" />
           </motion.div>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {items.map((item, i) => {
             const Icon = icons[i]
             return (

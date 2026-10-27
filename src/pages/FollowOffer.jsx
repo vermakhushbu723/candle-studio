@@ -133,7 +133,7 @@ export default function FollowOffer() {
 
             {/* Step 2 — follow every page */}
             <Step n={2} done={allVisited} title="Follow us on every page" text="Tap each button, follow (and leave a review on Google), then come back here.">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {links.map((l) => {
                   const Icon = icons[l.key] ?? LinkOutlined
                   const done = visited.includes(l.key)

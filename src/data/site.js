@@ -96,6 +96,6 @@ export const navLinks = [
 export const stats = [
   { value: 2143, suffix: '+', label: 'Verified reviews' },
   { value: 4.9, suffix: '/5', label: 'Average rating', decimals: 1 },
-  { value: 22000, suffix: '+', label: 'Pin codes served' },
+  { value: 100, suffix: '%', label: 'Hand-poured' },
   { value: 48, suffix: '', label: 'Handmade designs' },
 ]

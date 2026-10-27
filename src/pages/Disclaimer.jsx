@@ -48,7 +48,7 @@ export default function Disclaimer() {
         crumbs={[{ label: 'Disclaimer' }]}
       />
 
-      <section className="wrap grid gap-7 py-10 lg:grid-cols-[220px_1fr]">
+      <section className="wrap grid grid-cols-1 gap-7 py-10 lg:grid-cols-[220px_1fr]">
         <aside className="hidden lg:block">
           <Anchor
             offsetTop={110}
@@ -82,7 +82,7 @@ export default function Disclaimer() {
           <div id={`disclaimer-${sections.length}`} className="scroll-mt-28 rounded-3xl border border-linen bg-shell p-5 md:p-6">
             <h2 className="font-serif text-2xl">{sections.length + 1}. Contact Us</h2>
             <p className="mt-3 text-ash">Questions about this disclaimer can be sent to:</p>
-            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-[auto_1fr] sm:gap-x-6">
+            <dl className="mt-4 grid grid-cols-1 gap-3 text-sm sm:grid-cols-[auto_1fr] sm:gap-x-6">
               <dt className="font-semibold">Email</dt>
               <dd className="text-ash"><a href={`mailto:${site.supportEmail}`} className="hover:text-terracotta">{site.supportEmail}</a></dd>
               <dt className="font-semibold">Phone / WhatsApp</dt>

@@ -60,7 +60,7 @@ function ProductView({ product }) {
       <section className="wrap py-8 md:py-8">
         <Breadcrumb items={[{ title: <Link to="/">Home</Link> }, { title: <Link to={`/shop?category=${category.id}`}>{category.label}</Link> }, { title: product.name }]} />
 
-        <div className="mt-5 grid gap-6 lg:grid-cols-2 lg:gap-9">
+        <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-9">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div className="relative aspect-[5/4] overflow-hidden rounded-4xl border border-linen bg-shell">
               <AnimatePresence mode="wait">
@@ -240,7 +240,7 @@ function ProductView({ product }) {
       <section className="border-y border-linen bg-shell py-10">
         <div className="wrap">
           <SectionHeading align="left" eyebrow="Reviews" title="What buyers are saying" />
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
             {productReviews.map((r) => (
               <div key={r.id} className="rounded-3xl bg-white p-5">
                 <Rate disabled defaultValue={r.rating} className="text-sm!" />
@@ -254,7 +254,7 @@ function ProductView({ product }) {
 
       <section className="wrap py-12">
         <SectionHeading align="left" eyebrow="You may also like" title="Pairs beautifully with" />
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {related.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
         </div>
       </section>

@@ -15,7 +15,7 @@ export default function Policy() {
   return (
     <>
       <PageHeader image={siteImages.modak} eyebrow="Policies" title={policy.title} crumbs={[{ label: policy.title }]} />
-      <section className="wrap grid gap-7 py-10 lg:grid-cols-[220px_1fr]">
+      <section className="wrap grid grid-cols-1 gap-7 py-10 lg:grid-cols-[220px_1fr]">
         <aside className="hidden lg:block">
           <Anchor offsetTop={110} items={policy.sections.map((s, i) => ({ key: i, href: `#section-${i}`, title: s.heading }))} />
         </aside>

@@ -59,7 +59,7 @@ export default function TrackOrder() {
       <PageHeader image={siteImages.beach} eyebrow="Track order" title="Where’s my glow?" subtitle="Enter your order ID and phone/email to see live shipping status." crumbs={[{ label: 'Track Order' }]} />
       <section className="wrap max-w-4xl! py-10">
         <div className="rounded-4xl border border-linen bg-white p-5 md:p-6">
-          <Form form={form} layout="vertical" requiredMark={false} onFinish={onFinish} className="grid gap-x-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+          <Form form={form} layout="vertical" requiredMark={false} onFinish={onFinish} className="grid grid-cols-1 gap-x-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
             <Form.Item name="orderId" label="Order ID" rules={[{ required: true, message: 'Enter your order ID' }]}>
               <Input size="large" placeholder="e.g. CD104520" />
             </Form.Item>

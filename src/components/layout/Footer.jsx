@@ -72,7 +72,7 @@ export default function Footer() {
     <footer className="relative mt-14 overflow-hidden bg-charcoal text-cream">
       <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-terracotta/20 blur-3xl" />
       <div className="wrap relative">
-        <div className="grid gap-7 py-9 md:grid-cols-2 lg:grid-cols-[1.4fr_3fr] lg:gap-12">
+        <div className="grid grid-cols-1 gap-7 py-9 md:grid-cols-2 lg:grid-cols-[1.4fr_3fr] lg:gap-12">
           <div>
             <Logo light />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/70">
@@ -216,7 +216,7 @@ function BrandPromise() {
 
   return (
     <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-      <div className="grid gap-6 lg:grid-cols-[1fr_1.3fr] lg:items-center">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.3fr] lg:items-center">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Light up every moment</p>
           <p className="mt-3 font-serif text-2xl leading-snug text-cream">Hand-poured in small batches, delivered across Uttar Pradesh.</p>
@@ -233,7 +233,7 @@ function BrandPromise() {
             </Link>
           </div>
         </div>
-        <ul className="grid gap-3 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {perks.map(({ icon: Icon, title, text }) => (
             <li key={title} className="flex items-center gap-3 rounded-2xl bg-white/5 p-3">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-caramel/15 text-lg text-caramel">

@@ -10,7 +10,7 @@ export default function GiftingBanner() {
   return (
     <section className="py-7">
       <div className="wrap">
-        <div className="grid items-center gap-6 overflow-hidden rounded-4xl bg-linear-to-br from-[#F5E6C4] via-sand to-shell p-6 md:p-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-center gap-6 overflow-hidden rounded-4xl bg-linear-to-br from-[#F5E6C4] via-sand to-shell p-6 md:p-8 lg:grid-cols-2">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <p className="eyebrow">Corporate & festive gifting</p>
             <h2 className="mt-3 font-serif text-3xl md:text-5xl">Hampers that people actually keep.</h2>

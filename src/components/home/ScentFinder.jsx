@@ -43,7 +43,7 @@ export default function ScentFinder() {
           <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-terracotta/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 left-10 h-72 w-72 rounded-full bg-rose/25 blur-3xl" />
 
-          <div className="relative grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-caramel">Scent Finder</p>
               <h2 className="mt-3 font-serif text-3xl md:text-5xl">Not sure which candle? Let us match you.</h2>
@@ -59,7 +59,7 @@ export default function ScentFinder() {
                 <motion.div key={step} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.4 }}>
                   <p className="text-sm text-cream/60">Question {step + 1} of {scentQuiz.length}</p>
                   <h3 className="mt-2 font-serif text-2xl md:text-3xl">{scentQuiz[step].question}</h3>
-                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {scentQuiz[step].options.map((o) => (
                       <motion.button
                         key={o.value}
@@ -77,7 +77,7 @@ export default function ScentFinder() {
               ) : (
                 <motion.div key="results" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-charcoal">
                   <h3 className="font-serif text-2xl text-cream">Your perfect matches</h3>
-                  <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                     {results.map((p, i) => (
                       <ProductCard key={p.id} product={p} index={i} />
                     ))}

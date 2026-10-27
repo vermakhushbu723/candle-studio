@@ -137,18 +137,18 @@ export default function Checkout() {
   return (
     <>
       <PageHeader image={siteImages.matcha} eyebrow="Checkout" title="Almost there" crumbs={[{ label: 'Cart', to: '/cart' }, { label: 'Checkout' }]} />
-      <section className="wrap grid gap-6 py-9 lg:grid-cols-[1.5fr_1fr]">
+      <section className="wrap grid grid-cols-1 gap-6 py-9 lg:grid-cols-[1.5fr_1fr]">
         <div className="rounded-4xl border border-linen bg-white p-5 md:p-6">
           <Steps current={step} onChange={(s) => s < step && setStep(s)} items={[{ title: 'Shipping' }, { title: 'Payment' }]} />
           <Form form={form} layout="vertical" requiredMark={false} className="mt-6" initialValues={{ payment: 'upi', fullName: session?.name, email: session?.email, phone: session?.phone }}>
             <div hidden={step !== 0}>
-              <div className="grid gap-x-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
                 <Form.Item name="fullName" label="Full name" rules={[{ required: true, message: 'Required' }]}><Input size="large" /></Form.Item>
                 <Form.Item name="phone" label="Mobile" rules={[{ required: true, pattern: /^[6-9]\d{9}$/, message: '10-digit mobile number' }]}><Input size="large" prefix={<span className="text-ash">+91</span>} /></Form.Item>
               </div>
               <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email', message: 'Valid email required' }]}><Input size="large" /></Form.Item>
               <Form.Item name="line1" label="Address" rules={[{ required: true, min: 5, message: 'Enter your full address' }]}><Input size="large" placeholder="House no., street, area" /></Form.Item>
-              <div className="grid gap-x-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
                 <Form.Item name="city" label="City" rules={[{ required: true, message: 'Required' }]}><Input size="large" /></Form.Item>
                 <Form.Item
                   name="state"

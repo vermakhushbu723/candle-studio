@@ -39,7 +39,7 @@ export default function ProductShowcase() {
           </div>
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={tab} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div key={tab} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {list.map((p, i) => (
               <ProductCard key={p.id} product={p} index={i} />
             ))}

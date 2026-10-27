@@ -123,13 +123,13 @@ export default function Shop() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
           <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">{filters}</aside>
           <div>
             {list.length === 0 ? (
               <Empty className="py-12" description="No candles match those filters" />
             ) : (
-              <motion.div layout className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              <motion.div layout className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {list.map((p, i) => (
                   <ProductCard key={p.id} product={p} index={i} />
                 ))}

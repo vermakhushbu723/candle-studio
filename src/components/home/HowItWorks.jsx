@@ -8,7 +8,7 @@ export default function HowItWorks() {
       <div className="wrap">
         <SectionHeading eyebrow="Candle care" title="Four steps to a perfect burn" subtitle="A little care makes every candle burn cleaner, longer and safer." />
 
-        <div className="relative mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div aria-hidden className="absolute left-0 right-0 top-[7.5rem] hidden h-px bg-linear-to-r from-transparent via-caramel to-transparent lg:block" />
           {howItWorks.map((step, i) => (
             <motion.div

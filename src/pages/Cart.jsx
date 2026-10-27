@@ -31,7 +31,7 @@ export default function Cart() {
             <Link to="/shop"><Button type="primary" size="large">Start shopping</Button></Link>
           </Empty>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.5fr_1fr]">
             <ul className="divide-y divide-linen rounded-4xl border border-linen bg-white px-6">
               <AnimatePresence initial={false}>
                 {lines.map((l) => (

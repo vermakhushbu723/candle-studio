@@ -29,7 +29,7 @@ export default function TwoWorlds() {
     <section className="py-12 md:py-16">
       <div className="wrap">
         <SectionHeading eyebrow="Shop by occasion" title="A candle for every moment" subtitle="Light up your festivals, or gift a little piece of handmade warmth. Every design is hand-poured in our studio and packed gift-ready." />
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           {cards.map(({ line, to, product, tone, perks }, i) => {
             const p = getProduct(product)
             return (

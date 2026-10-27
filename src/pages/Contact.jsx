@@ -41,8 +41,8 @@ export default function Contact() {
   return (
     <>
       <PageHeader image={siteImages.tulip} eyebrow="Contact" title="We’d love to hear from you" subtitle="Order help, bulk gifting, custom hampers or just a scent recommendation — we reply within a day." crumbs={[{ label: 'Contact' }]} />
-      <section className="wrap grid gap-6 py-10 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
+      <section className="wrap grid grid-cols-1 gap-6 py-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid grid-cols-1 content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
           {channels.map(({ icon: Icon, title, value, href }, i) => {
             const Tag = href ? 'a' : 'div'
             return (
@@ -60,7 +60,7 @@ export default function Contact() {
 
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: channels.length * 0.1 }} className="rounded-3xl border border-linen bg-white p-5 sm:col-span-2 lg:col-span-1">
             <p className="text-xs font-semibold uppercase tracking-widest text-ash">Follow Jyotessa</p>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {site.socials.map(({ label, handle, href }) => {
                 const Icon = socialIcons[label]
                 return (
@@ -80,7 +80,7 @@ export default function Contact() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-4xl border border-linen bg-white p-5 md:p-6">
           <h2 className="font-serif text-3xl">Send us a message</h2>
           <Form form={form} layout="vertical" requiredMark={false} className="mt-6" onFinish={onFinish} initialValues={{ topic: params.get('topic') ?? 'order' }}>
-            <div className="grid gap-x-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
               <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Please enter your name' }]}>
                 <Input size="large" />
               </Form.Item>
@@ -111,7 +111,7 @@ export default function Contact() {
       </section>
 
       <section className="wrap pb-10">
-        <div className="grid overflow-hidden rounded-4xl border border-linen bg-white lg:grid-cols-[1.4fr_1fr]">
+        <div className="grid grid-cols-1 overflow-hidden rounded-4xl border border-linen bg-white lg:grid-cols-[1.4fr_1fr]">
           <iframe
             title="Jyotessa on Google Maps"
             src={site.googleMapsEmbed}
