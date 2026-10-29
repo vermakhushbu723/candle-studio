@@ -77,7 +77,7 @@ export const track = {
       shipping: order.shipping,
       coupon: order.couponCode ?? undefined,
       payment_type: order.paymentMethod,
-      items: order.items.map((i) => ({ item_id: i.productId, item_name: i.name, item_brand: 'Jyotessa', price: i.price, quantity: i.quantity, item_variant: [i.color, i.fragrance].filter(Boolean).join(' / ') || undefined })),
+      items: order.items.map((i) => ({ item_id: i.productId, item_name: i.name, item_brand: 'Jyotessa', price: i.price, quantity: i.quantity, item_variant: [i.pack, i.color, i.fragrance].filter(Boolean).join(' / ') || undefined })),
     })
   },
   login: (method) => send('login', { method }),

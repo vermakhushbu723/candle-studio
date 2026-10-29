@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import CandleVisual from '@/components/common/CandleVisual'
 import { useCart } from '@/context/CartContext'
-import { fragrances } from '@/data/products'
 import { formatPrice } from '@/utils/format'
 
 export default function CartDrawer() {
@@ -71,11 +70,10 @@ export default function CartDrawer() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{line.product.name}</p>
-                    {line.color && <p className="text-xs text-ash">Colour: {line.color}</p>}
-                    {line.fragrance && <p className="text-xs text-ash">{fragrances.find((f) => f.id === line.fragrance)?.label}</p>}
+                    {line.choices && <p className="text-xs text-ash">{line.choices}</p>}
                     <div className="mt-2 flex items-center justify-between">
                       <InputNumber size="small" min={1} max={20} value={line.quantity} onChange={(v) => updateQuantity(line.key, v ?? 1)} />
-                      <span className="font-semibold">{formatPrice(line.product.price * line.quantity)}</span>
+                      <span className="font-semibold">{formatPrice(line.unitPrice * line.quantity)}</span>
                     </div>
                   </div>
                   <Button type="text" size="small" icon={<DeleteOutlined />} onClick={() => removeItem(line.key)} aria-label="Remove" />

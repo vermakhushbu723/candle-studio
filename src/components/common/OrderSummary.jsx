@@ -23,7 +23,7 @@ export default function OrderSummary({ children, showItems = false }) {
           {lines.map((l) => (
             <li key={l.key} className="flex justify-between gap-3 text-sm">
               <span className="text-ash">{l.product.name} × {l.quantity}</span>
-              <span>{formatPrice(l.product.price * l.quantity)}</span>
+              <span>{formatPrice(l.unitPrice * l.quantity)}</span>
             </li>
           ))}
         </ul>

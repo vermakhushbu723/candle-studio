@@ -99,7 +99,7 @@ export default function Checkout() {
         body: {
           ...form.getFieldsValue(true),
           couponCode: coupon,
-          items: lines.map((l) => ({ productId: l.productId, quantity: l.quantity, fragrance: l.fragrance, color: l.color })),
+          items: lines.map((l) => ({ productId: l.productId, quantity: l.quantity, pack: l.pack, color: l.color, fragrance: l.fragrance })),
         },
       })
       if (!r.razorpay) return done(r.order) // Cash on Delivery

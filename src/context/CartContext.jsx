@@ -5,6 +5,7 @@ import { useCatalog } from '@/context/CatalogContext'
 import { remainingForFree, shippingFor } from '@/utils/shipping'
 import { readStorage, writeStorage } from '@/utils/format'
 import { track } from '@/utils/analytics'
+import { choiceLabel, defaultChoices, packOf, unitPrice, variationImages } from '@/data/products'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'cd-cart'
@@ -27,18 +28,25 @@ export function CartProvider({ children }) {
   useEffect(() => writeStorage(STORAGE_KEY, items), [items])
 
   const addItem = useCallback(
-    (productId, { quantity = 1, fragrance = null, color = null, openDrawer = true } = {}) => {
-      // Products with colours always carry one, defaulting to the first
+    (productId, { quantity = 1, pack = null, fragrance = null, color = null, openDrawer = true } = {}) => {
+      // Every variation the product offers is always set, defaulting to its first option
       const product = getProduct(productId)
-      const colour = product?.colors?.length ? (product.colors.find((c) => c.name === color) ?? product.colors[0]).name : null
-      const key = `${productId}__${fragrance ?? 'default'}${colour ? `__${colour}` : ''}`
+      const d = defaultChoices(product)
+      const choice = {
+        pack: product?.packs?.length ? packOf(product, pack).label : null,
+        color: product?.colors?.length ? (product.colors.find((c) => c.name === color)?.name ?? d.color) : null,
+        fragrance: product?.fragranceOptions?.length ? (product.fragranceOptions.includes(fragrance) ? fragrance : d.fragrance) : null,
+      }
+      const id = product?.id ?? productId
+      const key = [id, choice.pack, choice.color, choice.fragrance].map((x) => x ?? '').join('__')
       setItems((prev) => {
         const existing = prev.find((i) => i.key === key)
         if (existing) return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + quantity } : i))
-        return [...prev, { key, productId, fragrance, color: colour, quantity }]
+        return [...prev, { key, productId: id, ...choice, quantity }]
       })
-      message.success(`${product?.name ?? 'Item'}${colour ? ` (${colour})` : ''} added to cart`)
-      if (product) track.addToCart(product, quantity, [colour, fragrance].filter(Boolean).join(' / ') || null)
+      const label = choiceLabel(choice)
+      message.success(`${product?.name ?? 'Item'}${label ? ` (${label})` : ''} added to cart`)
+      if (product) track.addToCart({ ...product, price: unitPrice(product, choice.pack) }, quantity, label || null)
       if (openDrawer) setDrawerOpen(true)
     },
     [message, getProduct],
@@ -65,12 +73,12 @@ export function CartProvider({ children }) {
     const lines = items
       .map((i) => {
         const product = getProduct(i.productId)
-        // The line's photo follows the chosen colour
-        const image = product && i.color ? product.colors?.find((c) => c.name === i.color)?.images?.[0] : null
-        return { ...i, product, visual: image ? { ...product.visual, image } : product?.visual }
+        // The line's photo and price follow the chosen variations
+        const image = product ? variationImages(product, i)[0] : null
+        return { ...i, product, unitPrice: unitPrice(product, i.pack), choices: choiceLabel(i), visual: image ? { ...product.visual, image } : product?.visual }
       })
       .filter((i) => i.product)
-    const subtotal = lines.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
+    const subtotal = lines.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0)
     const discount = discountFor(couponInfo, subtotal)
     const afterDiscount = subtotal - discount
     const shipping = shippingFor(afterDiscount, shippingSettings)

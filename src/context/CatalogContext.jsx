@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { api } from '@/api/client'
-import { categories as bundledCategories, collectionMap, pickBestsellers, products as bundled } from '@/data/products'
+import { categories as bundledCategories, collectionMap, mergePackProducts, pickBestsellers, products as bundled } from '@/data/products'
 import { DEFAULT_SHIPPING } from '@/utils/shipping'
 
 const CatalogContext = createContext(null)
@@ -8,10 +8,13 @@ const FESTIVE = ['diwali-special', 'christmas-special', 'valentine-special', 'ne
 
 // The bundled catalogue renders instantly (and keeps the site usable if the API is down);
 // the live catalogue and collections from the admin replace it as soon as they arrive.
-const fallbackProducts = bundled.map((p) => ({
+const { products: mergedBundle, aliases: bundledAliases } = mergePackProducts(bundled)
+const fallbackProducts = mergedBundle.map((p) => ({
   ...p,
   collections: p.collections ?? Object.entries(collectionMap).filter(([, ids]) => ids.includes(p.id)).map(([id]) => id),
 }))
+// "lotus-pond-pack-of-2" → "lotus-pond" (also catches packs merged later in the admin)
+const aliasFor = (id) => bundledAliases[id] ?? id?.replace(/-(pack-of-\d+|combo)$/, '')
 const productCategories = bundledCategories.filter((c) => c.line !== 'all')
 const fallbackCollections = bundledCategories
   .filter((c) => c.line === 'all')
@@ -49,7 +52,7 @@ export function CatalogProvider({ children }) {
       categories,
       status,
       shipping,
-      getProduct: (id) => byId.get(id),
+      getProduct: (id) => byId.get(id) ?? byId.get(aliasFor(id)),
       getCategory: (id) => categories.find((c) => c.id === id),
       bestsellers: pickBestsellers(products),
       /** True when a product belongs to a category, either directly or through a collection. */

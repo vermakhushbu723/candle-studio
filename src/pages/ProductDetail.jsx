@@ -5,7 +5,7 @@ import { CarOutlined, CheckOutlined, HeartFilled, HeartOutlined, SafetyCertifica
 import { AnimatePresence, motion } from 'framer-motion'
 import ProductCard from '@/components/common/ProductCard'
 import SectionHeading from '@/components/common/SectionHeading'
-import { colorImages, fragrances, getCategory, variantsOf } from '@/data/products'
+import { getCategory, packOf, variationImages } from '@/data/products'
 import { useCatalog } from '@/context/CatalogContext'
 import PageLoader from '@/components/common/PageLoader'
 import { shippingSentence, shippingShort } from '@/utils/shipping'
@@ -19,39 +19,49 @@ export default function ProductDetail() {
   const { id } = useParams()
   const { getProduct, status } = useCatalog()
   const product = getProduct(id)
+  // An old pack link (…-pack-of-2) opens the product with that pack chosen
+  const packHint = product && product.id !== id ? id.match(/pack-of-(\d+)$/)?.[1] : null
   // A product added in the admin isn't in the bundled catalogue — wait for the live one
   if (!product && status === 'loading') return <PageLoader />
   if (!product) {
     return <Result status="404" title="Candle not found" extra={<Link to="/shop"><Button type="primary">Back to shop</Button></Link>} />
   }
-  return <ProductView key={product.id} product={product} />
+  return <ProductView key={product.id} product={product} packHint={packHint} />
 }
 
-function ProductView({ product }) {
+function ProductView({ product, packHint }) {
   const { products, shipping } = useCatalog()
   const navigate = useNavigate()
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
   const [quantity, setQuantity] = useState(1)
-  const [fragrance, setFragrance] = useState(product.fragrances ? fragrances[0].id : null)
+  const packs = product.packs ?? []
+  const fragranceOptions = product.fragranceOptions ?? []
+  const [pack, setPack] = useState(() => (packs.find((p) => packHint && new RegExp(`\\b${packHint}\\b`).test(p.label)) ?? packs[0])?.label ?? null)
+  const [fragrance, setFragrance] = useState(fragranceOptions[0] ?? null)
   const [color, setColor] = useState(product.colors?.[0]?.name ?? null)
   const [active, setActive] = useState(0)
   useEffect(() => track.viewItem(product), [product])
-  const packs = variantsOf(product, products)
-  // Without colours, every pack size shows all photos of the design (its own first)
-  const gallery = product.colors?.length ? colorImages(product, color) : [...new Set([...product.images, ...packs.flatMap((p) => p.images)])]
+  const gallery = variationImages(product, { pack, color })
+  const chosen = packOf(product, pack)
+  const price = chosen?.price ?? product.price
+  const compareAt = chosen ? chosen.compareAt : product.compareAt
   const pickColor = (name) => {
     setColor(name)
     setActive(0)
   }
+  const pickPack = (label) => {
+    setPack(label)
+    setActive(0)
+  }
 
   const category = getCategory(product.category)
-  const off = discountPercent(product.price, product.compareAt)
+  const off = discountPercent(price, compareAt)
   const related = products.filter((p) => p.id !== product.id && (p.category === product.category || p.line === product.line)).slice(0, 4)
   const productReviews = reviews.slice(0, 3)
 
   const buyNow = () => {
-    addItem(product.id, { quantity, fragrance, color, openDrawer: false })
+    addItem(product.id, { quantity, pack, fragrance, color, openDrawer: false })
     navigate('/checkout')
   }
 
@@ -101,8 +111,8 @@ function ProductView({ product }) {
             <p className="mt-5 text-lg text-ash">{product.tagline}</p>
 
             <div className="mt-6 flex items-end gap-3">
-              <span className="text-3xl font-bold">{formatPrice(product.price)}</span>
-              {product.compareAt && <span className="text-lg text-ash line-through">{formatPrice(product.compareAt)}</span>}
+              <span className="text-3xl font-bold">{formatPrice(price)}</span>
+              {compareAt > price && <span className="text-lg text-ash line-through">{formatPrice(compareAt)}</span>}
               {off > 0 && <span className="rounded-full bg-sand px-3 py-1 text-sm font-bold text-terracotta">Save {off}%</span>}
             </div>
             <p className="mt-1 text-xs text-ash">Inclusive of all taxes</p>
@@ -133,40 +143,38 @@ function ProductView({ product }) {
               </div>
             )}
 
-            {packs.length > 0 && (
+            {packs.length > 1 && (
               <div className="mt-5">
-                <p className="text-sm font-semibold">Pack size: <span className="font-normal text-ash">{product.variantLabel}</span></p>
+                <p className="text-sm font-semibold">Pack size: <span className="font-normal text-ash">{pack}</span></p>
                 <div className="mt-3 flex flex-wrap gap-3">
                   {packs.map((p) => (
-                    <Link
-                      key={p.id}
-                      to={`/product/${p.id}`}
-                      replace
-                      className={`min-w-28 rounded-2xl border-2 px-4 py-2.5 text-left transition ${p.id === product.id ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
+                    <button
+                      key={p.label}
+                      type="button"
+                      onClick={() => pickPack(p.label)}
+                      className={`min-w-28 rounded-2xl border-2 px-4 py-2.5 text-left transition ${p.label === pack ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
                     >
-                      <p className="text-sm font-semibold text-charcoal">{p.variantLabel || p.subtitle}</p>
+                      <p className="text-sm font-semibold text-charcoal">{p.label}</p>
                       <p className="text-sm text-ash">{formatPrice(p.price)}</p>
-                      {p.stock === 0 && <p className="text-[0.65rem] font-semibold uppercase text-terracotta">Sold out</p>}
-                    </Link>
+                    </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {product.fragrances && (
+            {fragranceOptions.length > 0 && (
               <div className="mt-5">
-                <p className="text-sm font-semibold">Fragrance: <span className="font-normal text-ash">{fragrances.find((f) => f.id === fragrance)?.label}</span></p>
-                <div className="mt-3 grid grid-cols-2 gap-3">
-                  {fragrances.map((f) => (
+                <p className="text-sm font-semibold">Fragrance: <span className="font-normal text-ash">{fragrance}</span></p>
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  {fragranceOptions.map((f) => (
                     <button
-                      key={f.id}
+                      key={f}
                       type="button"
-                      onClick={() => setFragrance(f.id)}
-                      className={`relative rounded-2xl border px-4 py-2.5 text-left transition ${fragrance === f.id ? 'border-terracotta bg-sand/60' : 'border-linen bg-white hover:border-caramel'}`}
+                      onClick={() => setFragrance(f)}
+                      className={`inline-flex items-center gap-1.5 rounded-full border-2 px-4 py-2 text-sm font-medium transition ${fragrance === f ? 'border-terracotta bg-sand/60 text-charcoal' : 'border-linen bg-white hover:border-caramel'}`}
                     >
-                      <p className="font-medium">{f.label}</p>
-                      <p className="text-xs text-ash">{f.note}</p>
-                      {fragrance === f.id && <CheckOutlined className="absolute right-3 top-3 text-terracotta" />}
+                      {fragrance === f && <CheckOutlined className="text-terracotta" />}
+                      {f}
                     </button>
                   ))}
                 </div>
@@ -175,8 +183,8 @@ function ProductView({ product }) {
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <InputNumber size="large" min={1} max={20} value={quantity} onChange={(v) => setQuantity(v ?? 1)} className="w-28" />
-              <Button size="large" type="primary" className="flex-1" onClick={() => addItem(product.id, { quantity, fragrance, color })}>
-                Add to cart · {formatPrice(product.price * quantity)}
+              <Button size="large" type="primary" className="flex-1" onClick={() => addItem(product.id, { quantity, pack, fragrance, color })}>
+                Add to cart · {formatPrice(price * quantity)}
               </Button>
               <Button size="large" icon={has(product.id) ? <HeartFilled className="text-terracotta" /> : <HeartOutlined />} onClick={() => toggle(product.id)} aria-label="Wishlist" />
               <Button

@@ -1705,21 +1705,65 @@ export const products = [
 ]
 
 const BESTSELLER_BADGES = ['Most Popular', 'Bestseller', 'Hot Selling']
-const isSingle = (p) => !/Pack of|Gift Box|Combo/i.test(`${p.subtitle} ${p.name}`)
+const isSingle = (p) => p.packs?.length > 0 || !/Pack of|Gift Box|Combo/i.test(`${p.subtitle} ${p.name}`)
 
 export const getProduct = (id) => products.find((p) => p.id === id)
 
 /** Pack sizes of the same design (Single, Pack of 2…), cheapest first — only when there is a choice. */
-export const variantsOf = (product, list) => {
-  if (!product?.variantGroup) return []
-  const group = list.filter((p) => p.variantGroup === product.variantGroup)
-  return group.length > 1 ? [...group].sort((a, b) => a.price - b.price) : []
+/** The pack the customer picked (or the default first pack); null for products sold in one size. */
+export const packOf = (product, label) => product?.packs?.find((p) => p.label === label) ?? product?.packs?.[0] ?? null
+
+/** Price of one unit of a product in a pack. */
+export const unitPrice = (product, label) => packOf(product, label)?.price ?? product?.price ?? 0
+
+/**
+ * Photos for the chosen variations: the colour's photos, else the pack's, else the product's
+ * (with the pack's own photos first when it has any).
+ */
+export const variationImages = (product, { pack, color } = {}) => {
+  const c = product?.colors?.find((x) => x.name === color)
+  if (c?.images?.length) return c.images
+  const p = product?.packs?.find((x) => x.label === pack)
+  return [...new Set([...(p?.images ?? []), ...(product?.images ?? [])])]
 }
 
-/** Photos to show for a product in a given colour (falls back to the product photos). */
-export const colorImages = (product, colorName) => {
-  const c = product?.colors?.find((x) => x.name === colorName)
-  return c?.images?.length ? c.images : product?.images ?? []
+/** Default choices when a product is added without opening it (product cards, wishlist). */
+export const defaultChoices = (product) => ({
+  pack: product?.packs?.[0]?.label ?? null,
+  color: product?.colors?.[0]?.name ?? null,
+  fragrance: product?.fragranceOptions?.[0] ?? null,
+})
+
+/** "Pack of 2 · Red · Vanilla" — the variations of a cart / order line. */
+export const choiceLabel = ({ pack, color, fragrance }) => [pack, color, fragrance].filter(Boolean).join(' · ')
+
+/**
+ * Pack sizes that used to be separate products (same variantGroup) become one product with `packs` —
+ * the same merge the API data went through (scripts/merge-pack-variants.ts), for the bundled fallback.
+ * Returns the merged list and old-slug → product aliases.
+ */
+export function mergePackProducts(list) {
+  const groups = new Map()
+  for (const p of list) if (p.variantGroup) groups.set(p.variantGroup, [...(groups.get(p.variantGroup) ?? []), p])
+  const aliases = {}
+  const drop = new Set()
+  const merged = new Map()
+  for (const [group, members] of groups) {
+    if (members.length < 2) continue
+    const sorted = [...members].sort((a, b) => a.price - b.price)
+    const main = sorted.find((p) => p.id === group) ?? sorted[0]
+    const packs = sorted.map((p) => ({ label: p.variantLabel || p.subtitle.split(' · ')[0], price: p.price, compareAt: p.compareAt, images: p.images }))
+    merged.set(main.id, {
+      ...main,
+      packs,
+      price: packs[0].price,
+      compareAt: packs[0].compareAt,
+      images: [...new Set(sorted.flatMap((p) => p.images))],
+      subtitle: main.subtitle.split(' · ').slice(1).join(' · ') || main.subtitle,
+    })
+    for (const p of sorted) if (p !== main) (drop.add(p.id), (aliases[p.id] = main.id))
+  }
+  return { products: list.filter((p) => !drop.has(p.id)).map((p) => merged.get(p.id) ?? p), aliases }
 }
 export const getCategory = (id) => categories.find((c) => c.id === id)
 /** Products marked as bestsellers in the admin; until then, one of each design (the single pieces). */
